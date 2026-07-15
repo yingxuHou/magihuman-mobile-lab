@@ -440,10 +440,21 @@ On Windows:
 .\scripts\import_gpu_evidence_package.ps1 -Archive outputs\gpu-evidence-<timestamp>.tar.gz
 ```
 
-After import, regenerate the gap report:
+The import workflow refreshes the human-readable and machine-readable review/gap state automatically:
+
+- `docs/review-readiness.md`
+- `docs/review-readiness.json`
+- `docs/reproduction-gap-report.md`
+- `docs/reproduction-gap-report.json`
+
+After editing quality or cost review files, regenerate the gap report manually:
 
 ```powershell
 python -m backend.reproduction_gap_report --format markdown --output docs\reproduction-gap-report.md
 ```
 
-The import workflow also refreshes `docs/reproduction-gap-report.md` automatically after safe import; rerun the command above only if you want to regenerate it after editing review files.
+Use the JSON file when automation needs the current status without parsing Markdown:
+
+```powershell
+python -m backend.reproduction_gap_report --format json --output docs\reproduction-gap-report.json
+```

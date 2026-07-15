@@ -70,6 +70,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | GPU execution packet passed local tests; total backend tests now 180 | The real GPU handoff now has a generated clone/bootstrap/workflow/evidence-return/import command packet, but runtime evidence is still pending |
 | 2026-07-16 | Reproduction gap report passed local tests; total backend tests now 184 | The project now has a generated list of missing evidence before final App feasibility can change; current status is `awaiting_gpu_runtime` |
 | 2026-07-16 | GPU evidence import workflow now refreshes the reproduction gap report; total backend tests remain 184 | After returned GPU evidence is imported, the project will automatically update the current missing-evidence summary |
+| 2026-07-16 | GPU evidence import workflow now refreshes review-readiness and reproduction-gap JSON outputs; total backend tests remain 184 | After returned GPU evidence is imported, GitHub scripts or future dashboards can read the current blocked/ready state without parsing Markdown |
 
 ## Interim Position
 
@@ -241,8 +242,10 @@ Current tracked report:
 - `docs/mobile-feasibility-report.md`
 - `docs/gpu-evidence-import-audit.md`
 - `docs/review-readiness.md`
+- `docs/review-readiness.json`
 - `docs/gpu-execution-packet.md`
 - `docs/reproduction-gap-report.md`
+- `docs/reproduction-gap-report.json`
 
 Regenerate:
 

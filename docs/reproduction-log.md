@@ -195,3 +195,7 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Updated `backend/gpu_evidence_import_workflow.py` so safe evidence import also regenerates `docs/reproduction-gap-report.md` and reports the reproduction gap status.
 - Local import/gap integration validation passed; total local backend tests remain 184.
 - No inference run has been completed yet.
+- Completed Stage 47 post-import machine-readable state refresh.
+- Updated `backend/gpu_evidence_import_workflow.py` so safe evidence import also regenerates `docs/review-readiness.json` and `docs/reproduction-gap-report.json`.
+- Import workflow integration tests now assert the generated JSON statuses match the workflow summary.
+- Current tracked status remains `awaiting_gpu_runtime`; no inference run has been completed yet.

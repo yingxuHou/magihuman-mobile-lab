@@ -95,7 +95,9 @@ def build_import_workflow_report(
     final_report_output="docs/mobile-feasibility-report.md",
     import_audit_output="docs/gpu-evidence-import-audit.md",
     review_readiness_output="docs/review-readiness.md",
+    review_readiness_json_output="docs/review-readiness.json",
     gap_report_output="docs/reproduction-gap-report.md",
+    gap_report_json_output="docs/reproduction-gap-report.json",
 ):
     project_root = Path(project_root)
     extracted_dir = extract_archive(archive_path, extract_root=project_root / extract_root)
@@ -127,6 +129,7 @@ def build_import_workflow_report(
         create_templates=True,
     )
     write_text(project_root / review_readiness_output, markdown_review_readiness(review_readiness))
+    write_text(project_root / review_readiness_json_output, json.dumps(review_readiness, ensure_ascii=False, indent=2))
 
     quality_path = project_root / quality_review_path
     cost_path = project_root / cost_review_path
@@ -156,6 +159,7 @@ def build_import_workflow_report(
         cost_review_path=cost_path,
     )
     write_text(project_root / gap_report_output, markdown_gap_report(gap_report))
+    write_text(project_root / gap_report_json_output, json.dumps(gap_report, ensure_ascii=False, indent=2))
 
     status = "imported_ready_for_final_update" if import_audit["status"] == "ready_for_final_update" else "imported_incomplete"
     return {
@@ -209,7 +213,9 @@ def main():
     parser.add_argument("--final-report-output", default="docs/mobile-feasibility-report.md")
     parser.add_argument("--import-audit-output", default="docs/gpu-evidence-import-audit.md")
     parser.add_argument("--review-readiness-output", default="docs/review-readiness.md")
+    parser.add_argument("--review-readiness-json-output", default="docs/review-readiness.json")
     parser.add_argument("--gap-report-output", default="docs/reproduction-gap-report.md")
+    parser.add_argument("--gap-report-json-output", default="docs/reproduction-gap-report.json")
     parser.add_argument("--workflow-output", default="docs/gpu-evidence-import-workflow.md")
     parser.add_argument("--format", choices=["json", "markdown"], default="markdown")
     parser.add_argument("--output")
@@ -225,7 +231,9 @@ def main():
         final_report_output=args.final_report_output,
         import_audit_output=args.import_audit_output,
         review_readiness_output=args.review_readiness_output,
+        review_readiness_json_output=args.review_readiness_json_output,
         gap_report_output=args.gap_report_output,
+        gap_report_json_output=args.gap_report_json_output,
     )
     body = json.dumps(report, ensure_ascii=False, indent=2) if args.format == "json" else markdown_import_workflow_report(report)
     output = args.output or args.workflow_output

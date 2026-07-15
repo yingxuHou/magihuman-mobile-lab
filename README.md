@@ -82,6 +82,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 44 added a GPU execution handoff packet so a Linux NVIDIA GPU operator has one generated report with clone, bootstrap, workflow, evidence return, and local import commands. The backend prototype now passes 180 local tests using Python standard library only.
 - Stage 45 added a reproduction gap report so the remaining evidence gaps before the final mobile App decision are generated from the current gates. The backend prototype now passes 184 local tests using Python standard library only.
 - Stage 46 integrated the reproduction gap report into the GPU evidence import workflow, so importing returned evidence refreshes the current gap status automatically. The backend prototype still passes 184 local tests using Python standard library only.
+- Stage 47 made the post-import review readiness and reproduction gap state machine-readable, so safe imports now refresh both Markdown and JSON status files. The backend prototype still passes 184 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -252,4 +253,4 @@ Import a returned GPU evidence package locally:
 .\scripts\import_gpu_evidence_package.ps1 -Archive outputs\gpu-evidence-<timestamp>.tar.gz
 ```
 
-The import workflow now refreshes `docs/reproduction-gap-report.md` after safe import.
+The import workflow now refreshes `docs/review-readiness.md/json` and `docs/reproduction-gap-report.md/json` after safe import.

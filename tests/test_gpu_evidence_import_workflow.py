@@ -1,3 +1,4 @@
+import json
 import tarfile
 import tempfile
 import unittest
@@ -42,9 +43,15 @@ class GpuEvidenceImportWorkflowTest(unittest.TestCase):
             self.assertTrue((project / "docs" / "gpu-evidence-import-audit.md").is_file())
             self.assertTrue((project / "docs" / "mobile-feasibility-report.md").is_file())
             self.assertTrue((project / "docs" / "review-readiness.md").is_file())
+            self.assertTrue((project / "docs" / "review-readiness.json").is_file())
             self.assertTrue((project / "docs" / "reproduction-gap-report.md").is_file())
+            self.assertTrue((project / "docs" / "reproduction-gap-report.json").is_file())
+            review_readiness = json.loads((project / "docs" / "review-readiness.json").read_text(encoding="utf-8"))
+            gap_report = json.loads((project / "docs" / "reproduction-gap-report.json").read_text(encoding="utf-8"))
             self.assertEqual(report["review_readiness_status"], "runtime_not_ready")
             self.assertEqual(report["gap_report_status"], "handoff_not_ready")
+            self.assertEqual(review_readiness["status"], "runtime_not_ready")
+            self.assertEqual(gap_report["status"], "handoff_not_ready")
 
     def test_forbidden_media_package_is_not_imported(self):
         with tempfile.TemporaryDirectory() as tmp:
