@@ -146,3 +146,14 @@ git add docs scripts 7.15-todolist.md
 git commit -m "Record <stage>"
 git push
 ```
+
+## 9. Experiment Matrix
+
+Generate the ordered test plan:
+
+```bash
+python -m backend.experiment_matrix --output run_configs/experiment_matrix.json
+python -m backend.experiment_matrix --format markdown
+```
+
+Run `P01` first. Continue with `P03`, `P04`, and multilingual TI2V cases only after `P01` produces a playable mp4 and valid metrics JSON.

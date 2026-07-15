@@ -45,4 +45,7 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/run_metrics.py` to parse `nvidia-smi` CSV, `/usr/bin/time -v` logs, and `ffprobe` video metadata.
 - Updated `scripts/magihuman_task_runner.sh` to emit a metrics JSON path and metrics command.
 - Local validation now passes 18 tests.
+- Completed Stage 10 experiment matrix.
+- Added `backend/experiment_matrix.py` to generate P01/P02/P03/P04 performance cases and T01/T02/T03/T04 multilingual cases.
+- Local validation now passes 23 tests.
 - No inference run has been completed yet.
