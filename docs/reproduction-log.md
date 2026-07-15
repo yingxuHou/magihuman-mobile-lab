@@ -133,4 +133,7 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/metrics_context_audit.py` and integrated it into `backend/evidence_import.py` so imported metrics without run context or with mismatched P01 manifest fields block final-report readiness.
 - Regenerated `docs/gpu-evidence-import-audit.md`; current metrics context status is `missing_metrics` because no GPU runtime metrics exist yet.
 - Local metrics-context audit validation passed; total local backend tests now 117.
+- Completed Stage 32 evidence package provenance.
+- Added `backend/evidence_provenance.py` and updated `scripts/package_gpu_evidence.sh` so GPU evidence packages include project commit, official source commits, dirty state, P01 manifest hash, and P01 manifest files.
+- Local evidence provenance validation passed; total local backend tests now 120.
 - No inference run has been completed yet.

@@ -15,7 +15,13 @@ if [ -d logs ]; then
   \) -exec cp {} "${PACKAGE_DIR}/logs/" \; 2>/dev/null || true
 fi
 
-for file in docs/quality-review.json docs/cost-review.json docs/mobile-feasibility-report.md docs/gpu-evidence-import-audit.md; do
+for file in \
+  docs/quality-review.json \
+  docs/cost-review.json \
+  docs/mobile-feasibility-report.md \
+  docs/gpu-evidence-import-audit.md \
+  docs/p01-smoke-manifest.json \
+  docs/p01-smoke-manifest.md; do
   if [ -f "${file}" ]; then
     cp "${file}" "${PACKAGE_DIR}/docs/"
   fi
@@ -25,6 +31,11 @@ if [ -d outputs/reports ]; then
   find outputs/reports -maxdepth 1 -type f \( -name '*.md' -o -name '*.json' -o -name '*.log' \) \
     -exec cp {} "${PACKAGE_DIR}/outputs/reports/" \; 2>/dev/null || true
 fi
+
+python -m backend.evidence_provenance --project-root . --format json \
+  --output "${PACKAGE_DIR}/evidence-provenance.json"
+python -m backend.evidence_provenance --project-root . --format markdown \
+  --output "${PACKAGE_DIR}/evidence-provenance.md"
 
 python -m backend.evidence_package --package-dir "${PACKAGE_DIR}" --format json \
   --output "${PACKAGE_DIR}/evidence-manifest.json" --strict

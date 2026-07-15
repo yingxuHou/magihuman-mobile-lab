@@ -40,6 +40,14 @@ class EvidencePackageTest(unittest.TestCase):
         self.assertIn("# GPU Evidence Package Manifest", text)
         self.assertIn("evidence.json", text)
 
+    def test_package_script_includes_provenance_and_p01_manifest(self):
+        text = Path("scripts/package_gpu_evidence.sh").read_text(encoding="utf-8")
+
+        self.assertIn("docs/p01-smoke-manifest.json", text)
+        self.assertIn("docs/p01-smoke-manifest.md", text)
+        self.assertIn("backend.evidence_provenance", text)
+        self.assertIn("evidence-provenance.json", text)
+
 
 if __name__ == "__main__":
     unittest.main()

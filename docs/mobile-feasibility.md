@@ -55,6 +55,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | P01 smoke input manifest passed local tests; total backend tests now 109 | The first GPU run now has a tracked prompt, seed, duration, resolution, official source commit, and expected output path |
 | 2026-07-16 | Metrics run-context metadata passed local tests; total backend tests now 112 | GPU metrics can now be matched to case id, seed, prompt hash, target duration/resolution, output path, and P01 manifest hash |
 | 2026-07-16 | Metrics context audit passed local tests; total backend tests now 117 | Imported GPU evidence will be blocked if metrics lack run context or if P01 metrics do not match the smoke manifest |
+| 2026-07-16 | Evidence package provenance passed local tests; total backend tests now 120 | Returned GPU evidence can now be traced to the project commit, official source commits, worktree dirty state, and P01 manifest hash |
 
 ## Interim Position
 

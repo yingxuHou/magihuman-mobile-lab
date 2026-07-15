@@ -15,8 +15,9 @@ The project now produces more than metrics JSON: GPU preflight reports, model ch
 | File | Purpose |
 | --- | --- |
 | `backend/evidence_package.py` | Builds a manifest for packaged evidence and flags forbidden large/media/model files |
+| `backend/evidence_provenance.py` | Records project/source commit provenance and P01 manifest hash |
 | `tests/test_evidence_package.py` | Tests manifest creation and forbidden-file detection |
-| `scripts/package_gpu_evidence.sh` | Copies preflight/model-audit JSON files and writes manifest JSON/Markdown |
+| `scripts/package_gpu_evidence.sh` | Copies preflight/model-audit JSON files, P01 manifest files, provenance files, and writes manifest JSON/Markdown |
 | `backend/evidence_import.py` | Lists missing mobile video evidence in import audits |
 | `tests/test_evidence_import.py` | Covers the new mobile-video missing-evidence path |
 | `docs/gpu-evidence-import-audit.md` | Regenerated with mobile video missing evidence |
@@ -32,9 +33,13 @@ The package now includes:
 - `docs/cost-review.json`
 - `docs/mobile-feasibility-report.md`
 - `docs/gpu-evidence-import-audit.md`
+- `docs/p01-smoke-manifest.json`
+- `docs/p01-smoke-manifest.md`
 - `outputs/reports/*.md`
 - `outputs/reports/*.json`
 - `outputs/reports/*.log`
+- `evidence-provenance.json`
+- `evidence-provenance.md`
 - `evidence-manifest.json`
 - `evidence-manifest.md`
 
@@ -48,17 +53,18 @@ Forbidden artifact suffixes are rejected by the manifest strict check:
 Commands:
 
 ```powershell
-python -m unittest tests.test_evidence_package tests.test_evidence_import -v
-PACKAGE_DIR=outputs/test-evidence-package ARCHIVE_PATH=outputs/test-evidence-package.tar.gz bash scripts/package_gpu_evidence.sh
+python -m unittest tests.test_evidence_package tests.test_evidence_provenance tests.test_evidence_import -v
+PACKAGE_DIR=outputs/test-evidence-provenance ARCHIVE_PATH=outputs/test-evidence-provenance.tar.gz bash scripts/package_gpu_evidence.sh
 ```
 
 Result:
 
 ```text
-Ran 9 tests
+Ran 13 tests
 OK
 Evidence package manifest status: ok
 Forbidden files: none
+Evidence provenance generated: evidence-provenance.json and evidence-provenance.md
 ```
 
 The temporary test package was deleted after verification.
