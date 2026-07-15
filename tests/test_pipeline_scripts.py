@@ -13,8 +13,10 @@ class PipelineScriptTest(unittest.TestCase):
         self.assertIn('if [ "${EXECUTE}" = "1" ] && [ "${DOWNLOAD_MODELS}" != "1" ]; then', text)
         self.assertIn('run_model_audit "${STAMP}" "${INITIAL_MODEL_AUDIT_STRICT}"', text)
         self.assertIn("backend.hf_access_audit --profile p01", text)
+        self.assertIn("backend.download_log_audit", text)
         self.assertIn('if [ "${DOWNLOAD_MODELS}" = "1" ] && [ "${HF_ACCESS_AUDIT}" = "1" ]; then', text)
-        self.assertIn('MODEL_PROFILE="${MODEL_PROFILE:-p01}"', text)
+        self.assertIn('DOWNLOAD_PROFILE="${MODEL_PROFILE:-p01}"', text)
+        self.assertIn('MODEL_PROFILE="${DOWNLOAD_PROFILE}"', text)
         self.assertIn('run_model_audit "${STAMP}_post_download" "1"', text)
 
     def test_full_pipeline_download_flow_does_not_strict_audit_before_download(self):
@@ -24,8 +26,10 @@ class PipelineScriptTest(unittest.TestCase):
         self.assertIn('if [ "${EXECUTE}" = "1" ] && [ "${DOWNLOAD_MODELS}" != "1" ]; then', text)
         self.assertIn('run_model_audit "${STAMP}" "${INITIAL_MODEL_AUDIT_STRICT}"', text)
         self.assertIn("backend.hf_access_audit --profile required_suite", text)
+        self.assertIn("backend.download_log_audit", text)
         self.assertIn('if [ "${DOWNLOAD_MODELS}" = "1" ] && [ "${HF_ACCESS_AUDIT}" = "1" ]; then', text)
-        self.assertIn('MODEL_PROFILE="${MODEL_PROFILE:-required_suite}"', text)
+        self.assertIn('DOWNLOAD_PROFILE="${MODEL_PROFILE:-required_suite}"', text)
+        self.assertIn('MODEL_PROFILE="${DOWNLOAD_PROFILE}"', text)
         self.assertIn('run_model_audit "${STAMP}_post_download" "1"', text)
 
     def test_preflight_still_strict_when_downloading_models(self):

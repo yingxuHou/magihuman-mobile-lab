@@ -78,6 +78,16 @@ run_smoke_plan_audit() {
   "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/p01_smoke_plan_audit_${suffix}.md" --strict
 }
 
+run_download_log_audit() {
+  local suffix="$1"
+  local profile="$2"
+  local log_path="${LOG_DIR}/p01_download_models_${suffix}.log"
+  local args=(-m backend.download_log_audit --profile "${profile}" --log "${log_path}")
+
+  "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/p01_download_log_audit_${suffix}.json"
+  "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/p01_download_log_audit_${suffix}.md" --strict
+}
+
 run_pipeline_artifact_audit() {
   local suffix="$1"
   local args=(-m backend.pipeline_artifact_audit --run p01 --stamp "${suffix}" --log-dir "${LOG_DIR}" --report-dir outputs/reports --result-dir "${RESULT_DIR}")
@@ -127,7 +137,9 @@ if [ "${DOWNLOAD_MODELS}" = "1" ] && [ "${HF_ACCESS_AUDIT}" = "1" ]; then
 fi
 
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
-  MODEL_PROFILE="${MODEL_PROFILE:-p01}" MODEL_ROOT="${MODEL_ROOT}" bash scripts/download_models.sh 2>&1 | tee "${LOG_DIR}/p01_download_models_${STAMP}.log"
+  DOWNLOAD_PROFILE="${MODEL_PROFILE:-p01}"
+  MODEL_PROFILE="${DOWNLOAD_PROFILE}" MODEL_ROOT="${MODEL_ROOT}" bash scripts/download_models.sh 2>&1 | tee "${LOG_DIR}/p01_download_models_${STAMP}.log"
+  run_download_log_audit "${STAMP}" "${DOWNLOAD_PROFILE}"
   run_preflight "${STAMP}_post_download" "1" "1"
   run_model_audit "${STAMP}_post_download" "1"
 fi
@@ -167,6 +179,8 @@ if [ "${DOWNLOAD_MODELS}" = "1" ]; then
     echo "p01_hf_access_json=${LOG_DIR}/p01_hf_access_${STAMP}.json"
     echo "p01_hf_access_report=outputs/reports/p01_hf_access_${STAMP}.md"
   fi
+  echo "p01_download_log_audit_json=${LOG_DIR}/p01_download_log_audit_${STAMP}.json"
+  echo "p01_download_log_audit_report=outputs/reports/p01_download_log_audit_${STAMP}.md"
   echo "p01_post_download_preflight_json=${LOG_DIR}/p01_preflight_${STAMP}_post_download.json"
   echo "p01_post_download_preflight_report=outputs/reports/p01_preflight_${STAMP}_post_download.md"
   echo "p01_post_download_model_audit_json=${LOG_DIR}/p01_model_audit_${STAMP}_post_download.json"

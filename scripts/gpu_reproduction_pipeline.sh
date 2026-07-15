@@ -72,6 +72,16 @@ run_hf_access_audit() {
   "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/hf_access_${suffix}.json" --strict
 }
 
+run_download_log_audit() {
+  local suffix="$1"
+  local profile="$2"
+  local log_path="${LOG_DIR}/download_models_${suffix}.log"
+  local args=(-m backend.download_log_audit --profile "${profile}" --log "${log_path}")
+
+  "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/download_log_audit_${suffix}.json"
+  "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/download_log_audit_${suffix}.md" --strict
+}
+
 run_pipeline_artifact_audit() {
   local suffix="$1"
   local args=(-m backend.pipeline_artifact_audit --run full --stamp "${suffix}" --log-dir "${LOG_DIR}" --report-dir outputs/reports --result-dir "${RESULT_DIR}")
@@ -120,7 +130,9 @@ if [ "${DOWNLOAD_MODELS}" = "1" ] && [ "${HF_ACCESS_AUDIT}" = "1" ]; then
 fi
 
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
-  MODEL_PROFILE="${MODEL_PROFILE:-required_suite}" MODEL_ROOT="${MODEL_ROOT}" bash scripts/download_models.sh 2>&1 | tee "${LOG_DIR}/download_models_${STAMP}.log"
+  DOWNLOAD_PROFILE="${MODEL_PROFILE:-required_suite}"
+  MODEL_PROFILE="${DOWNLOAD_PROFILE}" MODEL_ROOT="${MODEL_ROOT}" bash scripts/download_models.sh 2>&1 | tee "${LOG_DIR}/download_models_${STAMP}.log"
+  run_download_log_audit "${STAMP}" "${DOWNLOAD_PROFILE}"
   run_preflight "${STAMP}_post_download" "1" "1"
   run_model_audit "${STAMP}_post_download" "1"
 fi
@@ -172,6 +184,8 @@ if [ "${DOWNLOAD_MODELS}" = "1" ]; then
     echo "hf_access_json=${LOG_DIR}/hf_access_${STAMP}.json"
     echo "hf_access_report=outputs/reports/hf_access_${STAMP}.md"
   fi
+  echo "download_log_audit_json=${LOG_DIR}/download_log_audit_${STAMP}.json"
+  echo "download_log_audit_report=outputs/reports/download_log_audit_${STAMP}.md"
   echo "post_download_preflight_json=${LOG_DIR}/gpu_preflight_${STAMP}_post_download.json"
   echo "post_download_preflight_report=outputs/reports/gpu_preflight_${STAMP}_post_download.md"
   echo "post_download_model_audit_json=${LOG_DIR}/model_audit_${STAMP}_post_download.json"

@@ -72,6 +72,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 34 added pipeline artifact audits so successful P01 and full GPU runs verify their expected logs, reports, metrics, and result MP4 files before evidence packaging. The backend prototype now passes 131 local tests using Python standard library only.
 - Stage 35 added an upstream drift audit so GPU runs can verify the locked official code/model/Space SHAs still match current upstream metadata before spending GPU time. The backend prototype now passes 136 local tests using Python standard library only.
 - Stage 36 added a P01 smoke plan audit so the tracked manifest must match the generated P01 execution plan before downloads or GPU execution. The backend prototype now passes 141 local tests using Python standard library only.
+- Stage 37 added checkpoint download log audits so P01 and required-suite downloads are rejected if logged Hugging Face commands request the wrong checkpoint groups. The backend prototype now passes 146 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -167,6 +168,7 @@ Preview checkpoint download commands:
 
 ```bash
 MODEL_PROFILE=p01 DRY_RUN=1 bash scripts/download_models.sh
+python -m backend.download_log_audit --profile p01 --log logs/p01_download_models_<timestamp>.log --format markdown
 ```
 
 Create a cost review template after runtime metrics exist:

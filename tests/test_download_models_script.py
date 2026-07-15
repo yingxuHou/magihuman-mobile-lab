@@ -35,6 +35,7 @@ class DownloadModelsScriptTest(unittest.TestCase):
         completed = self.run_script(MODEL_PROFILE="p01", DRY_RUN="1", MODEL_ROOT="models")
 
         self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn("download_command=huggingface-cli", completed.stdout)
         self.assertIn("base/\\*", completed.stdout)
         self.assertIn("turbo_vae/\\*", completed.stdout)
         self.assertNotIn("540p_sr/\\*", completed.stdout)
@@ -45,6 +46,7 @@ class DownloadModelsScriptTest(unittest.TestCase):
         completed = self.run_script(MODEL_PROFILE="required_suite", DRY_RUN="1", MODEL_ROOT="models")
 
         self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn("download_command=huggingface-cli", completed.stdout)
         self.assertIn("540p_sr/\\*", completed.stdout)
         self.assertIn("1080p_sr/\\*", completed.stdout)
         self.assertNotIn("distill/\\*", completed.stdout)

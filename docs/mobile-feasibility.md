@@ -60,6 +60,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Pipeline artifact audit passed local tests; total backend tests now 131 | A successful GPU pipeline run now produces an explicit checklist proving expected logs, reports, metrics JSON, and result MP4 artifacts exist before evidence packaging |
 | 2026-07-16 | Upstream drift audit passed local tests and live metadata check; total backend tests now 136 | The locked reproduction target still matches current official code/model/Space SHAs before the GPU run |
 | 2026-07-16 | P01 smoke plan audit passed local tests; total backend tests now 141 | The first GPU run is now blocked if the tracked P01 manifest diverges from the generated execution plan |
+| 2026-07-16 | Download log audit passed local tests; total backend tests now 146 | GPU-host downloads now produce an auditable command log and reject P01 runs that request SR or distill checkpoint groups |
 
 ## Interim Position
 

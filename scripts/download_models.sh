@@ -16,10 +16,10 @@ if ! command -v huggingface-cli >/dev/null 2>&1; then
 fi
 
 download() {
-  if [ "${DRY_RUN}" = "1" ]; then
-    printf '%q ' "$@"
-    printf '\n'
-  else
+  printf 'download_command='
+  printf '%q ' "$@"
+  printf '\n'
+  if [ "${DRY_RUN}" != "1" ]; then
     "$@"
   fi
 }

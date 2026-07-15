@@ -152,4 +152,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/smoke_plan_audit.py` and generated `docs/p01-smoke-plan-audit.md/json`.
 - Integrated the smoke plan audit into the P01 pipeline before downloads or GPU execution.
 - Current P01 smoke plan audit reports `ready`; total local backend tests now 141.
+- Completed Stage 37 checkpoint download log audit.
+- Updated `scripts/download_models.sh` so every Hugging Face download command is logged as `download_command=...`.
+- Added `backend/download_log_audit.py` and integrated it into P01/full pipelines after checkpoint download.
+- Local download log audit validation passed; total local backend tests now 146.
 - No inference run has been completed yet.

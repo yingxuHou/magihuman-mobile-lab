@@ -86,6 +86,8 @@ def build_p01_artifacts(
         rows.extend(
             [
                 exact_row("P01 checkpoint download log", log_dir / "p01_download_models_{}.log".format(stamp)),
+                exact_row("P01 download log audit JSON", log_dir / "p01_download_log_audit_{}.json".format(stamp)),
+                exact_row("P01 download log audit report", report_dir / "p01_download_log_audit_{}.md".format(stamp)),
                 exact_row("P01 post-download preflight JSON", log_dir / "p01_preflight_{}_post_download.json".format(stamp)),
                 exact_row("P01 post-download preflight report", report_dir / "p01_preflight_{}_post_download.md".format(stamp)),
                 exact_row("P01 post-download model audit JSON", log_dir / "p01_model_audit_{}_post_download.json".format(stamp)),
@@ -136,6 +138,8 @@ def build_full_artifacts(
         rows.extend(
             [
                 exact_row("checkpoint download log", log_dir / "download_models_{}.log".format(stamp)),
+                exact_row("download log audit JSON", log_dir / "download_log_audit_{}.json".format(stamp)),
+                exact_row("download log audit report", report_dir / "download_log_audit_{}.md".format(stamp)),
                 exact_row("post-download preflight JSON", log_dir / "gpu_preflight_{}_post_download.json".format(stamp)),
                 exact_row("post-download preflight report", report_dir / "gpu_preflight_{}_post_download.md".format(stamp)),
                 exact_row("post-download model audit JSON", log_dir / "model_audit_{}_post_download.json".format(stamp)),

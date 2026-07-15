@@ -118,6 +118,15 @@ For the first P01 smoke run, download only the P01 profile:
 MODEL_PROFILE=p01 bash scripts/download_models.sh
 ```
 
+The download script logs every Hugging Face command as `download_command=...`. After a pipeline download, audit the log before trusting the checkpoint footprint:
+
+```bash
+python -m backend.download_log_audit --profile p01 --log logs/p01_download_models_<timestamp>.log --format markdown
+python -m backend.download_log_audit --profile required_suite --log logs/download_models_<timestamp>.log --format markdown
+```
+
+The P01 and full GPU pipelines run the matching audit automatically when `DOWNLOAD_MODELS=1`.
+
 For the final required suite, download:
 
 ```bash

@@ -29,6 +29,7 @@ The P01 audit checks:
 - optional source preparation log
 - optional Hugging Face access JSON and Markdown
 - optional checkpoint download log
+- optional download log audit JSON and Markdown
 - optional post-download preflight and model audit reports
 - execute log when `EXECUTE=1`
 - P01 metrics JSON when `EXECUTE=1`
@@ -49,6 +50,7 @@ The full audit checks:
 - optional source preparation log
 - optional Hugging Face access JSON and Markdown
 - optional checkpoint download log
+- optional download log audit JSON and Markdown
 - optional post-download preflight and model audit reports
 - dry-run shell script when `EXECUTE=0`
 - suite execution log when `EXECUTE=1`
