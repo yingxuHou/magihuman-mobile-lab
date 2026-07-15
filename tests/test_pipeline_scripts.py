@@ -12,6 +12,7 @@ class PipelineScriptTest(unittest.TestCase):
         self.assertIn('INITIAL_MODEL_AUDIT_STRICT=0', text)
         self.assertIn('if [ "${EXECUTE}" = "1" ] && [ "${DOWNLOAD_MODELS}" != "1" ]; then', text)
         self.assertIn('run_model_audit "${STAMP}" "${INITIAL_MODEL_AUDIT_STRICT}"', text)
+        self.assertIn('MODEL_PROFILE="${MODEL_PROFILE:-p01}"', text)
         self.assertIn('run_model_audit "${STAMP}_post_download" "1"', text)
 
     def test_full_pipeline_download_flow_does_not_strict_audit_before_download(self):
@@ -20,6 +21,7 @@ class PipelineScriptTest(unittest.TestCase):
         self.assertIn('INITIAL_MODEL_AUDIT_STRICT=0', text)
         self.assertIn('if [ "${EXECUTE}" = "1" ] && [ "${DOWNLOAD_MODELS}" != "1" ]; then', text)
         self.assertIn('run_model_audit "${STAMP}" "${INITIAL_MODEL_AUDIT_STRICT}"', text)
+        self.assertIn('MODEL_PROFILE="${MODEL_PROFILE:-required_suite}"', text)
         self.assertIn('run_model_audit "${STAMP}_post_download" "1"', text)
 
     def test_preflight_still_strict_when_downloading_models(self):

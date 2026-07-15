@@ -75,7 +75,7 @@ Reasons:
 Run downloads on the GPU machine:
 
 ```bash
-MODEL_ROOT=models bash scripts/download_models.sh
+MODEL_PROFILE=p01 MODEL_ROOT=models bash scripts/download_models.sh
 ```
 
 Before running:
@@ -84,6 +84,14 @@ Before running:
 - Confirm access to `google/t5gemma-9b-9b-ul2`.
 - Confirm access to `stabilityai/stable-audio-open-1.0`.
 - Confirm at least 500 GiB free disk.
+
+Download profiles:
+
+| Profile | Use | Main model groups |
+| --- | --- | --- |
+| `p01` | First 256p smoke run | `base`, `turbo_vae` |
+| `required_suite` | Required final-decision cases | `base`, `turbo_vae`, `540p_sr`, `1080p_sr` |
+| `complete` | Optional full mirror | all main groups including `distill` |
 
 ## Mobile Feasibility Impact
 
@@ -96,5 +104,5 @@ This does not yet prove whether a smaller derivative or separate mobile-specific
 On a GPU machine, run:
 
 1. `scripts/cloud_env_check.sh`
-2. `scripts/download_models.sh`
+2. `MODEL_PROFILE=p01 bash scripts/download_models.sh`
 3. `scripts/magihuman_task_runner.sh`

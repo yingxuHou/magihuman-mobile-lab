@@ -51,6 +51,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Model checkpoint footprint audit passed local tests; total backend tests now 96 | GPU execution now fails early if required checkpoint groups are missing or obviously too small after download |
 | 2026-07-16 | Evidence package manifest and import audit coverage passed local tests; total backend tests now 100 | GPU-host evidence handoff now includes preflight/model audit JSON and explicitly tracks missing mobile-video evidence |
 | 2026-07-16 | Model audit strict-mode ordering fix passed local tests; total backend tests now 103 | Fresh GPU hosts can now download models before the strict post-download checkpoint audit blocks incomplete downloads |
+| 2026-07-16 | Checkpoint download profiles passed local dry-run tests; total backend tests now 107 | P01 first-run downloads can avoid unnecessary distill/SR checkpoints before the smallest smoke test |
 
 ## Interim Position
 

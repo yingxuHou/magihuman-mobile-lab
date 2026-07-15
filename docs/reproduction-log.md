@@ -118,4 +118,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Completed Stage 27 model audit strict-mode ordering fix.
 - Updated P01 and full GPU pipelines so pre-download model audits are report-only, while post-download audits and direct execution without download remain strict.
 - Added script-level tests for the fresh GPU host download path; total local backend tests now 103.
+- Completed Stage 28 checkpoint download profiles.
+- Updated `scripts/download_models.sh` with `MODEL_PROFILE=p01|required_suite|complete` and `DRY_RUN=1`.
+- P01 pipeline now defaults to `MODEL_PROFILE=p01`; full GPU pipeline defaults to `MODEL_PROFILE=required_suite`.
+- Local download profile validation passed; total local backend tests now 107.
 - No inference run has been completed yet.

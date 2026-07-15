@@ -63,6 +63,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 25 added checkpoint footprint audits for P01, required-suite, and complete model downloads. The backend prototype now passes 96 local tests using Python standard library only.
 - Stage 26 added evidence package manifests and expanded import-audit coverage for mobile-video evidence. The backend prototype now passes 100 local tests using Python standard library only.
 - Stage 27 fixed model-audit strict-mode ordering so fresh GPU hosts can download models before the strict post-download checkpoint audit. The backend prototype now passes 103 local tests using Python standard library only.
+- Stage 28 added checkpoint download profiles so P01 can download only base/turbo/external models before the full required suite. The backend prototype now passes 107 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -125,6 +126,12 @@ Audit downloaded checkpoint footprints:
 
 ```powershell
 python -m backend.model_audit --model-root models --profile p01 --format markdown
+```
+
+Preview checkpoint download commands:
+
+```bash
+MODEL_PROFILE=p01 DRY_RUN=1 bash scripts/download_models.sh
 ```
 
 Create a cost review template after runtime metrics exist:

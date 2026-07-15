@@ -104,6 +104,24 @@ The official README requires:
 
 Use `huggingface-cli download` after confirming access and disk capacity.
 
+For the first P01 smoke run, download only the P01 profile:
+
+```bash
+MODEL_PROFILE=p01 bash scripts/download_models.sh
+```
+
+For the final required suite, download:
+
+```bash
+MODEL_PROFILE=required_suite bash scripts/download_models.sh
+```
+
+For a full mirror including distill:
+
+```bash
+MODEL_PROFILE=complete bash scripts/download_models.sh
+```
+
 The pipeline checks Hugging Face auth before download when `DOWNLOAD_MODELS=1`. Either set `HF_TOKEN`/`HUGGINGFACE_HUB_TOKEN` or run `huggingface-cli login` inside the container.
 
 After download, audit checkpoint footprints:

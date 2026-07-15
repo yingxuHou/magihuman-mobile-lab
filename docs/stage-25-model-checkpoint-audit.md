@@ -101,4 +101,4 @@ P01 dry-run generated a model audit report and continued because EXECUTE=0.
 
 ## Next Step
 
-Run the P01 pipeline on the GPU host. After model download, the strict checkpoint audit must pass before P01 inference starts.
+Run the P01 pipeline on the GPU host. It now uses `MODEL_PROFILE=p01` for the first download. After model download, the strict checkpoint audit must pass before P01 inference starts.

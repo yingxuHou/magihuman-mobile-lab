@@ -84,7 +84,7 @@ run_preflight "${STAMP}" "${INITIAL_REQUIRE_MODELS}" "${INITIAL_STRICT}"
 run_model_audit "${STAMP}" "${INITIAL_MODEL_AUDIT_STRICT}"
 
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
-  MODEL_ROOT="${MODEL_ROOT}" bash scripts/download_models.sh 2>&1 | tee "${LOG_DIR}/p01_download_models_${STAMP}.log"
+  MODEL_PROFILE="${MODEL_PROFILE:-p01}" MODEL_ROOT="${MODEL_ROOT}" bash scripts/download_models.sh 2>&1 | tee "${LOG_DIR}/p01_download_models_${STAMP}.log"
   run_preflight "${STAMP}_post_download" "1" "1"
   run_model_audit "${STAMP}_post_download" "1"
 fi
