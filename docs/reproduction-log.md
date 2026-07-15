@@ -48,4 +48,7 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Completed Stage 10 experiment matrix.
 - Added `backend/experiment_matrix.py` to generate P01/P02/P03/P04 performance cases and T01/T02/T03/T04 multilingual cases.
 - Local validation now passes 23 tests.
+- Completed Stage 11 result aggregation.
+- Added `backend/experiment_results.py` to summarize metrics JSON files and mark missing required evidence.
+- Local validation now passes 27 tests.
 - No inference run has been completed yet.

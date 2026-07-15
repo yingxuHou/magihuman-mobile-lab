@@ -157,3 +157,9 @@ python -m backend.experiment_matrix --format markdown
 ```
 
 Run `P01` first. Continue with `P03`, `P04`, and multilingual TI2V cases only after `P01` produces a playable mp4 and valid metrics JSON.
+
+Summarize results:
+
+```bash
+python -m backend.experiment_results --log-dir logs --format markdown
+```
