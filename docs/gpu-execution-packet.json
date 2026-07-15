@@ -55,7 +55,12 @@
     "Linux host with NVIDIA GPU visible to Docker",
     "Docker with NVIDIA Container Toolkit",
     "Hugging Face token with access to required gated model repositories",
-    "At least 500 GiB free disk for required-suite checkpoints, caches, logs, and temporary outputs"
+    "At least 500 GiB free disk for required-suite checkpoints, caches, logs, and temporary outputs",
+    "A completed GPU session budget guard before renting or starting paid GPU time"
+  ],
+  "local_budget_commands": [
+    "python -m backend.gpu_session_budget --create-template --output docs\\gpu-session-budget.json",
+    "python -m backend.gpu_session_budget --config docs\\gpu-session-budget.json --format markdown --output docs\\gpu-session-budget-report.md --strict"
   ],
   "fresh_host_commands": [
     "git clone https://github.com/yingxuHou/magihuman-mobile-lab.git",

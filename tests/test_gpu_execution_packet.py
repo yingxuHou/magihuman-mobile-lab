@@ -6,6 +6,7 @@ from backend.gpu_execution_packet import (
     DEFAULT_REPO_URL,
     build_execution_packet,
     build_fresh_host_commands,
+    build_local_budget_commands,
     build_local_import_commands,
     markdown_execution_packet,
 )
@@ -50,10 +51,18 @@ class GpuExecutionPacketTest(unittest.TestCase):
         self.assertIn("backend.review_readiness", commands)
         self.assertIn("backend.final_report", commands)
 
+    def test_local_budget_commands_include_strict_guard(self):
+        commands = "\n".join(build_local_budget_commands())
+
+        self.assertIn("backend.gpu_session_budget", commands)
+        self.assertIn("--strict", commands)
+        self.assertIn("docs\\gpu-session-budget.json", commands)
+
     def test_markdown_packet_contains_operator_sections(self):
         text = markdown_execution_packet(build_execution_packet(project_root=".", repo_url=DEFAULT_REPO_URL))
 
         self.assertIn("# GPU Execution Packet", text)
+        self.assertIn("## Local Budget Guard", text)
         self.assertIn("## Fresh GPU Host Commands", text)
         self.assertIn("## Return Evidence", text)
         self.assertIn("Do not change the final mobile App recommendation", text)

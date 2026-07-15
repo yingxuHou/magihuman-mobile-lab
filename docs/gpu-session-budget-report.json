@@ -1,0 +1,32 @@
+{
+  "status": "incomplete_budget_config",
+  "summary": "GPU session budget config is incomplete.",
+  "config_path": "docs\\gpu-session-budget.json",
+  "currency": "USD",
+  "gpu_provider": "",
+  "gpu_name": "",
+  "checkpoint_profile": "p01",
+  "missing_fields": [
+    "gpu_hourly_usd",
+    "max_session_hours",
+    "max_session_budget_usd",
+    "disk_budget_gib"
+  ],
+  "invalid_fields": [],
+  "stop_policy": "stop_before_download_if_over_budget",
+  "notes": "Fill this before renting GPU time. Do not use provider prices from memory; verify the current price first.",
+  "stop_rules": [
+    "Do not start the GPU session unless this report status is `budget_ready`.",
+    "Verify the selected provider's current hourly price before filling `gpu_hourly_usd`.",
+    "Set a provider-side spending cap or auto-shutdown at `max_session_hours` when the provider supports it.",
+    "Run P01 first; do not upgrade to the required-suite profile until P01 acceptance passes and the budget is recalculated.",
+    "After real runtime metrics are imported, use `docs/cost-review.json`; this budget guard is not a replacement for the final cost review."
+  ],
+  "rows": [
+    {
+      "check": "budget config complete",
+      "status": "failed",
+      "detail": "missing: gpu_hourly_usd, max_session_hours, max_session_budget_usd, disk_budget_gib; invalid: -"
+    }
+  ]
+}

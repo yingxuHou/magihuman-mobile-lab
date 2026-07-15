@@ -199,3 +199,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Updated `backend/gpu_evidence_import_workflow.py` so safe evidence import also regenerates `docs/review-readiness.json` and `docs/reproduction-gap-report.json`.
 - Import workflow integration tests now assert the generated JSON statuses match the workflow summary.
 - Current tracked status remains `awaiting_gpu_runtime`; no inference run has been completed yet.
+- Completed Stage 48 GPU session budget guard.
+- Added `backend/gpu_session_budget.py` plus Bash/PowerShell wrappers to create and validate a pre-run GPU session budget before paid cloud GPU time starts.
+- Generated `docs/gpu-session-budget.json`, `docs/gpu-session-budget-report.md`, and `docs/gpu-session-budget-report.json`; current status is `incomplete_budget_config` until provider price and spend caps are filled.
+- Updated `backend.gpu_execution_packet` so the handoff packet includes local budget guard commands.
+- No inference run has been completed yet.

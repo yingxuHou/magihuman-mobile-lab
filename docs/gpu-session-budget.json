@@ -1,0 +1,15 @@
+{
+  "budget_version": "1",
+  "currency": "USD",
+  "gpu_provider": "",
+  "gpu_name": "",
+  "checkpoint_profile": "p01",
+  "gpu_hourly_usd": null,
+  "billing_overhead_multiplier": 1.25,
+  "max_session_hours": null,
+  "max_session_budget_usd": null,
+  "disk_budget_gib": null,
+  "output_buffer_gib": 100.0,
+  "stop_policy": "stop_before_download_if_over_budget",
+  "notes": "Fill this before renting GPU time. Do not use provider prices from memory; verify the current price first."
+}

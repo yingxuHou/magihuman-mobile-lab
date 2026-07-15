@@ -48,6 +48,13 @@ def build_local_import_commands():
     ]
 
 
+def build_local_budget_commands():
+    return [
+        "python -m backend.gpu_session_budget --create-template --output docs\\gpu-session-budget.json",
+        "python -m backend.gpu_session_budget --config docs\\gpu-session-budget.json --format markdown --output docs\\gpu-session-budget-report.md --strict",
+    ]
+
+
 def expected_artifacts():
     return [
         "outputs/reports/gpu_reproduction_workflow_*.md",
@@ -117,7 +124,9 @@ def build_execution_packet(
             "Docker with NVIDIA Container Toolkit",
             "Hugging Face token with access to required gated model repositories",
             "At least 500 GiB free disk for required-suite checkpoints, caches, logs, and temporary outputs",
+            "A completed GPU session budget guard before renting or starting paid GPU time",
         ],
+        "local_budget_commands": build_local_budget_commands(),
         "fresh_host_commands": build_fresh_host_commands(remote, branch=branch),
         "container_commands": bootstrap_plan["container_commands"],
         "return_commands": build_return_commands(),
@@ -151,6 +160,10 @@ def markdown_execution_packet(packet):
 
     lines.extend(["", "## GPU Host Requirements", ""])
     lines.extend("- {}".format(item) for item in packet["gpu_host_requirements"])
+
+    lines.extend(["", "## Local Budget Guard", "", "```powershell"])
+    lines.extend(packet["local_budget_commands"])
+    lines.append("```")
 
     lines.extend(["", "## Fresh GPU Host Commands", "", "```bash"])
     lines.extend(packet["fresh_host_commands"])

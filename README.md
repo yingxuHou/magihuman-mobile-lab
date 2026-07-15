@@ -83,6 +83,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 45 added a reproduction gap report so the remaining evidence gaps before the final mobile App decision are generated from the current gates. The backend prototype now passes 184 local tests using Python standard library only.
 - Stage 46 integrated the reproduction gap report into the GPU evidence import workflow, so importing returned evidence refreshes the current gap status automatically. The backend prototype still passes 184 local tests using Python standard library only.
 - Stage 47 made the post-import review readiness and reproduction gap state machine-readable, so safe imports now refresh both Markdown and JSON status files. The backend prototype still passes 184 local tests using Python standard library only.
+- Stage 48 added a GPU session budget guard so paid cloud GPU time has an explicit hourly price, session cap, disk budget, and stop rule before the reproduction run. The backend prototype now passes 194 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -158,6 +159,13 @@ Generate the GPU execution handoff packet:
 
 ```powershell
 python -m backend.gpu_execution_packet --format markdown --output docs/gpu-execution-packet.md
+```
+
+Create and check the GPU session budget guard before renting GPU time:
+
+```powershell
+python -m backend.gpu_session_budget --create-template --output docs/gpu-session-budget.json
+python -m backend.gpu_session_budget --config docs/gpu-session-budget.json --format markdown --output docs/gpu-session-budget-report.md --strict
 ```
 
 Generate the current reproduction gap report:

@@ -2,6 +2,14 @@
 
 Use this after GPU runtime metrics exist.
 
+Before renting or starting paid GPU time, use the separate GPU session budget guard:
+
+```bash
+python -m backend.gpu_session_budget --config docs/gpu-session-budget.json --format markdown --output docs/gpu-session-budget-report.md --strict
+```
+
+The budget guard controls pre-run spend. This cost review uses real imported runtime metrics to decide whether the cloud GPU route is acceptable for a mobile app.
+
 Create a cost review template:
 
 ```bash

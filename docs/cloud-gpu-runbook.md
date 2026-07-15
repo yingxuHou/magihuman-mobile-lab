@@ -27,6 +27,15 @@ cd magihuman-mobile-lab
 
 ## 2. Preferred Bootstrap Workflow
 
+Before renting or starting paid GPU time, fill and validate the session budget guard locally:
+
+```bash
+python -m backend.gpu_session_budget --create-template --output docs/gpu-session-budget.json
+python -m backend.gpu_session_budget --config docs/gpu-session-budget.json --format markdown --output docs/gpu-session-budget-report.md --strict
+```
+
+The current tracked budget report is `incomplete_budget_config` until a GPU provider, current hourly price, max session hours, max session budget, and disk budget are filled. Do not use remembered provider prices; verify the current provider price before filling `gpu_hourly_usd`.
+
 Use the bootstrap script on a fresh GPU host. It runs host preflight, writes the bootstrap plan, creates `outputs/run_magi_container.sh`, and can pull the official Docker image.
 
 ```bash
@@ -308,7 +317,7 @@ Before starting the GPU session, generate the operator handoff packet locally:
 python -m backend.gpu_execution_packet --format markdown --output docs/gpu-execution-packet.md
 ```
 
-The packet collects the clone/bootstrap/workflow commands, expected evidence archive, and local import commands in one report.
+The packet collects the budget guard, clone/bootstrap/workflow commands, expected evidence archive, and local import commands in one report.
 
 Generate the current gap report before the GPU session:
 
