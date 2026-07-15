@@ -302,6 +302,14 @@ python -m backend.mobile_video_check --log-dir logs --format markdown
 
 After the host is prepared, prefer the pipeline script so preflight, runs, summaries, and the feasibility decision are generated together.
 
+Before starting the GPU session, generate the operator handoff packet locally:
+
+```bash
+python -m backend.gpu_execution_packet --format markdown --output docs/gpu-execution-packet.md
+```
+
+The packet collects the clone/bootstrap/workflow commands, expected evidence archive, and local import commands in one report.
+
 End-to-end workflow inside the container:
 
 ```bash

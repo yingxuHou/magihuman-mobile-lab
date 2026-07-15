@@ -67,6 +67,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Workflow readiness audit passed locally; total backend tests now 164 | The GPU workflow command chain is now checked before expensive downloads or inference, reducing risk of invalid GPU evidence |
 | 2026-07-16 | GPU evidence import workflow passed local tests; total backend tests now 167 | Returned GPU evidence archives can now be safely imported locally and used to regenerate the final feasibility report |
 | 2026-07-16 | Review input readiness workflow passed local tests; total backend tests now 173 | Quality and cost review templates are now created only after required-suite acceptance passes; current tracked status is `runtime_not_ready` |
+| 2026-07-16 | GPU execution packet passed local tests; total backend tests now 180 | The real GPU handoff now has a generated clone/bootstrap/workflow/evidence-return/import command packet, but runtime evidence is still pending |
 
 ## Interim Position
 
@@ -133,6 +134,12 @@ Workflow readiness audit:
 
 ```powershell
 python -m backend.workflow_readiness_audit --format markdown --strict
+```
+
+GPU execution handoff packet:
+
+```powershell
+python -m backend.gpu_execution_packet --format markdown --output docs/gpu-execution-packet.md
 ```
 
 Fresh GPU host bootstrap:
@@ -226,6 +233,7 @@ Current tracked report:
 - `docs/mobile-feasibility-report.md`
 - `docs/gpu-evidence-import-audit.md`
 - `docs/review-readiness.md`
+- `docs/gpu-execution-packet.md`
 
 Regenerate:
 

@@ -79,6 +79,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 41 added a workflow readiness audit so the GPU workflow command chain is statically checked before downloads or inference. The backend prototype now passes 164 local tests using Python standard library only.
 - Stage 42 added a GPU evidence import workflow so returned evidence archives are safely extracted, validated, imported, and used to regenerate the import audit and final feasibility report. The backend prototype now passes 167 local tests using Python standard library only.
 - Stage 43 added a review-input readiness workflow so quality and cost review templates are created only after required-suite acceptance passes. The backend prototype now passes 173 local tests using Python standard library only.
+- Stage 44 added a GPU execution handoff packet so a Linux NVIDIA GPU operator has one generated report with clone, bootstrap, workflow, evidence return, and local import commands. The backend prototype now passes 180 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -148,6 +149,12 @@ Audit the workflow command chain before spending GPU time:
 
 ```bash
 python -m backend.workflow_readiness_audit --format markdown --strict
+```
+
+Generate the GPU execution handoff packet:
+
+```powershell
+python -m backend.gpu_execution_packet --format markdown --output docs/gpu-execution-packet.md
 ```
 
 Audit Hugging Face access before downloads:
