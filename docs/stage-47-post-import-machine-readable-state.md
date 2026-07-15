@@ -40,4 +40,4 @@ python -m unittest discover -s tests -v
 
 ## Current State
 
-No real GPU evidence package has been imported yet. The tracked gap report remains `awaiting_gpu_runtime`, and the current recommendation remains `B_pending_runtime`.
+No real GPU evidence package has been imported yet. After Stage 49, the tracked gap report is `handoff_not_ready` until the GPU session budget guard is completed; the current recommendation remains `B_pending_runtime`.

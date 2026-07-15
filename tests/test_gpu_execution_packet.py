@@ -13,11 +13,13 @@ from backend.gpu_execution_packet import (
 
 
 class GpuExecutionPacketTest(unittest.TestCase):
-    def test_current_project_packet_is_ready_for_gpu_handoff(self):
+    def test_current_project_packet_requires_budget_guard(self):
         packet = build_execution_packet(project_root=".", repo_url=DEFAULT_REPO_URL)
 
-        self.assertEqual(packet["status"], "ready_for_gpu_handoff")
+        self.assertEqual(packet["status"], "attention_required")
         self.assertEqual(packet["local_runtime_status"], "not_executed_on_this_workstation")
+        self.assertEqual(packet["gpu_session_budget"]["status"], "incomplete_budget_config")
+        self.assertTrue(any(item["label"] == "GPU session budget guard" for item in packet["failures"]))
         self.assertTrue(any(item == "outputs/gpu-evidence-*.tar.gz" for item in packet["expected_artifacts"]))
 
     def test_missing_project_artifacts_need_attention(self):
@@ -62,6 +64,8 @@ class GpuExecutionPacketTest(unittest.TestCase):
         text = markdown_execution_packet(build_execution_packet(project_root=".", repo_url=DEFAULT_REPO_URL))
 
         self.assertIn("# GPU Execution Packet", text)
+        self.assertIn("GPU session budget", text)
+        self.assertIn("## Budget Guard Status", text)
         self.assertIn("## Local Budget Guard", text)
         self.assertIn("## Fresh GPU Host Commands", text)
         self.assertIn("## Return Evidence", text)

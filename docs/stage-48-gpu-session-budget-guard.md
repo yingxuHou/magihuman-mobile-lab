@@ -57,6 +57,8 @@ python -m backend.gpu_session_budget --config docs/gpu-session-budget.json --for
 
 `backend.gpu_execution_packet` now includes a `Local Budget Guard` section. The GPU handoff still describes how to run the reproduction workflow, but the operator should complete the budget guard before renting or starting paid GPU time.
 
+Stage 49 promotes this from guidance to a handoff gate: the GPU execution packet is `attention_required` until the budget guard status becomes `budget_ready`.
+
 ## Validation
 
 Targeted validation:

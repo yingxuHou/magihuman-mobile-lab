@@ -37,6 +37,9 @@ def missing_mobile_cases(final_report):
 
 
 def build_gap_items(final_report, required_suite_acceptance, review_readiness, execution_packet):
+    if final_report["status"] in FINAL_READY_STATUSES:
+        return []
+
     gaps = []
     runtime_missing = missing_runtime_cases(final_report)
     if runtime_missing:
@@ -100,7 +103,18 @@ def build_gap_items(final_report, required_suite_acceptance, review_readiness, e
             }
         )
 
-    if execution_packet["status"] != "ready_for_gpu_handoff":
+    budget_status = execution_packet.get("gpu_session_budget", {}).get("status")
+    if required_suite_acceptance["status"] == "not_ready" and budget_status and budget_status != "budget_ready":
+        gaps.append(
+            {
+                "gate": "GPU session budget guard",
+                "status": budget_status,
+                "detail": execution_packet["gpu_session_budget"]["summary"],
+                "next_action": "Fill `docs/gpu-session-budget.json` with current provider price and spend caps, then rerun the budget guard with `--strict`.",
+            }
+        )
+
+    if required_suite_acceptance["status"] == "not_ready" and execution_packet["status"] != "ready_for_gpu_handoff":
         gaps.append(
             {
                 "gate": "GPU execution handoff",
@@ -116,7 +130,7 @@ def build_gap_items(final_report, required_suite_acceptance, review_readiness, e
 def reproduction_gap_status(final_report, required_suite_acceptance, review_readiness, execution_packet):
     if final_report["status"] in FINAL_READY_STATUSES:
         return "final_decision_ready"
-    if execution_packet["status"] != "ready_for_gpu_handoff":
+    if required_suite_acceptance["status"] == "not_ready" and execution_packet["status"] != "ready_for_gpu_handoff":
         return "handoff_not_ready"
     if required_suite_acceptance["status"] == "not_ready":
         return "awaiting_gpu_runtime"
@@ -169,6 +183,7 @@ def build_reproduction_gap_report(
         "required_suite_acceptance_status": required_suite["status"],
         "review_readiness_status": review_readiness["status"],
         "gpu_execution_packet_status": execution_packet["status"],
+        "gpu_session_budget_status": execution_packet.get("gpu_session_budget", {}).get("status"),
         "gate_statuses": gate_statuses(final_report),
         "missing_required_runtime_cases": missing_runtime_cases(final_report),
         "missing_mobile_video_cases": missing_mobile_cases(final_report),
@@ -188,6 +203,7 @@ def markdown_gap_report(report):
         "- Required-suite acceptance: `{}`".format(report["required_suite_acceptance_status"]),
         "- Review readiness: `{}`".format(report["review_readiness_status"]),
         "- GPU execution packet: `{}`".format(report["gpu_execution_packet_status"]),
+        "- GPU session budget: `{}`".format(report["gpu_session_budget_status"] or "-"),
         "",
         "## Evidence Gates",
         "",

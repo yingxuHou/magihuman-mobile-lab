@@ -4,6 +4,7 @@ from pathlib import Path
 
 from backend.evidence_provenance import file_record, run_git
 from backend.gpu_bootstrap import DEFAULT_DOCKER_IMAGE, build_bootstrap_plan
+from backend.gpu_session_budget import build_session_budget_report
 from backend.workflow_readiness_audit import build_workflow_readiness_audit
 
 
@@ -77,11 +78,13 @@ def build_execution_packet(
     branch="main",
     docker_image=DEFAULT_DOCKER_IMAGE,
     include_optional=False,
+    budget_config_path="docs/gpu-session-budget.json",
 ):
     root = Path(project_root)
     remote = repo_url or run_git(root, "config", "--get", "remote.origin.url") or DEFAULT_REPO_URL
     p01_manifest = file_record(root / "docs" / "p01-smoke-manifest.json")
     workflow_readiness = build_workflow_readiness_audit(project_root=root)
+    budget_report = build_session_budget_report(root / budget_config_path if budget_config_path else None)
     bootstrap_plan = build_bootstrap_plan(
         project_root="$PWD",
         image=docker_image,
@@ -103,6 +106,7 @@ def build_execution_packet(
         check("GPU workflow script exists", workflow_script.is_file(), normalize_path(workflow_script)),
         check("GPU evidence package script exists", package_script.is_file(), normalize_path(package_script)),
         check("local import PowerShell script exists", import_ps1.is_file(), normalize_path(import_ps1)),
+        check("GPU session budget guard", budget_report["status"] == "budget_ready", budget_report["status"]),
     ]
     failures = [item for item in checks if not item["ok"]]
     status = "ready_for_gpu_handoff" if not failures else "attention_required"
@@ -116,6 +120,8 @@ def build_execution_packet(
         "branch": branch,
         "docker_image": docker_image,
         "include_optional": bool(include_optional),
+        "budget_config_path": budget_config_path,
+        "gpu_session_budget": budget_report,
         "p01_manifest": p01_manifest,
         "checks": checks,
         "failures": failures,
@@ -148,6 +154,7 @@ def markdown_execution_packet(packet):
         "- Branch: `{}`".format(packet["branch"]),
         "- Docker image: `{}`".format(packet["docker_image"]),
         "- GPU execution provenance: recorded by `scripts/package_gpu_evidence.sh` on the GPU host",
+        "- GPU session budget: `{}`".format(packet["gpu_session_budget"]["status"]),
         "- P01 manifest SHA-256: `{}`".format(packet["p01_manifest"].get("sha256") or "-"),
         "",
         "## Handoff Checks",
@@ -160,6 +167,18 @@ def markdown_execution_packet(packet):
 
     lines.extend(["", "## GPU Host Requirements", ""])
     lines.extend("- {}".format(item) for item in packet["gpu_host_requirements"])
+
+    budget = packet["gpu_session_budget"]
+    lines.extend(
+        [
+            "",
+            "## Budget Guard Status",
+            "",
+            "- Status: `{}`".format(budget["status"]),
+            "- Summary: {}".format(budget["summary"]),
+            "- Config file: {}".format(budget.get("config_path") or "-"),
+        ]
+    )
 
     lines.extend(["", "## Local Budget Guard", "", "```powershell"])
     lines.extend(packet["local_budget_commands"])
@@ -208,6 +227,7 @@ def main():
     parser.add_argument("--branch", default="main")
     parser.add_argument("--docker-image", default=DEFAULT_DOCKER_IMAGE)
     parser.add_argument("--include-optional", action="store_true")
+    parser.add_argument("--budget-config", default="docs/gpu-session-budget.json")
     parser.add_argument("--format", choices=["json", "markdown"], default="markdown")
     parser.add_argument("--output")
     parser.add_argument("--strict", action="store_true", help="Exit non-zero unless the handoff packet is ready.")
@@ -219,6 +239,7 @@ def main():
         branch=args.branch,
         docker_image=args.docker_image,
         include_optional=args.include_optional,
+        budget_config_path=args.budget_config,
     )
     text = json.dumps(packet, ensure_ascii=False, indent=2) if args.format == "json" else markdown_execution_packet(packet)
     if args.output:

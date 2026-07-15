@@ -185,11 +185,11 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Local review-readiness validation passed; total local backend tests now 173.
 - Completed Stage 44 GPU execution handoff packet.
 - Added `backend/gpu_execution_packet.py` plus Bash/PowerShell wrappers to generate clone, bootstrap, workflow, evidence-return, and local-import commands for a Linux NVIDIA GPU operator.
-- Generated current tracked handoff packet at `docs/gpu-execution-packet.md/json`; current status is `ready_for_gpu_handoff`, while runtime remains `not_executed_on_this_workstation`.
+- Generated tracked handoff packet at `docs/gpu-execution-packet.md/json`; its original status was `ready_for_gpu_handoff`, while runtime remained `not_executed_on_this_workstation`.
 - Local GPU execution packet validation passed; total local backend tests now 180.
 - Completed Stage 45 reproduction gap report.
 - Added `backend/reproduction_gap_report.py` plus Bash/PowerShell wrappers to summarize missing runtime, mobile playback, quality, cost, review-readiness, and handoff evidence.
-- Generated current tracked gap report at `docs/reproduction-gap-report.md/json`; current status is `awaiting_gpu_runtime`.
+- Generated tracked gap report at `docs/reproduction-gap-report.md/json`; its original status was `awaiting_gpu_runtime`.
 - Local reproduction-gap validation passed; total local backend tests now 184.
 - Completed Stage 46 import gap report refresh.
 - Updated `backend/gpu_evidence_import_workflow.py` so safe evidence import also regenerates `docs/reproduction-gap-report.md` and reports the reproduction gap status.
@@ -198,9 +198,14 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Completed Stage 47 post-import machine-readable state refresh.
 - Updated `backend/gpu_evidence_import_workflow.py` so safe evidence import also regenerates `docs/review-readiness.json` and `docs/reproduction-gap-report.json`.
 - Import workflow integration tests now assert the generated JSON statuses match the workflow summary.
-- Current tracked status remains `awaiting_gpu_runtime`; no inference run has been completed yet.
+- Current tracked status remained `awaiting_gpu_runtime` at this stage; no inference run had been completed yet.
 - Completed Stage 48 GPU session budget guard.
 - Added `backend/gpu_session_budget.py` plus Bash/PowerShell wrappers to create and validate a pre-run GPU session budget before paid cloud GPU time starts.
 - Generated `docs/gpu-session-budget.json`, `docs/gpu-session-budget-report.md`, and `docs/gpu-session-budget-report.json`; current status is `incomplete_budget_config` until provider price and spend caps are filled.
 - Updated `backend.gpu_execution_packet` so the handoff packet includes local budget guard commands.
+- No inference run has been completed yet.
+- Completed Stage 49 budget guard handoff gate.
+- Updated `backend.gpu_execution_packet` so incomplete budget config changes the packet status to `attention_required`.
+- Updated `backend.reproduction_gap_report` so the current status is `handoff_not_ready` and the open gaps include `GPU session budget guard`.
+- Regenerated `docs/gpu-execution-packet.md/json` and `docs/reproduction-gap-report.md/json` with the new current state.
 - No inference run has been completed yet.

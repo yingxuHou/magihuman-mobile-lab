@@ -20,11 +20,12 @@ It does not run inference locally and does not change the current recommendation
 
 Current result:
 
-- Status: `awaiting_gpu_runtime`
+- Original Stage 45 status: `awaiting_gpu_runtime`
+- Current status after Stage 49: `handoff_not_ready` until the GPU session budget guard is completed
 - Recommendation: `B_pending_runtime`
 - Required-suite acceptance: `not_ready`
 - Review readiness: `runtime_not_ready`
-- GPU execution packet: `ready_for_gpu_handoff`
+- GPU execution packet: `attention_required`
 
 ## Commands
 

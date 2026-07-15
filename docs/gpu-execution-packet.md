@@ -1,12 +1,13 @@
 # GPU Execution Packet
 
-- Status: `ready_for_gpu_handoff`
-- Summary: GPU execution packet is ready for a Linux NVIDIA GPU operator.
+- Status: `attention_required`
+- Summary: GPU execution packet needs attention before handoff.
 - Local runtime status: `not_executed_on_this_workstation`
 - Repository: https://github.com/yingxuHou/magihuman-mobile-lab.git
 - Branch: `main`
 - Docker image: `sandai/magi-human:latest`
 - GPU execution provenance: recorded by `scripts/package_gpu_evidence.sh` on the GPU host
+- GPU session budget: `incomplete_budget_config`
 - P01 manifest SHA-256: `ab2b0ff85a2a130a6eb7b457a26d1bd7aa2546c1b2918b3317ea02f8e9ee0713`
 
 ## Handoff Checks
@@ -20,6 +21,7 @@
 | GPU workflow script exists | ok | scripts/run_gpu_reproduction_workflow.sh |
 | GPU evidence package script exists | ok | scripts/package_gpu_evidence.sh |
 | local import PowerShell script exists | ok | scripts/import_gpu_evidence_package.ps1 |
+| GPU session budget guard | failed | incomplete_budget_config |
 
 ## GPU Host Requirements
 
@@ -28,6 +30,12 @@
 - Hugging Face token with access to required gated model repositories
 - At least 500 GiB free disk for required-suite checkpoints, caches, logs, and temporary outputs
 - A completed GPU session budget guard before renting or starting paid GPU time
+
+## Budget Guard Status
+
+- Status: `incomplete_budget_config`
+- Summary: GPU session budget config is incomplete.
+- Config file: docs\gpu-session-budget.json
 
 ## Local Budget Guard
 
