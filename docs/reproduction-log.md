@@ -28,4 +28,7 @@ This file records environment checks, setup commands, inference runs, failures, 
 - External models add about 84.36 GiB.
 - Complete checkpoint footprint is about 285.63 GiB before cache/log/output overhead.
 - Local checkpoint download is skipped; cloud GPU host should download after Hugging Face access is confirmed.
+- Prepared Stage 05 smoke-test execution plan.
+- First inference target is base 256p T2V via `scripts/run_base_t2v_smoke.sh`.
+- Stage 05 is not executed because the current workstation lacks NVIDIA GPU/CUDA/Docker/Conda.
 - No inference run has been completed yet.
