@@ -39,6 +39,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Retry and result-retention cleanup policies passed local tests; total backend tests now 35 | Cloud backend route now covers common production mechanics: retry failed jobs and expire generated videos |
 | 2026-07-16 | Feasibility decision generator passed local tests; current output is `B_pending_runtime` with missing required cases P01/P03/P04/T01/T02 | Official on-device stack is rejected by static evidence, while cloud backend remains pending real GPU measurements |
 | 2026-07-16 | Required GPU experiment suite runner passed local tests; total backend tests now 43 | P01/P03/P04/T01/T02 can now be planned or executed as one ordered suite on the GPU host |
+| 2026-07-16 | GPU preflight and reproduction pipeline passed local tests; total backend tests now 48 | GPU host execution now has a single auditable pipeline that produces preflight, results, and feasibility reports |
 
 ## Interim Position
 
@@ -85,4 +86,10 @@ Execute on a prepared Linux NVIDIA GPU host:
 
 ```bash
 bash scripts/run_experiment_suite.sh --execute
+```
+
+Full pipeline:
+
+```bash
+DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 ```

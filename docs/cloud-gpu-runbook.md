@@ -28,13 +28,8 @@ cd magihuman-mobile-lab
 ## 2. Check Environment
 
 ```bash
-nvidia-smi
-docker --version
-docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi
-git --version
-git lfs version
-python3 --version
-df -h
+bash scripts/cloud_env_check.sh
+python -m backend.gpu_preflight --mode host --format markdown
 ```
 
 ## 3. Pull Official Docker Image
@@ -175,3 +170,27 @@ Summarize results:
 ```bash
 python -m backend.experiment_results --log-dir logs --format markdown
 ```
+
+## 10. Pipeline Workflow
+
+After the host is prepared, prefer the pipeline script so preflight, runs, summaries, and the feasibility decision are generated together.
+
+Dry run:
+
+```bash
+bash scripts/gpu_reproduction_pipeline.sh
+```
+
+Download models and execute required cases:
+
+```bash
+DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+```
+
+Run inside a prepared container without downloading models:
+
+```bash
+EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+```
+
+The pipeline writes timestamped reports under `outputs/reports/` and logs under `logs/`.

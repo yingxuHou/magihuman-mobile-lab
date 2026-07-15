@@ -51,6 +51,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 13 added retry and result-retention cleanup policies. The backend prototype now passes 35 local tests using Python standard library only.
 - Stage 14 added a repeatable feasibility decision generator. The backend prototype now passes 38 local tests using Python standard library only.
 - Stage 15 added a required GPU experiment suite runner for P01/P03/P04/T01/T02. The backend prototype now passes 43 local tests using Python standard library only.
+- Stage 16 added GPU preflight checks and a pipeline script for cloud reproduction. The backend prototype now passes 48 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -76,4 +77,10 @@ Execute it on a prepared Linux NVIDIA GPU host:
 
 ```bash
 bash scripts/run_experiment_suite.sh --execute
+```
+
+Or run the full GPU-host pipeline:
+
+```bash
+DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 ```

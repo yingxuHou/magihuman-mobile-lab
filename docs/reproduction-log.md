@@ -66,4 +66,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/experiment_suite.py` to plan or execute P01/P03/P04/T01/T02 in dependency order.
 - Added launchers `scripts/run_experiment_suite.ps1` and `scripts/run_experiment_suite.sh`.
 - Local suite validation passed; total local backend tests now 43.
+- Completed Stage 16 GPU preflight and reproduction pipeline.
+- Added `backend/gpu_preflight.py` to produce structured readiness checks for GPU host and container modes.
+- Added `scripts/gpu_reproduction_pipeline.sh` to run preflight, optional model download, required experiment suite, result summary, and feasibility decision.
+- Local preflight validation passed; total local backend tests now 48.
 - No inference run has been completed yet.
