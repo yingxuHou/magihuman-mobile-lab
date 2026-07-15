@@ -48,6 +48,19 @@ run_preflight() {
   "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/p01_preflight_${suffix}.md"
 }
 
+run_model_audit() {
+  local suffix="$1"
+  local strict="$2"
+  local args=(-m backend.model_audit --model-root "${MODEL_ROOT}" --profile p01)
+
+  if [ "${strict}" = "1" ]; then
+    args+=(--strict)
+  fi
+
+  "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/p01_model_audit_${suffix}.json"
+  "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/p01_model_audit_${suffix}.md"
+}
+
 if [ "${PREPARE_SOURCES}" = "1" ]; then
   bash scripts/prepare_sources.sh 2>&1 | tee "${LOG_DIR}/p01_prepare_sources_${STAMP}.log"
 fi
@@ -63,10 +76,12 @@ if [ "${EXECUTE}" = "1" ] || [ "${DOWNLOAD_MODELS}" = "1" ]; then
 fi
 
 run_preflight "${STAMP}" "${INITIAL_REQUIRE_MODELS}" "${INITIAL_STRICT}"
+run_model_audit "${STAMP}" "${INITIAL_STRICT}"
 
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
   MODEL_ROOT="${MODEL_ROOT}" bash scripts/download_models.sh 2>&1 | tee "${LOG_DIR}/p01_download_models_${STAMP}.log"
   run_preflight "${STAMP}_post_download" "1" "1"
+  run_model_audit "${STAMP}_post_download" "1"
 fi
 
 SUITE_ARGS=(--cases P01 --log-dir "${LOG_DIR}" --result-dir "${RESULT_DIR}")
@@ -93,9 +108,13 @@ fi
 
 echo "p01_preflight_json=${LOG_DIR}/p01_preflight_${STAMP}.json"
 echo "p01_preflight_report=outputs/reports/p01_preflight_${STAMP}.md"
+echo "p01_model_audit_json=${LOG_DIR}/p01_model_audit_${STAMP}.json"
+echo "p01_model_audit_report=outputs/reports/p01_model_audit_${STAMP}.md"
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
   echo "p01_post_download_preflight_json=${LOG_DIR}/p01_preflight_${STAMP}_post_download.json"
   echo "p01_post_download_preflight_report=outputs/reports/p01_preflight_${STAMP}_post_download.md"
+  echo "p01_post_download_model_audit_json=${LOG_DIR}/p01_model_audit_${STAMP}_post_download.json"
+  echo "p01_post_download_model_audit_report=outputs/reports/p01_model_audit_${STAMP}_post_download.md"
 fi
 echo "p01_smoke_plan=outputs/reports/p01_smoke_plan_${STAMP}.sh"
 if [ "${EXECUTE}" = "1" ]; then

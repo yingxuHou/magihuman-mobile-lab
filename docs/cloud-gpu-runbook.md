@@ -106,6 +106,15 @@ Use `huggingface-cli download` after confirming access and disk capacity.
 
 The pipeline checks Hugging Face auth before download when `DOWNLOAD_MODELS=1`. Either set `HF_TOKEN`/`HUGGINGFACE_HUB_TOKEN` or run `huggingface-cli login` inside the container.
 
+After download, audit checkpoint footprints:
+
+```bash
+python -m backend.model_audit --model-root models --profile p01 --format markdown
+python -m backend.model_audit --model-root models --profile required_suite --format markdown
+```
+
+The P01 and full GPU pipelines run this audit automatically in strict mode when `EXECUTE=1` or `DOWNLOAD_MODELS=1`.
+
 ## 8. First Smoke Test
 
 Start with the worker-compatible runner:
@@ -152,6 +161,7 @@ Record:
 - Whether mp4 plays correctly
 - Metrics JSON path from `scripts/magihuman_task_runner.sh`
 - Mobile video compatibility report from `python -m backend.mobile_video_check --log-dir logs --cases P01 --format markdown`
+- P01 checkpoint audit report from `python -m backend.model_audit --model-root models --profile p01 --format markdown`
 
 If metrics are not generated automatically, run:
 

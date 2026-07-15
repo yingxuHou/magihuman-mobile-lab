@@ -50,6 +50,19 @@ run_preflight() {
   "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/gpu_preflight_${suffix}.md"
 }
 
+run_model_audit() {
+  local suffix="$1"
+  local strict="$2"
+  local args=(-m backend.model_audit --model-root "${MODEL_ROOT}" --profile required_suite)
+
+  if [ "${strict}" = "1" ]; then
+    args+=(--strict)
+  fi
+
+  "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/model_audit_${suffix}.json"
+  "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/model_audit_${suffix}.md"
+}
+
 if [ "${PREPARE_SOURCES}" = "1" ]; then
   bash scripts/prepare_sources.sh 2>&1 | tee "${LOG_DIR}/prepare_sources_${STAMP}.log"
 fi
@@ -65,10 +78,12 @@ if [ "${EXECUTE}" = "1" ] || [ "${DOWNLOAD_MODELS}" = "1" ]; then
 fi
 
 run_preflight "${STAMP}" "${INITIAL_REQUIRE_MODELS}" "${INITIAL_STRICT}"
+run_model_audit "${STAMP}" "${INITIAL_STRICT}"
 
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
   MODEL_ROOT="${MODEL_ROOT}" bash scripts/download_models.sh 2>&1 | tee "${LOG_DIR}/download_models_${STAMP}.log"
   run_preflight "${STAMP}_post_download" "1" "1"
+  run_model_audit "${STAMP}_post_download" "1"
 fi
 
 SUITE_ARGS=(--log-dir "${LOG_DIR}" --result-dir "${RESULT_DIR}")
@@ -106,12 +121,16 @@ fi
 
 echo "preflight_json=${LOG_DIR}/gpu_preflight_${STAMP}.json"
 echo "preflight_report=outputs/reports/gpu_preflight_${STAMP}.md"
+echo "model_audit_json=${LOG_DIR}/model_audit_${STAMP}.json"
+echo "model_audit_report=outputs/reports/model_audit_${STAMP}.md"
 if [ "${PREPARE_SOURCES}" = "1" ]; then
   echo "prepare_sources_log=${LOG_DIR}/prepare_sources_${STAMP}.log"
 fi
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
   echo "post_download_preflight_json=${LOG_DIR}/gpu_preflight_${STAMP}_post_download.json"
   echo "post_download_preflight_report=outputs/reports/gpu_preflight_${STAMP}_post_download.md"
+  echo "post_download_model_audit_json=${LOG_DIR}/model_audit_${STAMP}_post_download.json"
+  echo "post_download_model_audit_report=outputs/reports/model_audit_${STAMP}_post_download.md"
 fi
 echo "experiment_report=outputs/reports/experiment_results_${STAMP}.md"
 echo "mobile_video_report=outputs/reports/mobile_video_check_${STAMP}.md"

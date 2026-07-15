@@ -105,4 +105,9 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Extended `backend/run_metrics.py` to preserve video/audio codec, pixel format, and bitrate metadata from `ffprobe`.
 - Regenerated `docs/mobile-feasibility-report.md`; it now includes `missing_mobile_video_evidence` as a tracked evidence gate.
 - Local mobile video validation passed; total local backend tests now 90.
+- Completed Stage 25 model checkpoint footprint audit.
+- Added `backend/model_audit.py` to verify P01, required-suite, and complete checkpoint groups by directory and minimum footprint.
+- Integrated model audit into P01 and full GPU pipelines so execution mode fails early if downloaded checkpoints are missing or obviously incomplete.
+- Local P01 model audit reports `not_ready` with 0.0000 GiB found, which is expected because model weights are not downloaded on this workstation.
+- Local model audit validation passed; total local backend tests now 96.
 - No inference run has been completed yet.

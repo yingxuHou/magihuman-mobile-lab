@@ -60,6 +60,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 22 hardened the GPU pipeline with source preparation, Hugging Face auth preflight, post-download model checks, and Docker token passthrough. The backend prototype now passes 81 local tests using Python standard library only.
 - Stage 23 added a P01-only 256p smoke pipeline for the first GPU execution attempt. The backend prototype now passes 83 local tests using Python standard library only.
 - Stage 24 added a mobile video compatibility gate for generated MP4/H.264/AAC playback evidence. The backend prototype now passes 90 local tests using Python standard library only.
+- Stage 25 added checkpoint footprint audits for P01, required-suite, and complete model downloads. The backend prototype now passes 96 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -116,6 +117,12 @@ Check generated videos for mobile playback compatibility:
 
 ```powershell
 python -m backend.mobile_video_check --log-dir logs --format markdown
+```
+
+Audit downloaded checkpoint footprints:
+
+```powershell
+python -m backend.model_audit --model-root models --profile p01 --format markdown
 ```
 
 Create a cost review template after runtime metrics exist:
