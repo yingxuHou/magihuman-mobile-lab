@@ -122,4 +122,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Updated `scripts/download_models.sh` with `MODEL_PROFILE=p01|required_suite|complete` and `DRY_RUN=1`.
 - P01 pipeline now defaults to `MODEL_PROFILE=p01`; full GPU pipeline defaults to `MODEL_PROFILE=required_suite`.
 - Local download profile validation passed; total local backend tests now 107.
+- Completed Stage 29 P01 smoke input manifest.
+- Added explicit `MAGIHUMAN_SEED=42` to planned experiment cases and passed it through `scripts/magihuman_task_runner.sh`.
+- Generated tracked P01 input evidence at `docs/p01-smoke-manifest.json` and `docs/p01-smoke-manifest.md`.
+- Local smoke manifest validation passed; total local backend tests now 109.
 - No inference run has been completed yet.

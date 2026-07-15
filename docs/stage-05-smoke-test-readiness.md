@@ -32,6 +32,11 @@ INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pi
 
 This preferred path prepares sources, checks Hugging Face access when downloading models, verifies model directories after download, runs only P01, and writes the same summary/decision reports used by later stages.
 
+The exact P01 input contract is now tracked in:
+
+- `docs/p01-smoke-manifest.json`
+- `docs/p01-smoke-manifest.md`
+
 ## Why Base T2V First
 
 - It avoids reference image complexity.
@@ -43,7 +48,9 @@ This preferred path prepares sources, checks Hugging Face access when downloadin
 
 | Input | Source |
 | --- | --- |
-| Prompt | `third_party/daVinci-MagiHuman/example/assets/prompt.txt` |
+| Prompt | P01 short prompt from `backend.experiment_matrix`; official `example/assets/prompt.txt` is recorded as fallback/source evidence in the manifest |
+| Seed | `42`, passed as `MAGIHUMAN_SEED` and forwarded to `--seed` |
+| Duration | 5 seconds for the project P01 case; official base example script uses 4 seconds |
 | Config template | `third_party/daVinci-MagiHuman/example/base/config.json` |
 | Base checkpoint | `models/daVinci-MagiHuman/base` |
 | Turbo VAE | `models/daVinci-MagiHuman/turbo_vae` |

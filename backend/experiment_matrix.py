@@ -16,6 +16,7 @@ def default_cases():
             "resolution": "256p",
             "variant": "base",
             "duration_seconds": 5,
+            "seed": 42,
             "prompt": "A professional presenter looks at the camera and says hello to the audience in a calm voice.",
             "depends_on": [],
             "required": True,
@@ -29,6 +30,7 @@ def default_cases():
             "resolution": "256p",
             "variant": "distill",
             "duration_seconds": 5,
+            "seed": 42,
             "prompt": "A professional presenter briefly introduces a new AI video generation demo.",
             "depends_on": ["P01"],
             "required": False,
@@ -42,6 +44,7 @@ def default_cases():
             "resolution": "540p",
             "variant": "base",
             "duration_seconds": 5,
+            "seed": 42,
             "prompt": "A professional presenter explains the cloud inference result in one short sentence.",
             "depends_on": ["P01"],
             "required": True,
@@ -55,6 +58,7 @@ def default_cases():
             "resolution": "1080p",
             "variant": "base",
             "duration_seconds": 5,
+            "seed": 42,
             "prompt": "A professional presenter summarizes the mobile app feasibility test.",
             "depends_on": ["P01", "P03"],
             "required": True,
@@ -68,6 +72,7 @@ def default_cases():
             "resolution": "256p",
             "variant": "base",
             "duration_seconds": 5,
+            "seed": 42,
             "prompt": "一个穿着白衬衫的主持人看着镜头，用普通话说：大家好，欢迎观看这个数字人演示。",
             "depends_on": ["P01"],
             "required": True,
@@ -81,6 +86,7 @@ def default_cases():
             "resolution": "256p",
             "variant": "base",
             "duration_seconds": 5,
+            "seed": 42,
             "prompt": "A presenter looks at the camera and says: Hello, this is a mobile app cloud rendering test.",
             "depends_on": ["P01"],
             "required": True,
@@ -94,6 +100,7 @@ def default_cases():
             "resolution": "256p",
             "variant": "base",
             "duration_seconds": 5,
+            "seed": 42,
             "prompt": "司会者がカメラを見て、日本語で「こんにちは、これはデジタルヒューマンのテストです」と話します。",
             "depends_on": ["P01"],
             "required": False,
@@ -107,6 +114,7 @@ def default_cases():
             "resolution": "256p",
             "variant": "base",
             "duration_seconds": 5,
+            "seed": 42,
             "prompt": "진행자가 카메라를 바라보며 한국어로 말합니다. 안녕하세요, 이것은 디지털 휴먼 테스트입니다.",
             "depends_on": ["P01"],
             "required": False,
@@ -122,6 +130,7 @@ def build_case_command(case, result_dir="outputs/experiment-results"):
         "MAGIHUMAN_MODE": case["mode"],
         "MAGIHUMAN_RESOLUTION": case["resolution"],
         "MAGIHUMAN_DURATION_SECONDS": str(case["duration_seconds"]),
+        "MAGIHUMAN_SEED": str(case["seed"]),
         "MAGIHUMAN_MODEL_VARIANT": case["variant"],
         "MAGIHUMAN_RESULT_PATH": result_path,
     }
@@ -186,9 +195,8 @@ def main():
     if args.format == "markdown":
         print(markdown_table(matrix))
     else:
-        print(json.dumps(matrix, ensure_ascii=False, indent=2))
+        print(json.dumps(matrix, ensure_ascii=True, indent=2))
 
 
 if __name__ == "__main__":
     main()
-

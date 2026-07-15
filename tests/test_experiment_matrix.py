@@ -11,10 +11,12 @@ class ExperimentMatrixTest(unittest.TestCase):
         ids = {case["id"] for case in matrix}
         self.assertTrue({"P01", "P03", "P04", "T01", "T02"}.issubset(ids))
         self.assertEqual(len(matrix), 8)
+        self.assertTrue(all(case["seed"] == 42 for case in matrix))
 
     def test_runner_env_for_ti2v_has_image_path(self):
         case = [item for item in build_matrix() if item["id"] == "T01"][0]
         self.assertEqual(case["runner_env"]["MAGIHUMAN_MODE"], "ti2v")
+        self.assertEqual(case["runner_env"]["MAGIHUMAN_SEED"], "42")
         self.assertIn("MAGIHUMAN_IMAGE_PATH", case["runner_env"])
 
     def test_1080p_profile(self):
@@ -38,4 +40,3 @@ class ExperimentMatrixTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

@@ -38,6 +38,7 @@ class ExperimentRunnerTest(unittest.TestCase):
         plan = case_run_plan(case)
         self.assertEqual(plan["command"], "bash scripts/magihuman_task_runner.sh")
         self.assertEqual(plan["env"]["MAGIHUMAN_MODE"], "ti2v")
+        self.assertEqual(plan["env"]["MAGIHUMAN_SEED"], "42")
         self.assertIn("MAGIHUMAN_IMAGE_PATH", plan["env"])
 
     def test_dry_run_text(self):
@@ -45,9 +46,9 @@ class ExperimentRunnerTest(unittest.TestCase):
         plan = case_run_plan(case)
         text = dry_run_text(plan)
         self.assertIn("export MAGIHUMAN_TASK_ID=P01", text)
+        self.assertIn("export MAGIHUMAN_SEED=42", text)
         self.assertIn("bash scripts/magihuman_task_runner.sh", text)
 
 
 if __name__ == "__main__":
     unittest.main()
-

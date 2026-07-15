@@ -64,6 +64,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 26 added evidence package manifests and expanded import-audit coverage for mobile-video evidence. The backend prototype now passes 100 local tests using Python standard library only.
 - Stage 27 fixed model-audit strict-mode ordering so fresh GPU hosts can download models before the strict post-download checkpoint audit. The backend prototype now passes 103 local tests using Python standard library only.
 - Stage 28 added checkpoint download profiles so P01 can download only base/turbo/external models before the full required suite. The backend prototype now passes 107 local tests using Python standard library only.
+- Stage 29 added a P01 smoke input manifest and explicit seed passing so the first GPU run can be matched against a tracked prompt/seed/resolution/duration contract. The backend prototype now passes 109 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -83,6 +84,12 @@ Plan the required GPU suite:
 
 ```powershell
 python -m backend.experiment_suite --log-dir logs --format markdown
+```
+
+Inspect the locked P01 smoke input contract:
+
+```powershell
+python -m backend.smoke_manifest --format markdown
 ```
 
 Execute it on a prepared Linux NVIDIA GPU host:
