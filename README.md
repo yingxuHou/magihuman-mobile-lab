@@ -58,6 +58,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 20 added GPU evidence packaging and import-audit tooling. The backend prototype now passes 74 local tests using Python standard library only.
 - Stage 21 added GPU host bootstrap and verified source-locking tooling. The backend prototype now passes 79 local tests using Python standard library only.
 - Stage 22 hardened the GPU pipeline with source preparation, Hugging Face auth preflight, post-download model checks, and Docker token passthrough. The backend prototype now passes 81 local tests using Python standard library only.
+- Stage 23 added a P01-only 256p smoke pipeline for the first GPU execution attempt. The backend prototype now passes 83 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -96,6 +97,12 @@ Or run the full GPU-host pipeline:
 
 ```bash
 INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+```
+
+For the first GPU attempt, run only the 256p P01 smoke case:
+
+```bash
+INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pipeline.sh
 ```
 
 Create a quality review template after samples exist:

@@ -46,6 +46,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | GPU evidence import audit passed local tests; total backend tests now 74 | GPU host evidence can now be packaged, imported, audited, and used to refresh the final report without committing videos or model weights |
 | 2026-07-16 | GPU host bootstrap and source-locking tooling passed local tests; total backend tests now 79 | A fresh GPU host can now generate a preflight report, a Docker launcher, and verified source checkouts before running the required experiment suite |
 | 2026-07-16 | GPU pipeline hardening passed local tests; total backend tests now 81 | The GPU run now fails early for missing Hugging Face auth, prepares official sources before preflight, and verifies model directories after download |
+| 2026-07-16 | P01-only 256p smoke pipeline passed local dry-run and tests; total backend tests now 83 | The first GPU attempt can now run only the smallest required case before spending time on SR or multilingual cases |
 
 ## Interim Position
 
@@ -108,6 +109,12 @@ Fresh GPU host bootstrap:
 export HF_TOKEN="<your_huggingface_token>"
 bash scripts/bootstrap_gpu_host.sh
 bash outputs/run_magi_container.sh
+```
+
+First GPU smoke case:
+
+```bash
+INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pipeline.sh
 ```
 
 ## Quality Review Gate

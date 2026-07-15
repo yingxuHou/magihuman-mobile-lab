@@ -38,7 +38,8 @@ bash outputs/run_magi_container.sh
 Inside the container:
 
 ```bash
-INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pipeline.sh
+EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 bash scripts/package_gpu_evidence.sh
 ```
 
@@ -108,6 +109,14 @@ The pipeline checks Hugging Face auth before download when `DOWNLOAD_MODELS=1`. 
 ## 8. First Smoke Test
 
 Start with the worker-compatible runner:
+
+```bash
+INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pipeline.sh
+```
+
+This runs only P01: 256p, T2V, base model, 5 seconds. Continue to the full suite only after P01 writes a playable mp4 and metrics JSON.
+
+Manual comparison commands:
 
 ```bash
 cd /workspace/daVinci-MagiHuman
@@ -212,7 +221,7 @@ bash scripts/gpu_reproduction_pipeline.sh
 Download models and execute required cases:
 
 ```bash
-DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 ```
 
 Run inside a prepared container without downloading models:

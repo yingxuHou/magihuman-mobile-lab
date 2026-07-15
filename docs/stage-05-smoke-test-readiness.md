@@ -24,6 +24,14 @@ Equivalent project wrapper:
 MODEL_ROOT=models bash scripts/magihuman_task_runner.sh
 ```
 
+Preferred current smoke pipeline:
+
+```bash
+INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pipeline.sh
+```
+
+This preferred path prepares sources, checks Hugging Face access when downloading models, verifies model directories after download, runs only P01, and writes the same summary/decision reports used by later stages.
+
 ## Why Base T2V First
 
 - It avoids reference image complexity.
@@ -97,9 +105,10 @@ Minimum first commands:
 ```bash
 git clone https://github.com/yingxuHou/magihuman-mobile-lab.git
 cd magihuman-mobile-lab
-bash scripts/cloud_env_check.sh
-MODEL_ROOT=models bash scripts/download_models.sh
-MODEL_ROOT=models bash scripts/magihuman_task_runner.sh
+export HF_TOKEN="<your_huggingface_token>"
+bash scripts/bootstrap_gpu_host.sh
+bash outputs/run_magi_container.sh
+INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pipeline.sh
 ```
 
 After execution, update:

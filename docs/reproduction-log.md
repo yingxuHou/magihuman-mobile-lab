@@ -96,4 +96,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Updated the GPU pipeline to prepare official sources before preflight and run a post-download model directory check when `DOWNLOAD_MODELS=1`.
 - Updated the generated Docker command to pass `HF_TOKEN` and `HUGGINGFACE_HUB_TOKEN` into the container.
 - Local pipeline hardening validation passed; total local backend tests now 81.
+- Completed Stage 23 P01 smoke pipeline preparation.
+- Added `scripts/run_p01_smoke_pipeline.sh` so the first GPU execution can run only P01 before the full required suite.
+- Local P01 smoke dry-run generated a P01-only plan and reported `not_ready` for missing `nvidia-smi`/`torchrun`, as expected on this workstation.
+- Local P01 smoke validation passed; total local backend tests now 83.
 - No inference run has been completed yet.
