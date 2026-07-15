@@ -25,20 +25,44 @@ git clone https://github.com/yingxuHou/magihuman-mobile-lab.git
 cd magihuman-mobile-lab
 ```
 
-## 2. Check Environment
+## 2. Preferred Bootstrap Workflow
+
+Use the bootstrap script on a fresh GPU host. It runs host preflight, writes the bootstrap plan, creates `outputs/run_magi_container.sh`, and can pull the official Docker image.
+
+```bash
+bash scripts/bootstrap_gpu_host.sh
+bash outputs/run_magi_container.sh
+```
+
+Inside the container:
+
+```bash
+INSTALL_MAGICOMPILER=1 bash scripts/prepare_sources.sh
+DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+bash scripts/package_gpu_evidence.sh
+```
+
+The bootstrap path locks source repositories to the verified commits:
+
+- daVinci-MagiHuman: `209209b7086eba2020c5439265221495a8357322`
+- MagiCompiler: `bfef5bc70226a0c0740e4c551e4f7245a974fb4f`
+
+The manual steps below are retained for debugging individual setup failures.
+
+## 3. Check Environment
 
 ```bash
 bash scripts/cloud_env_check.sh
 python -m backend.gpu_preflight --mode host --format markdown
 ```
 
-## 3. Pull Official Docker Image
+## 4. Pull Official Docker Image
 
 ```bash
 docker pull sandai/magi-human:latest
 ```
 
-## 4. Start Container
+## 5. Start Container
 
 ```bash
 mkdir -p third_party models outputs logs
@@ -53,7 +77,7 @@ docker run -it --gpus all --network host --ipc host \
   bash
 ```
 
-## 5. Inside Container
+## 6. Inside Container
 
 ```bash
 cd /workspace
@@ -66,7 +90,7 @@ git clone https://github.com/GAIR-NLP/daVinci-MagiHuman
 cd daVinci-MagiHuman
 ```
 
-## 6. Download Checkpoints
+## 7. Download Checkpoints
 
 The official README requires:
 
@@ -77,7 +101,7 @@ The official README requires:
 
 Use `huggingface-cli download` after confirming access and disk capacity.
 
-## 7. First Smoke Test
+## 8. First Smoke Test
 
 Start with the worker-compatible runner:
 
@@ -125,7 +149,7 @@ python -m backend.run_metrics \
   --output <metrics_json>
 ```
 
-## 8. Report Back
+## 9. Report Back
 
 After each run, update:
 
@@ -142,7 +166,7 @@ git commit -m "Record <stage>"
 git push
 ```
 
-## 9. Experiment Matrix
+## 10. Experiment Matrix
 
 Generate the ordered test plan:
 
@@ -171,7 +195,7 @@ Summarize results:
 python -m backend.experiment_results --log-dir logs --format markdown
 ```
 
-## 10. Pipeline Workflow
+## 11. Pipeline Workflow
 
 After the host is prepared, prefer the pipeline script so preflight, runs, summaries, and the feasibility decision are generated together.
 
@@ -195,7 +219,7 @@ EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 
 The pipeline writes timestamped reports under `outputs/reports/` and logs under `logs/`.
 
-## 11. Quality Review
+## 12. Quality Review
 
 After generated videos exist, create and fill a review file:
 
@@ -216,7 +240,7 @@ Or pass the review file to the pipeline:
 QUALITY_REVIEW=docs/quality-review.json EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 ```
 
-## 12. Cost Review
+## 13. Cost Review
 
 After metrics exist, create and fill a cost review:
 
@@ -235,7 +259,7 @@ python -m backend.feasibility_decision \
   --format markdown
 ```
 
-## 13. Final Report
+## 14. Final Report
 
 Generate the combined report after runtime, quality, and cost evidence are available:
 
@@ -250,7 +274,7 @@ python -m backend.final_report \
 
 The pipeline also writes a timestamped report under `outputs/reports/`.
 
-## 14. Package Evidence For Import
+## 15. Package Evidence For Import
 
 Package only small evidence files. Do not include model weights or generated videos.
 

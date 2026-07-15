@@ -56,6 +56,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 18 added a cost and wait-time review gate. The backend prototype now passes 64 local tests using Python standard library only.
 - Stage 19 added a combined final feasibility report generator. The backend prototype now passes 69 local tests using Python standard library only.
 - Stage 20 added GPU evidence packaging and import-audit tooling. The backend prototype now passes 74 local tests using Python standard library only.
+- Stage 21 added GPU host bootstrap and verified source-locking tooling. The backend prototype now passes 79 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -81,6 +82,12 @@ Execute it on a prepared Linux NVIDIA GPU host:
 
 ```bash
 bash scripts/run_experiment_suite.sh --execute
+```
+
+Bootstrap a fresh Linux NVIDIA GPU host and generate the container launcher:
+
+```bash
+bash scripts/bootstrap_gpu_host.sh
 ```
 
 Or run the full GPU-host pipeline:

@@ -86,4 +86,9 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `scripts/package_gpu_evidence.sh` to package small GPU evidence files without videos or model weights.
 - Added `backend/evidence_import.py` to audit imported metrics, quality review, cost review, and final-report readiness.
 - Generated current tracked import audit at `docs/gpu-evidence-import-audit.md`; total local backend tests now 74.
+- Completed Stage 21 GPU host bootstrap and source locking.
+- Added `backend/gpu_bootstrap.py` to generate host commands, container commands, Docker launcher content, and source-lock metadata.
+- Added `scripts/prepare_sources.sh` to clone or update daVinci-MagiHuman and MagiCompiler at verified commits.
+- Added `scripts/bootstrap_gpu_host.sh` to run host preflight, write the bootstrap plan, generate `outputs/run_magi_container.sh`, and optionally pull/run the official Docker image.
+- Local bootstrap validation passed; total local backend tests now 79.
 - No inference run has been completed yet.
