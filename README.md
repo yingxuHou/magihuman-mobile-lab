@@ -43,4 +43,5 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Actual inference reproduction should run on a Linux NVIDIA GPU machine, preferably H100, using the official Docker image `sandai/magi-human:latest`.
 - Stage 06 added a local API prototype for the mobile-client/cloud-GPU architecture.
 - Stage 07 added a worker prototype for queued task execution.
-- Stage 08 added a worker-compatible MagiHuman task runner and config generator. The backend prototype now passes 13 local tests using Python standard library only.
+- Stage 08 added a worker-compatible MagiHuman task runner and config generator.
+- Stage 09 added run-metrics parsing for `nvidia-smi`, `/usr/bin/time -v`, and `ffprobe`. The backend prototype now passes 18 local tests using Python standard library only.

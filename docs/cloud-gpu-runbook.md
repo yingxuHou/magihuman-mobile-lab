@@ -118,6 +118,17 @@ Record:
 - Output path
 - Log path
 - Whether mp4 plays correctly
+- Metrics JSON path from `scripts/magihuman_task_runner.sh`
+
+If metrics are not generated automatically, run:
+
+```bash
+python -m backend.run_metrics \
+  --log <log_path> \
+  --smi-csv <nvidia_smi_log> \
+  --video <result_path> \
+  --output <metrics_json>
+```
 
 ## 8. Report Back
 

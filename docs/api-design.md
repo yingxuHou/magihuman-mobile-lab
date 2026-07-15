@@ -96,7 +96,7 @@ python -m unittest discover -s tests -v
 Current result:
 
 ```text
-Ran 13 tests
+Ran 18 tests
 OK
 ```
 
@@ -138,7 +138,7 @@ python -m backend.worker `
 Current validation:
 
 ```text
-Ran 13 tests in 2.001s
+Ran 18 tests in 1.969s
 OK
 ```
 

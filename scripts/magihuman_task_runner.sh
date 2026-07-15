@@ -75,6 +75,7 @@ STAMP="$(date '+%Y%m%d_%H%M%S')"
 OUTPUT_PREFIX="${RUN_DIR}/${TASK_ID}_${RESOLUTION}_${MODE}_${STAMP}"
 LOG_PATH="${LOG_DIR}/${TASK_ID}_${RESOLUTION}_${MODE}_${STAMP}.log"
 SMI_LOG="${LOG_DIR}/${TASK_ID}_${RESOLUTION}_${MODE}_${STAMP}_nvidia_smi.csv"
+METRICS_PATH="${LOG_DIR}/${TASK_ID}_${RESOLUTION}_${MODE}_${STAMP}_metrics.json"
 
 SMI_PID=""
 if command -v nvidia-smi >/dev/null 2>&1; then
@@ -132,8 +133,19 @@ if [ "${GENERATED_MP4}" = "" ]; then
 fi
 
 cp "${GENERATED_MP4}" "${RESULT_PATH}"
+
+METRICS_ARGS=(python -m backend.run_metrics --log "${LOG_PATH}" --video "${RESULT_PATH}" --output "${METRICS_PATH}")
+if [ -f "${SMI_LOG}" ]; then
+  METRICS_ARGS+=(--smi-csv "${SMI_LOG}")
+fi
+
+if command -v ffprobe >/dev/null 2>&1; then
+  "${METRICS_ARGS[@]}" >/dev/null || true
+fi
+
 echo "generated_mp4=${GENERATED_MP4}"
 echo "result_path=${RESULT_PATH}"
 echo "log_path=${LOG_PATH}"
 echo "nvidia_smi_log=${SMI_LOG}"
-
+echo "metrics_path=${METRICS_PATH}"
+echo "metrics_command=python -m backend.run_metrics --log ${LOG_PATH} --smi-csv ${SMI_LOG} --video ${RESULT_PATH} --output ${METRICS_PATH}"

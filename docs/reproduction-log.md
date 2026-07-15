@@ -41,4 +41,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/magihuman_config.py` to generate official config files for 256p, 540p, and 1080p tasks.
 - Added `scripts/magihuman_task_runner.sh` to bridge worker environment variables to `torchrun inference/pipeline/entry.py`.
 - Local validation now passes 13 tests.
+- Completed Stage 09 measurement tooling.
+- Added `backend/run_metrics.py` to parse `nvidia-smi` CSV, `/usr/bin/time -v` logs, and `ffprobe` video metadata.
+- Updated `scripts/magihuman_task_runner.sh` to emit a metrics JSON path and metrics command.
+- Local validation now passes 18 tests.
 - No inference run has been completed yet.
