@@ -15,6 +15,7 @@ class GpuReproductionWorkflowTest(unittest.TestCase):
     def test_workflow_preserves_acceptance_gate_outputs(self):
         text = self.read_script()
 
+        self.assertIn("backend.workflow_readiness_audit", text)
         self.assertIn("p01_acceptance_*.md", text)
         self.assertIn("required_suite_acceptance_*.md", text)
         self.assertIn("gpu_reproduction_workflow_", text)

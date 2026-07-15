@@ -8,6 +8,7 @@ STAMP="$(date '+%Y%m%d_%H%M%S')"
 SUMMARY_PATH="${SUMMARY_PATH:-outputs/reports/gpu_reproduction_workflow_${STAMP}.md}"
 
 UPSTREAM_DRIFT_AUDIT="${UPSTREAM_DRIFT_AUDIT:-1}"
+WORKFLOW_READINESS_AUDIT="${WORKFLOW_READINESS_AUDIT:-1}"
 PREPARE_SOURCES="${PREPARE_SOURCES:-1}"
 INSTALL_MAGICOMPILER="${INSTALL_MAGICOMPILER:-1}"
 RUN_P01="${RUN_P01:-1}"
@@ -29,6 +30,7 @@ mkdir -p logs outputs/reports
   echo "- P01 download models: ${P01_DOWNLOAD_MODELS}"
   echo "- Full-suite download models: ${FULL_DOWNLOAD_MODELS}"
   echo "- Include optional cases: ${INCLUDE_OPTIONAL}"
+  echo "- Workflow readiness audit: ${WORKFLOW_READINESS_AUDIT}"
   echo ""
   echo "## Steps"
 } > "${SUMMARY_PATH}"
@@ -49,6 +51,13 @@ run_step() {
     exit "${rc}"
   fi
 }
+
+if [ "${WORKFLOW_READINESS_AUDIT}" = "1" ]; then
+  run_step "workflow readiness audit JSON" \
+    python -m backend.workflow_readiness_audit --format json --output "logs/gpu_workflow_readiness_${STAMP}.json" --strict
+  run_step "workflow readiness audit report" \
+    python -m backend.workflow_readiness_audit --format markdown --output "outputs/reports/gpu_workflow_readiness_${STAMP}.md" --strict
+fi
 
 if [ "${UPSTREAM_DRIFT_AUDIT}" = "1" ]; then
   run_step "upstream drift audit JSON" \

@@ -170,4 +170,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `scripts/run_gpu_reproduction_workflow.sh` to run upstream audit, locked source preparation, P01, full suite, acceptance gates, and evidence packaging from one GPU-container command.
 - Updated `backend/gpu_bootstrap.py` so execute-mode bootstrap plans use the workflow script instead of starting the full suite directly.
 - Local workflow validation passed; total local backend tests now 161.
+- Completed Stage 41 workflow readiness audit.
+- Added `backend/workflow_readiness_audit.py` and integrated it into `scripts/run_gpu_reproduction_workflow.sh` before expensive GPU steps.
+- Generated tracked readiness reports at `docs/gpu-workflow-readiness-audit.md/json`; current status is `ready`.
+- Local workflow-readiness validation passed; total local backend tests now 164.
 - No inference run has been completed yet.

@@ -76,6 +76,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 38 added a P01 smoke acceptance gate so the first GPU run must have measured metrics, matching context, expected duration, audio/video streams, and mobile playback evidence before the full suite runs. The backend prototype now passes 151 local tests using Python standard library only.
 - Stage 39 added a required-suite acceptance gate so P01/P03/P04/T01/T02 must all have measured metrics, matching context, result MP4s, expected durations, audio/video streams, and mobile playback evidence before quality and cost review. The backend prototype now passes 157 local tests using Python standard library only.
 - Stage 40 added a GPU reproduction workflow script so a container can run upstream audit, source prep, P01, full suite, acceptance gates, and evidence packaging through one audited command. The backend prototype now passes 161 local tests using Python standard library only.
+- Stage 41 added a workflow readiness audit so the GPU workflow command chain is statically checked before downloads or inference. The backend prototype now passes 164 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -139,6 +140,12 @@ Or run the end-to-end GPU-host workflow after entering the container:
 
 ```bash
 INSTALL_MAGICOMPILER=1 bash scripts/run_gpu_reproduction_workflow.sh
+```
+
+Audit the workflow command chain before spending GPU time:
+
+```bash
+python -m backend.workflow_readiness_audit --format markdown --strict
 ```
 
 Audit Hugging Face access before downloads:

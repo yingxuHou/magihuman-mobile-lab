@@ -64,6 +64,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | P01 smoke acceptance gate passed local tests; total backend tests now 151 | The full GPU suite is now blocked until P01 has measured metrics, matching run context, expected duration, audio/video streams, and mobile playback evidence |
 | 2026-07-16 | Required suite acceptance gate passed local tests; total backend tests now 157 | Quality review, cost review, and final App feasibility are now blocked until P01/P03/P04/T01/T02 all have measured runtime, context, result, duration, audio/video, and mobile playback evidence |
 | 2026-07-16 | GPU reproduction workflow passed local tests; total backend tests now 161 | The GPU host now has one audited command that runs P01 first, gates the full suite, gates quality/cost review, and packages small evidence |
+| 2026-07-16 | Workflow readiness audit passed locally; total backend tests now 164 | The GPU workflow command chain is now checked before expensive downloads or inference, reducing risk of invalid GPU evidence |
 
 ## Interim Position
 
@@ -124,6 +125,12 @@ Preferred end-to-end GPU workflow:
 
 ```bash
 INSTALL_MAGICOMPILER=1 bash scripts/run_gpu_reproduction_workflow.sh
+```
+
+Workflow readiness audit:
+
+```powershell
+python -m backend.workflow_readiness_audit --format markdown --strict
 ```
 
 Fresh GPU host bootstrap:

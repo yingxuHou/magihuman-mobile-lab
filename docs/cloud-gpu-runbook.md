@@ -51,6 +51,12 @@ INSTALL_MAGICOMPILER=1 bash scripts/run_gpu_reproduction_workflow.sh
 
 The workflow runs upstream audit, locked source preparation, P01, P01 acceptance, full required suite, required-suite acceptance, and evidence packaging. It stops on the first failed gate.
 
+The workflow starts with a static readiness audit. You can run it manually before entering a long GPU session:
+
+```bash
+python -m backend.workflow_readiness_audit --format markdown --strict
+```
+
 The bootstrap path locks source repositories to the verified commits:
 
 - daVinci-MagiHuman: `209209b7086eba2020c5439265221495a8357322`
@@ -303,6 +309,7 @@ INSTALL_MAGICOMPILER=1 bash scripts/run_gpu_reproduction_workflow.sh
 ```
 
 This is the preferred path for a real reproduction attempt because it runs P01 before the full suite and packages evidence after the gates pass.
+It writes `logs/gpu_workflow_readiness_<timestamp>.json` and `outputs/reports/gpu_workflow_readiness_<timestamp>.md` before any model download or inference.
 
 Dry run:
 

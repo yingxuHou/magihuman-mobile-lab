@@ -1,0 +1,67 @@
+{
+  "status": "ready",
+  "project_root": ".",
+  "rows": [
+    {
+      "label": "workflow script exists",
+      "ok": true,
+      "detail": "scripts/run_gpu_reproduction_workflow.sh"
+    },
+    {
+      "label": "workflow runs upstream drift audit strictly",
+      "ok": true,
+      "detail": "upstream drift audit before GPU work"
+    },
+    {
+      "label": "workflow prepares locked sources",
+      "ok": true,
+      "detail": "locked source preparation is present"
+    },
+    {
+      "label": "workflow order is P01 before full suite before package",
+      "ok": true,
+      "detail": "P01-first execution order"
+    },
+    {
+      "label": "workflow forces P01 execution",
+      "ok": true,
+      "detail": "P01 pipeline executes with p01 profile"
+    },
+    {
+      "label": "workflow forces required-suite execution",
+      "ok": true,
+      "detail": "full pipeline executes with required_suite profile"
+    },
+    {
+      "label": "workflow disables nested source prep",
+      "ok": true,
+      "detail": "pipelines do not repeat source preparation"
+    },
+    {
+      "label": "P01 pipeline has strict acceptance gate",
+      "ok": true,
+      "detail": "P01 acceptance blocks full suite"
+    },
+    {
+      "label": "full pipeline has strict required-suite gate",
+      "ok": true,
+      "detail": "required-suite acceptance blocks quality/cost review"
+    },
+    {
+      "label": "package includes P01 acceptance JSON",
+      "ok": true,
+      "detail": "P01 gate evidence enters package"
+    },
+    {
+      "label": "package includes required-suite acceptance JSON",
+      "ok": true,
+      "detail": "full-suite gate evidence enters package"
+    },
+    {
+      "label": "bootstrap execute mode uses workflow",
+      "ok": true,
+      "detail": "gpu_bootstrap execute path"
+    }
+  ],
+  "failures": []
+}
