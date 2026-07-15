@@ -129,4 +129,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Completed Stage 30 metrics run-context metadata.
 - Updated `backend/run_metrics.py` and `scripts/magihuman_task_runner.sh` so future metrics JSON records case id, seed, target duration/resolution, result path, prompt hash, and P01 manifest hash.
 - Local run-context validation passed; total local backend tests now 112.
+- Completed Stage 31 metrics context audit.
+- Added `backend/metrics_context_audit.py` and integrated it into `backend/evidence_import.py` so imported metrics without run context or with mismatched P01 manifest fields block final-report readiness.
+- Regenerated `docs/gpu-evidence-import-audit.md`; current metrics context status is `missing_metrics` because no GPU runtime metrics exist yet.
+- Local metrics-context audit validation passed; total local backend tests now 117.
 - No inference run has been completed yet.

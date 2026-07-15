@@ -66,6 +66,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 28 added checkpoint download profiles so P01 can download only base/turbo/external models before the full required suite. The backend prototype now passes 107 local tests using Python standard library only.
 - Stage 29 added a P01 smoke input manifest and explicit seed passing so the first GPU run can be matched against a tracked prompt/seed/resolution/duration contract. The backend prototype now passes 109 local tests using Python standard library only.
 - Stage 30 added run-context metadata to metrics JSON so GPU evidence can be matched to case id, seed, prompt hash, target duration, target resolution, result path, and P01 manifest hash. The backend prototype now passes 112 local tests using Python standard library only.
+- Stage 31 added a metrics context audit so imported GPU evidence is rejected if metrics lack run context or if P01 seed/manifest fields do not match. The backend prototype now passes 117 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 

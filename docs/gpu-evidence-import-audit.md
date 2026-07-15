@@ -14,6 +14,7 @@ Recommendation: `B_pending_runtime`
 | quality_review | - |
 | cost_review | - |
 | final_report_output | docs\mobile-feasibility-report.md |
+| p01_manifest | docs\p01-smoke-manifest.json |
 
 ## Gate Statuses
 
@@ -24,6 +25,23 @@ Recommendation: `B_pending_runtime`
 | Generated sample quality | `missing_quality_review` |
 | Cloud GPU cost and wait time | `missing_cost_review` |
 | Mobile video playback compatibility | `missing_mobile_video_evidence` |
+
+## Metrics Context Audit
+
+### Metrics Context Audit
+
+Status: `missing_metrics`
+
+| Case | Status | Metrics | Failed checks |
+| --- | --- | --- | --- |
+| P01 | `missing_metrics` | - | - |
+| P02 | `missing_metrics` | - | - |
+| P03 | `missing_metrics` | - | - |
+| P04 | `missing_metrics` | - | - |
+| T01 | `missing_metrics` | - | - |
+| T02 | `missing_metrics` | - | - |
+| T03 | `missing_metrics` | - | - |
+| T04 | `missing_metrics` | - | - |
 
 ## Missing Evidence
 

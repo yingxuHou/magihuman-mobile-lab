@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 from backend.final_report import build_final_report, demote_headings, markdown_final_report
+from backend.metrics_context_audit import build_metrics_context_audit, markdown_metrics_context_audit
 
 
 COMPLETE_REPORT_STATUSES = {
@@ -86,12 +87,31 @@ def missing_evidence(final_report):
     return missing
 
 
+def missing_context_evidence(context_audit):
+    missing = []
+    problem_rows = [
+        row
+        for row in context_audit.get("rows", [])
+        if row.get("status") in ("missing_run_context", "context_mismatch")
+    ]
+    if problem_rows:
+        missing.append(
+            {
+                "gate": "metrics_context",
+                "items": [row["case_id"] for row in problem_rows],
+                "action": "Regenerate metrics with run context or rerun the affected GPU cases.",
+            }
+        )
+    return missing
+
+
 def build_import_audit(
     matrix_path=None,
     log_dir="logs",
     quality_review_path=None,
     cost_review_path=None,
     final_report_output=None,
+    p01_manifest_path="docs/p01-smoke-manifest.json",
 ):
     final_report = build_final_report(
         matrix_path=matrix_path,
@@ -99,7 +119,12 @@ def build_import_audit(
         quality_review_path=quality_review_path,
         cost_review_path=cost_review_path,
     )
-    missing = missing_evidence(final_report)
+    context_audit = build_metrics_context_audit(
+        matrix_path=matrix_path,
+        log_dir=log_dir,
+        p01_manifest_path=p01_manifest_path,
+    )
+    missing = missing_evidence(final_report) + missing_context_evidence(context_audit)
     status = "ready_for_final_update" if final_report["status"] in COMPLETE_REPORT_STATUSES else "incomplete_import"
     if missing:
         status = "incomplete_import"
@@ -113,8 +138,10 @@ def build_import_audit(
             "quality_review": artifact_path(quality_review_path),
             "cost_review": artifact_path(cost_review_path),
             "final_report_output": artifact_path(final_report_output),
+            "p01_manifest": artifact_path(p01_manifest_path),
         },
         "gate_statuses": gate_statuses(final_report),
+        "metrics_context_audit": context_audit,
         "missing_evidence": missing,
         "final_report": final_report,
     }
@@ -149,6 +176,15 @@ def markdown_import_audit(audit):
     )
     for gate, status in audit["gate_statuses"].items():
         lines.append("| {} | `{}` |".format(gate, status))
+
+    lines.extend(
+        [
+            "",
+            "## Metrics Context Audit",
+            "",
+            demote_headings(markdown_metrics_context_audit(audit["metrics_context_audit"])),
+        ]
+    )
 
     lines.extend(
         [
@@ -193,6 +229,7 @@ def main():
     parser.add_argument("--quality-review")
     parser.add_argument("--cost-review")
     parser.add_argument("--final-report-output")
+    parser.add_argument("--p01-manifest", default="docs/p01-smoke-manifest.json")
     parser.add_argument("--output")
     parser.add_argument("--format", choices=["json", "markdown"], default="markdown")
     args = parser.parse_args()
@@ -203,6 +240,7 @@ def main():
         quality_review_path=args.quality_review,
         cost_review_path=args.cost_review,
         final_report_output=args.final_report_output,
+        p01_manifest_path=args.p01_manifest,
     )
     body = json.dumps(audit, ensure_ascii=False, indent=2) if args.format == "json" else markdown_import_audit(audit)
     if args.output:

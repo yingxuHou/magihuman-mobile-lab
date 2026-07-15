@@ -4,8 +4,10 @@ import unittest
 from pathlib import Path
 
 from backend.cost_review import build_cost_template
+from backend.experiment_matrix import build_matrix
 from backend.feasibility_decision import build_decision, markdown_decision
 from backend.quality_review import build_review_template
+from backend.run_metrics import sha256_file, sha256_text
 
 
 def sample_metrics(width=448, height=256, wall=5.5, vram=40000):
@@ -27,9 +29,41 @@ def sample_metrics(width=448, height=256, wall=5.5, vram=40000):
     }
 
 
+def run_context_for_case(case):
+    profile = case["profile"]
+    result_path = "outputs/experiment-results/{}.mp4".format(case["id"])
+    context = {
+        "case_id": case["id"],
+        "mode": case["mode"],
+        "resolution": case["resolution"],
+        "variant": case["variant"],
+        "seed": case["seed"],
+        "target_duration_seconds": float(case["duration_seconds"]),
+        "target_br_width": profile["br_width"],
+        "target_br_height": profile["br_height"],
+        "result_path": result_path,
+        "prompt_sha256": sha256_text(case["prompt"]),
+    }
+    if profile.get("sr_width") is not None:
+        context["target_sr_width"] = profile["sr_width"]
+    if profile.get("sr_height") is not None:
+        context["target_sr_height"] = profile["sr_height"]
+
+    if case["id"] == "P01":
+        manifest = Path("docs/p01-smoke-manifest.json")
+        context["result_path"] = "outputs/smoke-test/P01.mp4"
+        context["manifest_path"] = manifest.as_posix()
+        if manifest.exists():
+            context["manifest_sha256"] = sha256_file(manifest)
+    return context
+
+
 def write_required_metrics(root):
+    cases = {case["id"]: case for case in build_matrix()}
     for case_id in ["P01", "P03", "P04", "T01", "T02"]:
-        (root / "{}_test_metrics.json".format(case_id)).write_text(json.dumps(sample_metrics()), encoding="utf-8")
+        payload = sample_metrics()
+        payload["run"] = run_context_for_case(cases[case_id])
+        (root / "{}_test_metrics.json".format(case_id)).write_text(json.dumps(payload), encoding="utf-8")
 
 
 def write_quality_review(root, passing=True):
