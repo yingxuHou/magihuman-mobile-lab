@@ -53,6 +53,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 15 added a required GPU experiment suite runner for P01/P03/P04/T01/T02. The backend prototype now passes 43 local tests using Python standard library only.
 - Stage 16 added GPU preflight checks and a pipeline script for cloud reproduction. The backend prototype now passes 48 local tests using Python standard library only.
 - Stage 17 added a structured generated-sample quality review gate. The backend prototype now passes 55 local tests using Python standard library only.
+- Stage 18 added a cost and wait-time review gate. The backend prototype now passes 64 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -90,4 +91,10 @@ Create a quality review template after samples exist:
 
 ```powershell
 python -m backend.quality_review --create-template --output docs/quality-review.json
+```
+
+Create a cost review template after runtime metrics exist:
+
+```powershell
+python -m backend.cost_review --create-template --output docs/cost-review.json
 ```

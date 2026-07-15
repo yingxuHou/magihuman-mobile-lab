@@ -74,4 +74,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/quality_review.py` to create review templates and summarize P01/P03/P04/T01/T02 sample quality.
 - Updated `backend/feasibility_decision.py` so measured runtime data still needs quality review before cloud route can advance to cost review.
 - Local quality review validation passed; total local backend tests now 55.
+- Completed Stage 18 cost and wait-time review gate.
+- Added `backend/cost_review.py` to calculate per-video cost from measured wall time and configured GPU hourly price.
+- Updated `backend/feasibility_decision.py` so a quality-passed cloud route still needs cost review before product review.
+- Local cost review validation passed; total local backend tests now 64.
 - No inference run has been completed yet.

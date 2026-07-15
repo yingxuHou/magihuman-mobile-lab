@@ -3,6 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from backend.cost_review import build_cost_template
 from backend.feasibility_decision import build_decision, markdown_decision
 from backend.quality_review import build_review_template
 
@@ -37,6 +38,17 @@ def write_quality_review(root, passing=True):
         item["speech_intelligibility_score"] = 4
         item["artifact_free_score"] = 3
     path = root / "quality_review.json"
+    path.write_text(json.dumps(review), encoding="utf-8")
+    return path
+
+
+def write_cost_review(root, passing=True):
+    review = build_cost_template()
+    review["gpu_hourly_usd"] = 8.0
+    review["billing_overhead_multiplier"] = 1.0
+    review["max_cost_per_video_usd"] = 1.0 if passing else 0.001
+    review["max_wall_time_seconds"] = 10.0 if passing else 1.0
+    path = root / "cost_review.json"
     path.write_text(json.dumps(review), encoding="utf-8")
     return path
 
@@ -76,6 +88,31 @@ class FeasibilityDecisionTest(unittest.TestCase):
 
         self.assertEqual(decision["recommendation"], "B_candidate_needs_cost_review")
         self.assertEqual(decision["decisions"]["cloud_backend"]["status"], "quality_passed_needs_cost_review")
+        self.assertEqual(decision["cost_evidence"]["status"], "missing_cost_review")
+
+    def test_cost_review_passed_moves_cloud_to_product_review(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_required_metrics(root)
+            quality_path = write_quality_review(root, passing=True)
+            cost_path = write_cost_review(root, passing=True)
+
+            decision = build_decision(log_dir=root, quality_review_path=quality_path, cost_review_path=cost_path)
+
+        self.assertEqual(decision["recommendation"], "B_candidate_ready_for_product_review")
+        self.assertEqual(decision["decisions"]["cloud_backend"]["status"], "cloud_candidate_ready")
+
+    def test_failed_cost_review_recommends_stop_candidate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_required_metrics(root)
+            quality_path = write_quality_review(root, passing=True)
+            cost_path = write_cost_review(root, passing=False)
+
+            decision = build_decision(log_dir=root, quality_review_path=quality_path, cost_review_path=cost_path)
+
+        self.assertEqual(decision["recommendation"], "C_candidate_cost_failed")
+        self.assertEqual(decision["decisions"]["cloud_backend"]["status"], "cost_review_failed")
 
     def test_failed_quality_review_recommends_stop_candidate(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -96,6 +133,7 @@ class FeasibilityDecisionTest(unittest.TestCase):
         self.assertIn("285.63 GiB", text)
         self.assertIn("P01, P03, P04, T01, T02", text)
         self.assertIn("Quality Evidence", text)
+        self.assertIn("Cost Evidence", text)
 
 
 if __name__ == "__main__":

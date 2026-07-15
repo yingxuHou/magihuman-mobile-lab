@@ -1,6 +1,7 @@
 import argparse
 import json
 
+from backend.cost_review import build_cost_report
 from backend.experiment_results import build_report
 from backend.quality_review import build_quality_report
 
@@ -63,7 +64,7 @@ def official_on_device_decision():
     }
 
 
-def cloud_backend_decision(evidence, quality):
+def cloud_backend_decision(evidence, quality, cost):
     if evidence["missing_required_case_ids"]:
         return {
             "option": "B",
@@ -98,6 +99,36 @@ def cloud_backend_decision(evidence, quality):
             ],
         }
     if quality["status"] == "quality_review_passed":
+        if cost["status"] in ("missing_cost_review", "incomplete_cost_review"):
+            return {
+                "option": "B",
+                "name": "Mobile app plus cloud GPU backend",
+                "status": "quality_passed_needs_cost_review",
+                "reasons": [
+                    "Required GPU runtime metrics exist and generated samples passed quality review.",
+                    "A final product decision still needs GPU cost and queueing review.",
+                ],
+            }
+        if cost["status"] == "cost_review_failed":
+            return {
+                "option": "B",
+                "name": "Mobile app plus cloud GPU backend",
+                "status": "cost_review_failed",
+                "reasons": [
+                    "Required GPU runtime metrics and quality review passed.",
+                    "One or more required cases exceeded configured cost or latency thresholds.",
+                ],
+            }
+        if cost["status"] == "cost_review_passed":
+            return {
+                "option": "B",
+                "name": "Mobile app plus cloud GPU backend",
+                "status": "cloud_candidate_ready",
+                "reasons": [
+                    "Required GPU runtime metrics, quality review, and cost review all passed.",
+                    "The remaining decision is product approval, not technical feasibility evidence collection.",
+                ],
+            }
         return {
             "option": "B",
             "name": "Mobile app plus cloud GPU backend",
@@ -118,13 +149,16 @@ def cloud_backend_decision(evidence, quality):
     }
 
 
-def stop_decision(evidence, quality):
+def stop_decision(evidence, quality, cost):
     if evidence["missing_required_case_ids"]:
         status = "not_decided"
         reasons = ["Stopping productization would be premature before cloud GPU runtime data is collected."]
     elif quality["status"] == "quality_review_failed":
         status = "candidate_quality_failed"
         reasons = ["Stopping productization may be appropriate if failed quality cases cannot be fixed by reruns or prompts."]
+    elif cost["status"] == "cost_review_failed":
+        status = "candidate_cost_failed"
+        reasons = ["Stopping productization may be appropriate if cloud GPU latency or cost exceeds configured thresholds."]
     else:
         status = "pending_quality_and_cost_review"
         reasons = ["Use measured latency, VRAM, output quality, and GPU cost to decide whether to stop."]
@@ -143,34 +177,40 @@ def recommended_option(official, cloud):
         return "B_candidate_needs_quality_review"
     if official["status"] == "not_viable" and cloud["status"] == "quality_passed_needs_cost_review":
         return "B_candidate_needs_cost_review"
+    if official["status"] == "not_viable" and cloud["status"] == "cloud_candidate_ready":
+        return "B_candidate_ready_for_product_review"
     if official["status"] == "not_viable" and cloud["status"] == "quality_review_failed":
         return "C_candidate_quality_failed"
+    if official["status"] == "not_viable" and cloud["status"] == "cost_review_failed":
+        return "C_candidate_cost_failed"
     return "C_needs_manual_review"
 
 
-def build_decision(matrix_path=None, log_dir="logs", quality_review_path=None):
+def build_decision(matrix_path=None, log_dir="logs", quality_review_path=None, cost_review_path=None):
     report = build_report(matrix_path=matrix_path, log_dir=log_dir)
     evidence = runtime_evidence(report)
     quality = build_quality_report(quality_review_path)
+    cost = build_cost_report(cost_review_path, matrix_path=matrix_path, log_dir=log_dir)
     official = official_on_device_decision()
-    cloud = cloud_backend_decision(evidence, quality)
-    stop = stop_decision(evidence, quality)
+    cloud = cloud_backend_decision(evidence, quality, cost)
+    stop = stop_decision(evidence, quality, cost)
     return {
         "recommendation": recommended_option(official, cloud),
         "static_evidence": STATIC_EVIDENCE,
         "runtime_evidence": evidence,
         "quality_evidence": quality,
+        "cost_evidence": cost,
         "decisions": {
             "official_on_device": official,
             "cloud_backend": cloud,
             "stop_productization": stop,
         },
         "required_quality_evidence": REQUIRED_QUALITY_EVIDENCE,
-        "next_required_actions": next_required_actions(evidence, quality, cloud),
+        "next_required_actions": next_required_actions(evidence, quality, cost, cloud),
     }
 
 
-def next_required_actions(evidence, quality, cloud):
+def next_required_actions(evidence, quality, cost, cloud):
     if cloud["status"] == "pending_runtime_evidence":
         return [
             "Run missing required experiment cases on a Linux NVIDIA GPU host: {}.".format(
@@ -190,9 +230,19 @@ def next_required_actions(evidence, quality, cloud):
             "Inspect failed quality cases and decide whether prompt changes or reruns can fix them.",
             "If quality failures persist, prefer option C over productizing the cloud route.",
         ]
+    if cost["status"] in ("missing_cost_review", "incomplete_cost_review"):
+        return [
+            "Create or complete the cost review JSON with selected GPU hourly price and product thresholds.",
+            "Rerun feasibility decision with --cost-review after cost review is complete.",
+        ]
+    if cost["status"] == "cost_review_failed":
+        return [
+            "Review failed cost or latency cases and decide whether batching, a different GPU, or shorter outputs can fix them.",
+            "If cost failures persist, prefer option C over productizing the cloud route.",
+        ]
     return [
-        "Estimate GPU cost per generated video from measured wall time.",
         "Choose final B or C decision for the GitHub project report.",
+        "Document the selected production architecture and operating assumptions.",
     ]
 
 
@@ -202,6 +252,7 @@ def markdown_decision(decision):
     stop = decision["decisions"]["stop_productization"]
     runtime = decision["runtime_evidence"]
     quality = decision["quality_evidence"]
+    cost = decision["cost_evidence"]
 
     lines = [
         "# Mobile Feasibility Decision",
@@ -257,6 +308,12 @@ def markdown_decision(decision):
         "- Summary: {}".format(quality["summary"]),
         "- Review file: {}".format(quality["review_path"] or "-"),
         "",
+        "## Cost Evidence",
+        "",
+        "- State: `{}`".format(cost["status"]),
+        "- Summary: {}".format(cost["summary"]),
+        "- Review file: {}".format(cost["review_path"] or "-"),
+        "",
         "## Next Required Actions",
         "",
     ]
@@ -269,10 +326,16 @@ def main():
     parser.add_argument("--matrix")
     parser.add_argument("--log-dir", default="logs")
     parser.add_argument("--quality-review")
+    parser.add_argument("--cost-review")
     parser.add_argument("--format", choices=["json", "markdown"], default="markdown")
     args = parser.parse_args()
 
-    decision = build_decision(matrix_path=args.matrix, log_dir=args.log_dir, quality_review_path=args.quality_review)
+    decision = build_decision(
+        matrix_path=args.matrix,
+        log_dir=args.log_dir,
+        quality_review_path=args.quality_review,
+        cost_review_path=args.cost_review,
+    )
     if args.format == "json":
         print(json.dumps(decision, ensure_ascii=False, indent=2))
     else:

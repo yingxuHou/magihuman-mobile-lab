@@ -215,3 +215,22 @@ Or pass the review file to the pipeline:
 ```bash
 QUALITY_REVIEW=docs/quality-review.json EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 ```
+
+## 12. Cost Review
+
+After metrics exist, create and fill a cost review:
+
+```bash
+python -m backend.cost_review --create-template --output docs/cost-review.json
+python -m backend.cost_review --review docs/cost-review.json --log-dir logs --format markdown
+```
+
+Then rerun the final decision with both review files:
+
+```bash
+python -m backend.feasibility_decision \
+  --log-dir logs \
+  --quality-review docs/quality-review.json \
+  --cost-review docs/cost-review.json \
+  --format markdown
+```

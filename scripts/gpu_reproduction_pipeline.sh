@@ -15,6 +15,7 @@ EXECUTE="${EXECUTE:-0}"
 DOWNLOAD_MODELS="${DOWNLOAD_MODELS:-0}"
 INCLUDE_OPTIONAL="${INCLUDE_OPTIONAL:-0}"
 QUALITY_REVIEW="${QUALITY_REVIEW:-}"
+COST_REVIEW="${COST_REVIEW:-}"
 STAMP="$(date '+%Y%m%d_%H%M%S')"
 
 mkdir -p "${LOG_DIR}" "${RESULT_DIR}" outputs/reports
@@ -55,6 +56,9 @@ fi
 FEASIBILITY_ARGS=(-m backend.feasibility_decision --log-dir "${LOG_DIR}" --format markdown)
 if [ "${QUALITY_REVIEW}" != "" ]; then
   FEASIBILITY_ARGS+=(--quality-review "${QUALITY_REVIEW}")
+fi
+if [ "${COST_REVIEW}" != "" ]; then
+  FEASIBILITY_ARGS+=(--cost-review "${COST_REVIEW}")
 fi
 "${PYTHON_BIN}" "${FEASIBILITY_ARGS[@]}" | tee "outputs/reports/feasibility_decision_${STAMP}.md"
 

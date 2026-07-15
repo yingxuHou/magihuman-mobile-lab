@@ -41,6 +41,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Required GPU experiment suite runner passed local tests; total backend tests now 43 | P01/P03/P04/T01/T02 can now be planned or executed as one ordered suite on the GPU host |
 | 2026-07-16 | GPU preflight and reproduction pipeline passed local tests; total backend tests now 48 | GPU host execution now has a single auditable pipeline that produces preflight, results, and feasibility reports |
 | 2026-07-16 | Quality review gate passed local tests; total backend tests now 55 | Runtime metrics alone are not enough; final cloud feasibility now requires structured sample review evidence |
+| 2026-07-16 | Cost and wait-time review gate passed local tests; total backend tests now 64 | Final cloud feasibility now requires per-video cost and latency thresholds from the selected GPU provider |
 
 ## Interim Position
 
@@ -75,6 +76,7 @@ Current output summary:
 - Recommendation: `B_pending_runtime`
 - Missing required runtime cases: P01, P03, P04, T01, T02
 - Missing quality review: P01, P03, P04, T01, T02
+- Missing cost review: selected GPU hourly price, overhead multiplier, max cost per video, max wait time
 
 ## Required GPU Suite
 
@@ -114,4 +116,24 @@ Use it in the decision:
 
 ```powershell
 python -m backend.feasibility_decision --log-dir logs --quality-review docs/quality-review.json --format markdown
+```
+
+## Cost Review Gate
+
+Create a cost review template:
+
+```powershell
+python -m backend.cost_review --create-template --output docs/cost-review.json
+```
+
+Summarize the review:
+
+```powershell
+python -m backend.cost_review --review docs/cost-review.json --log-dir logs --format markdown
+```
+
+Use both reviews in the decision:
+
+```powershell
+python -m backend.feasibility_decision --log-dir logs --quality-review docs/quality-review.json --cost-review docs/cost-review.json --format markdown
 ```

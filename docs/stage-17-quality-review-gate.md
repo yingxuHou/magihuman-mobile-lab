@@ -71,6 +71,8 @@ After GPU metrics exist, the cloud route can only move to:
 - `B_candidate_needs_cost_review` if required samples pass review
 - `C_candidate_quality_failed` if required samples fail review
 
+Stage 18 adds the next required gate after quality: cost and wait-time review.
+
 ## GPU Pipeline Integration
 
 After filling a review file:
