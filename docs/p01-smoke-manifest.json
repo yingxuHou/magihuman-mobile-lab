@@ -31,7 +31,8 @@
       "MAGIHUMAN_DURATION_SECONDS": "5",
       "MAGIHUMAN_SEED": "42",
       "MAGIHUMAN_MODEL_VARIANT": "base",
-      "MAGIHUMAN_RESULT_PATH": "outputs/smoke-test/P01.mp4"
+      "MAGIHUMAN_RESULT_PATH": "outputs/smoke-test/P01.mp4",
+      "MAGIHUMAN_MANIFEST_PATH": "docs/p01-smoke-manifest.json"
     },
     "command": "bash scripts/magihuman_task_runner.sh",
     "expected_result_path": "outputs/smoke-test/P01.mp4"

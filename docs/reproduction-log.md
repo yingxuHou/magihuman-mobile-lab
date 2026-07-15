@@ -126,4 +126,7 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added explicit `MAGIHUMAN_SEED=42` to planned experiment cases and passed it through `scripts/magihuman_task_runner.sh`.
 - Generated tracked P01 input evidence at `docs/p01-smoke-manifest.json` and `docs/p01-smoke-manifest.md`.
 - Local smoke manifest validation passed; total local backend tests now 109.
+- Completed Stage 30 metrics run-context metadata.
+- Updated `backend/run_metrics.py` and `scripts/magihuman_task_runner.sh` so future metrics JSON records case id, seed, target duration/resolution, result path, prompt hash, and P01 manifest hash.
+- Local run-context validation passed; total local backend tests now 112.
 - No inference run has been completed yet.

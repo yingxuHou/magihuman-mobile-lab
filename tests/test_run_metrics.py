@@ -4,6 +4,8 @@ import unittest
 from pathlib import Path
 
 from backend.run_metrics import (
+    build_run_context,
+    collect_metrics,
     parse_elapsed_seconds,
     parse_ffprobe_json_text,
     parse_nvidia_smi_csv_text,
@@ -88,6 +90,44 @@ class RunMetricsTest(unittest.TestCase):
         self.assertEqual(metrics["audio_sample_rate"], 48000)
         self.assertEqual(metrics["audio_channels"], 2)
         self.assertEqual(metrics["format_bit_rate"], 1400000)
+
+    def test_build_run_context_hashes_prompt_and_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            manifest = Path(tmp) / "manifest.json"
+            manifest.write_text('{"case":"P01"}', encoding="utf-8")
+
+            context = build_run_context(
+                case_id="P01",
+                mode="t2v",
+                resolution="256p",
+                variant="base",
+                seed="42",
+                target_duration_seconds="5",
+                target_br_width="448",
+                target_br_height="256",
+                result_path="outputs/smoke-test/P01.mp4",
+                prompt="hello",
+                manifest_path=manifest,
+            )
+
+        self.assertEqual(context["case_id"], "P01")
+        self.assertEqual(context["seed"], 42)
+        self.assertEqual(context["target_duration_seconds"], 5.0)
+        self.assertEqual(context["target_br_width"], 448)
+        self.assertIsInstance(context["manifest_path"], str)
+        self.assertEqual(context["prompt_sha256"], "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824")
+        self.assertTrue(context["manifest_exists"])
+        self.assertIn("manifest_sha256", context)
+
+    def test_collect_metrics_includes_run_context(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            log = Path(tmp) / "run.log"
+            log.write_text("Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.00\n", encoding="utf-8")
+            metrics = collect_metrics(log_path=log, run_context={"case_id": "P01", "seed": 42})
+
+        self.assertEqual(metrics["run"]["case_id"], "P01")
+        self.assertEqual(metrics["run"]["seed"], 42)
+        self.assertEqual(metrics["time"]["wall_time_seconds"], 3.0)
 
 
 if __name__ == "__main__":

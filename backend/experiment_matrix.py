@@ -136,6 +136,8 @@ def build_case_command(case, result_dir="outputs/experiment-results"):
     }
     if case["mode"] == "ti2v":
         env["MAGIHUMAN_IMAGE_PATH"] = "third_party/daVinci-MagiHuman/example/assets/image.png"
+    if case["id"] == "P01":
+        env["MAGIHUMAN_MANIFEST_PATH"] = "docs/p01-smoke-manifest.json"
     return env
 
 

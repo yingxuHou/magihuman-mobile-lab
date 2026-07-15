@@ -53,6 +53,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Model audit strict-mode ordering fix passed local tests; total backend tests now 103 | Fresh GPU hosts can now download models before the strict post-download checkpoint audit blocks incomplete downloads |
 | 2026-07-16 | Checkpoint download profiles passed local dry-run tests; total backend tests now 107 | P01 first-run downloads can avoid unnecessary distill/SR checkpoints before the smallest smoke test |
 | 2026-07-16 | P01 smoke input manifest passed local tests; total backend tests now 109 | The first GPU run now has a tracked prompt, seed, duration, resolution, official source commit, and expected output path |
+| 2026-07-16 | Metrics run-context metadata passed local tests; total backend tests now 112 | GPU metrics can now be matched to case id, seed, prompt hash, target duration/resolution, output path, and P01 manifest hash |
 
 ## Interim Position
 

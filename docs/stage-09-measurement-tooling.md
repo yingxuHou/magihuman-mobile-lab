@@ -18,6 +18,7 @@ The final answer cannot rely only on a generated video. It needs structured data
 - output resolution
 - audio/video stream presence
 - output file size
+- run context: case id, seed, prompt hash, target duration/resolution, result path, and optional manifest hash
 
 ## Files Added
 
@@ -38,6 +39,8 @@ The final answer cannot rely only on a generated video. It needs structured data
 - `metrics_command`
 
 If `ffprobe` is available, the runner attempts to generate metrics JSON automatically after copying the result video.
+
+Stage 30 update: the generated metrics JSON now includes a `run` section when the runner supplies context. This lets imported GPU evidence prove which planned case produced the metrics.
 
 ## Supported Inputs
 
@@ -79,6 +82,21 @@ Parsed fields:
 - format
 - file size
 
+### Run Context
+
+Passed by `scripts/magihuman_task_runner.sh`:
+
+- case id
+- mode
+- resolution
+- model variant
+- seed
+- target duration seconds
+- target base/SR dimensions
+- result path
+- prompt SHA-256
+- optional manifest path and manifest SHA-256
+
 ## Validation
 
 Command:
@@ -111,6 +129,16 @@ python -m backend.run_metrics \
   --log logs/<run>.log \
   --smi-csv logs/<run>_nvidia_smi.csv \
   --video outputs/smoke-test/<result>.mp4 \
+  --case-id P01 \
+  --mode t2v \
+  --resolution 256p \
+  --variant base \
+  --seed 42 \
+  --target-duration-seconds 5 \
+  --target-br-width 448 \
+  --target-br-height 256 \
+  --result-path outputs/smoke-test/P01.mp4 \
+  --manifest docs/p01-smoke-manifest.json \
   --output logs/<run>_metrics.json
 ```
 

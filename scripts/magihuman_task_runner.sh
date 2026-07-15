@@ -18,6 +18,7 @@ RESULT_PATH="${MAGIHUMAN_RESULT_PATH:-}"
 IMAGE_PATH="${MAGIHUMAN_IMAGE_PATH:-}"
 AUDIO_PATH="${MAGIHUMAN_AUDIO_PATH:-}"
 VARIANT="${MAGIHUMAN_MODEL_VARIANT:-base}"
+MANIFEST_PATH="${MAGIHUMAN_MANIFEST_PATH:-}"
 CP_SIZE="${MAGIHUMAN_CP_SIZE:-1}"
 
 if [ ! -d "${REPO_DIR}" ]; then
@@ -136,9 +137,30 @@ fi
 
 cp "${GENERATED_MP4}" "${RESULT_PATH}"
 
-METRICS_ARGS=(python -m backend.run_metrics --log "${LOG_PATH}" --video "${RESULT_PATH}" --output "${METRICS_PATH}")
+METRICS_ARGS=(
+  python -m backend.run_metrics
+  --log "${LOG_PATH}"
+  --video "${RESULT_PATH}"
+  --output "${METRICS_PATH}"
+  --case-id "${TASK_ID}"
+  --mode "${MODE}"
+  --resolution "${RESOLUTION}"
+  --variant "${VARIANT}"
+  --seed "${SEED}"
+  --target-duration-seconds "${DURATION_SECONDS}"
+  --target-br-width "${MAGIHUMAN_BR_WIDTH}"
+  --target-br-height "${MAGIHUMAN_BR_HEIGHT}"
+  --result-path "${RESULT_PATH}"
+  --prompt "${PROMPT_TEXT}"
+)
 if [ -f "${SMI_LOG}" ]; then
   METRICS_ARGS+=(--smi-csv "${SMI_LOG}")
+fi
+if [ "${MAGIHUMAN_SR_WIDTH}" != "" ] && [ "${MAGIHUMAN_SR_HEIGHT}" != "" ]; then
+  METRICS_ARGS+=(--target-sr-width "${MAGIHUMAN_SR_WIDTH}" --target-sr-height "${MAGIHUMAN_SR_HEIGHT}")
+fi
+if [ "${MANIFEST_PATH}" != "" ]; then
+  METRICS_ARGS+=(--manifest "${MANIFEST_PATH}")
 fi
 
 if command -v ffprobe >/dev/null 2>&1; then
@@ -150,4 +172,5 @@ echo "result_path=${RESULT_PATH}"
 echo "log_path=${LOG_PATH}"
 echo "nvidia_smi_log=${SMI_LOG}"
 echo "metrics_path=${METRICS_PATH}"
+echo "metrics_context=case_id=${TASK_ID},seed=${SEED},duration_seconds=${DURATION_SECONDS},resolution=${RESOLUTION},manifest=${MANIFEST_PATH:-none}"
 echo "metrics_command=python -m backend.run_metrics --log ${LOG_PATH} --smi-csv ${SMI_LOG} --video ${RESULT_PATH} --output ${METRICS_PATH}"

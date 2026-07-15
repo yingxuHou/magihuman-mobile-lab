@@ -19,6 +19,10 @@ class ExperimentMatrixTest(unittest.TestCase):
         self.assertEqual(case["runner_env"]["MAGIHUMAN_SEED"], "42")
         self.assertIn("MAGIHUMAN_IMAGE_PATH", case["runner_env"])
 
+    def test_p01_runner_env_has_manifest_path(self):
+        case = [item for item in build_matrix() if item["id"] == "P01"][0]
+        self.assertEqual(case["runner_env"]["MAGIHUMAN_MANIFEST_PATH"], "docs/p01-smoke-manifest.json")
+
     def test_1080p_profile(self):
         case = [item for item in build_matrix() if item["id"] == "P04"][0]
         self.assertEqual(case["profile"]["sr_width"], 1920)

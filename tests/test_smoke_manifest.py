@@ -45,6 +45,7 @@ class SmokeManifestTest(unittest.TestCase):
         self.assertEqual(actual["duration_seconds"], 5)
         self.assertEqual(actual["seed"], 42)
         self.assertEqual(actual["expected_result_path"], "outputs/smoke-test/P01.mp4")
+        self.assertEqual(actual["runner_env"]["MAGIHUMAN_MANIFEST_PATH"], "docs/p01-smoke-manifest.json")
         self.assertFalse(actual["reference_image_required"])
         self.assertEqual(official["base_t2v_script"]["seconds"], 4)
         self.assertEqual(official["base_t2v_script"]["br_width"], 448)

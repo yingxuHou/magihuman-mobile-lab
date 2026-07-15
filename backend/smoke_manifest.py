@@ -184,6 +184,7 @@ def markdown_report(manifest):
         "| Prompt SHA-256 | `{}` |".format(actual["prompt_sha256"]),
         "| Reference image required | {} |".format("yes" if actual["reference_image_required"] else "no"),
         "| Expected result | `{}` |".format(actual["expected_result_path"]),
+        "| Metrics manifest path | `{}` |".format(actual["runner_env"].get("MAGIHUMAN_MANIFEST_PATH", "-")),
         "| Official script seconds | {} |".format(official_script.get("seconds")),
         "| Official script base size | {}x{} |".format(official_script.get("br_width"), official_script.get("br_height")),
         "| Official prompt file SHA-256 | `{}` |".format(prompt_file.get("sha256", "-")),

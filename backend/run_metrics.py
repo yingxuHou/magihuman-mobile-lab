@@ -1,5 +1,6 @@
 import argparse
 import csv
+import hashlib
 import json
 import re
 import subprocess
@@ -34,6 +35,77 @@ def parse_int(value):
         return int(float(value))
     except (TypeError, ValueError):
         return None
+
+
+def sha256_text(text):
+    return hashlib.sha256(str(text).encode("utf-8")).hexdigest()
+
+
+def sha256_file(path):
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def parse_float(value):
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def compact_dict(payload):
+    return {key: value for key, value in payload.items() if value not in (None, "")}
+
+
+def build_run_context(
+    case_id=None,
+    mode=None,
+    resolution=None,
+    variant=None,
+    seed=None,
+    target_duration_seconds=None,
+    target_br_width=None,
+    target_br_height=None,
+    target_sr_width=None,
+    target_sr_height=None,
+    result_path=None,
+    prompt=None,
+    prompt_sha256=None,
+    manifest_path=None,
+):
+    manifest_value = str(manifest_path) if manifest_path else None
+    context = compact_dict(
+        {
+            "case_id": case_id,
+            "mode": mode,
+            "resolution": resolution,
+            "variant": variant,
+            "seed": parse_int(seed),
+            "target_duration_seconds": parse_float(target_duration_seconds),
+            "target_br_width": parse_int(target_br_width),
+            "target_br_height": parse_int(target_br_height),
+            "target_sr_width": parse_int(target_sr_width),
+            "target_sr_height": parse_int(target_sr_height),
+            "result_path": result_path,
+            "prompt_sha256": prompt_sha256,
+            "manifest_path": manifest_value,
+        }
+    )
+    if prompt is not None:
+        context["prompt_sha256"] = sha256_text(prompt)
+        context["prompt_chars"] = len(prompt)
+        context["prompt_preview"] = str(prompt)[:160].replace("\n", " ")
+    if manifest_path:
+        manifest = Path(manifest_path)
+        context["manifest_exists"] = manifest.exists()
+        if manifest.exists():
+            context["manifest_sha256"] = sha256_file(manifest)
+    return context
 
 
 def parse_nvidia_smi_csv_text(text):
@@ -173,8 +245,10 @@ def ffprobe_video(path):
     return parse_ffprobe_json_text(completed.stdout)
 
 
-def collect_metrics(log_path=None, smi_csv_path=None, video_path=None):
+def collect_metrics(log_path=None, smi_csv_path=None, video_path=None, run_context=None):
     result = {}
+    if run_context:
+        result["run"] = compact_dict(run_context)
     if log_path:
         result["time"] = parse_time_v_log(log_path)
     if smi_csv_path:
@@ -190,9 +264,44 @@ def main():
     parser.add_argument("--smi-csv")
     parser.add_argument("--video")
     parser.add_argument("--output")
+    parser.add_argument("--case-id")
+    parser.add_argument("--mode")
+    parser.add_argument("--resolution")
+    parser.add_argument("--variant")
+    parser.add_argument("--seed")
+    parser.add_argument("--target-duration-seconds")
+    parser.add_argument("--target-br-width")
+    parser.add_argument("--target-br-height")
+    parser.add_argument("--target-sr-width")
+    parser.add_argument("--target-sr-height")
+    parser.add_argument("--result-path")
+    parser.add_argument("--prompt")
+    parser.add_argument("--prompt-sha256")
+    parser.add_argument("--manifest")
     args = parser.parse_args()
 
-    metrics = collect_metrics(log_path=args.log, smi_csv_path=args.smi_csv, video_path=args.video)
+    run_context = build_run_context(
+        case_id=args.case_id,
+        mode=args.mode,
+        resolution=args.resolution,
+        variant=args.variant,
+        seed=args.seed,
+        target_duration_seconds=args.target_duration_seconds,
+        target_br_width=args.target_br_width,
+        target_br_height=args.target_br_height,
+        target_sr_width=args.target_sr_width,
+        target_sr_height=args.target_sr_height,
+        result_path=args.result_path,
+        prompt=args.prompt,
+        prompt_sha256=args.prompt_sha256,
+        manifest_path=args.manifest,
+    )
+    metrics = collect_metrics(
+        log_path=args.log,
+        smi_csv_path=args.smi_csv,
+        video_path=args.video,
+        run_context=run_context,
+    )
     body = json.dumps(metrics, indent=2, ensure_ascii=False)
     if args.output:
         Path(args.output).parent.mkdir(parents=True, exist_ok=True)
