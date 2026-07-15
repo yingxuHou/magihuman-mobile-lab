@@ -56,6 +56,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Metrics run-context metadata passed local tests; total backend tests now 112 | GPU metrics can now be matched to case id, seed, prompt hash, target duration/resolution, output path, and P01 manifest hash |
 | 2026-07-16 | Metrics context audit passed local tests; total backend tests now 117 | Imported GPU evidence will be blocked if metrics lack run context or if P01 metrics do not match the smoke manifest |
 | 2026-07-16 | Evidence package provenance passed local tests; total backend tests now 120 | Returned GPU evidence can now be traced to the project commit, official source commits, worktree dirty state, and P01 manifest hash |
+| 2026-07-16 | Hugging Face access audit passed local tests; total backend tests now 126 | GPU-host downloads now verify token access to representative gated and public checkpoint files before transferring large model weights |
 
 ## Interim Position
 

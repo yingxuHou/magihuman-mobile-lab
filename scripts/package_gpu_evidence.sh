@@ -11,7 +11,8 @@ if [ -d logs ]; then
   find logs -maxdepth 1 -type f \( \
     -name '*_metrics.json' -o \
     -name '*preflight*.json' -o \
-    -name '*model_audit*.json' \
+    -name '*model_audit*.json' -o \
+    -name '*hf_access*.json' \
   \) -exec cp {} "${PACKAGE_DIR}/logs/" \; 2>/dev/null || true
 fi
 

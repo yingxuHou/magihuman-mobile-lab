@@ -13,6 +13,7 @@ MODE="${MODE:-container}"
 MIN_DISK_GIB="${MIN_DISK_GIB:-500}"
 EXECUTE="${EXECUTE:-0}"
 DOWNLOAD_MODELS="${DOWNLOAD_MODELS:-0}"
+HF_ACCESS_AUDIT="${HF_ACCESS_AUDIT:-1}"
 PREPARE_SOURCES="${PREPARE_SOURCES:-1}"
 INCLUDE_OPTIONAL="${INCLUDE_OPTIONAL:-0}"
 QUALITY_REVIEW="${QUALITY_REVIEW:-}"
@@ -63,6 +64,14 @@ run_model_audit() {
   "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/model_audit_${suffix}.md"
 }
 
+run_hf_access_audit() {
+  local suffix="$1"
+  local args=(-m backend.hf_access_audit --profile required_suite)
+
+  "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/hf_access_${suffix}.md"
+  "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/hf_access_${suffix}.json" --strict
+}
+
 if [ "${PREPARE_SOURCES}" = "1" ]; then
   bash scripts/prepare_sources.sh 2>&1 | tee "${LOG_DIR}/prepare_sources_${STAMP}.log"
 fi
@@ -84,6 +93,10 @@ fi
 
 run_preflight "${STAMP}" "${INITIAL_REQUIRE_MODELS}" "${INITIAL_STRICT}"
 run_model_audit "${STAMP}" "${INITIAL_MODEL_AUDIT_STRICT}"
+
+if [ "${DOWNLOAD_MODELS}" = "1" ] && [ "${HF_ACCESS_AUDIT}" = "1" ]; then
+  run_hf_access_audit "${STAMP}"
+fi
 
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
   MODEL_PROFILE="${MODEL_PROFILE:-required_suite}" MODEL_ROOT="${MODEL_ROOT}" bash scripts/download_models.sh 2>&1 | tee "${LOG_DIR}/download_models_${STAMP}.log"
@@ -132,6 +145,10 @@ if [ "${PREPARE_SOURCES}" = "1" ]; then
   echo "prepare_sources_log=${LOG_DIR}/prepare_sources_${STAMP}.log"
 fi
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
+  if [ "${HF_ACCESS_AUDIT}" = "1" ]; then
+    echo "hf_access_json=${LOG_DIR}/hf_access_${STAMP}.json"
+    echo "hf_access_report=outputs/reports/hf_access_${STAMP}.md"
+  fi
   echo "post_download_preflight_json=${LOG_DIR}/gpu_preflight_${STAMP}_post_download.json"
   echo "post_download_preflight_report=outputs/reports/gpu_preflight_${STAMP}_post_download.md"
   echo "post_download_model_audit_json=${LOG_DIR}/model_audit_${STAMP}_post_download.json"

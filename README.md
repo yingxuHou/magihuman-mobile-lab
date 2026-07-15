@@ -68,6 +68,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 30 added run-context metadata to metrics JSON so GPU evidence can be matched to case id, seed, prompt hash, target duration, target resolution, result path, and P01 manifest hash. The backend prototype now passes 112 local tests using Python standard library only.
 - Stage 31 added a metrics context audit so imported GPU evidence is rejected if metrics lack run context or if P01 seed/manifest fields do not match. The backend prototype now passes 117 local tests using Python standard library only.
 - Stage 32 added evidence package provenance so returned GPU evidence records the project commit, official source commits, worktree dirty state, and P01 manifest hash. The backend prototype now passes 120 local tests using Python standard library only.
+- Stage 33 added a Hugging Face access audit so P01 and required-suite downloads verify gated repository access with lightweight HEAD probes before checkpoint transfer. The backend prototype now passes 126 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -118,6 +119,13 @@ For the first GPU attempt, run only the 256p P01 smoke case:
 
 ```bash
 INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pipeline.sh
+```
+
+Audit Hugging Face access before downloads:
+
+```bash
+python -m backend.hf_access_audit --profile p01 --format markdown
+python -m backend.hf_access_audit --profile required_suite --format markdown
 ```
 
 Create a quality review template after samples exist:

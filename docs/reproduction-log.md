@@ -136,4 +136,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Completed Stage 32 evidence package provenance.
 - Added `backend/evidence_provenance.py` and updated `scripts/package_gpu_evidence.sh` so GPU evidence packages include project commit, official source commits, dirty state, P01 manifest hash, and P01 manifest files.
 - Local evidence provenance validation passed; total local backend tests now 120.
+- Completed Stage 33 Hugging Face access audit.
+- Added `backend/hf_access_audit.py` to run lightweight HEAD probes against representative Hugging Face checkpoint files before large downloads.
+- Integrated the access audit into P01 and full GPU pipelines before `scripts/download_models.sh` when `DOWNLOAD_MODELS=1`.
+- Local HF access audit validation passed; total local backend tests now 126.
 - No inference run has been completed yet.

@@ -12,6 +12,8 @@ class PipelineScriptTest(unittest.TestCase):
         self.assertIn('INITIAL_MODEL_AUDIT_STRICT=0', text)
         self.assertIn('if [ "${EXECUTE}" = "1" ] && [ "${DOWNLOAD_MODELS}" != "1" ]; then', text)
         self.assertIn('run_model_audit "${STAMP}" "${INITIAL_MODEL_AUDIT_STRICT}"', text)
+        self.assertIn("backend.hf_access_audit --profile p01", text)
+        self.assertIn('if [ "${DOWNLOAD_MODELS}" = "1" ] && [ "${HF_ACCESS_AUDIT}" = "1" ]; then', text)
         self.assertIn('MODEL_PROFILE="${MODEL_PROFILE:-p01}"', text)
         self.assertIn('run_model_audit "${STAMP}_post_download" "1"', text)
 
@@ -21,6 +23,8 @@ class PipelineScriptTest(unittest.TestCase):
         self.assertIn('INITIAL_MODEL_AUDIT_STRICT=0', text)
         self.assertIn('if [ "${EXECUTE}" = "1" ] && [ "${DOWNLOAD_MODELS}" != "1" ]; then', text)
         self.assertIn('run_model_audit "${STAMP}" "${INITIAL_MODEL_AUDIT_STRICT}"', text)
+        self.assertIn("backend.hf_access_audit --profile required_suite", text)
+        self.assertIn('if [ "${DOWNLOAD_MODELS}" = "1" ] && [ "${HF_ACCESS_AUDIT}" = "1" ]; then', text)
         self.assertIn('MODEL_PROFILE="${MODEL_PROFILE:-required_suite}"', text)
         self.assertIn('run_model_audit "${STAMP}_post_download" "1"', text)
 

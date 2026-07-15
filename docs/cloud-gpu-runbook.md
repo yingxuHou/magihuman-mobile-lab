@@ -124,6 +124,15 @@ MODEL_PROFILE=complete bash scripts/download_models.sh
 
 The pipeline checks Hugging Face auth before download when `DOWNLOAD_MODELS=1`. Either set `HF_TOKEN`/`HUGGINGFACE_HUB_TOKEN` or run `huggingface-cli login` inside the container.
 
+Before downloading, verify repository and gated-file access with lightweight HEAD probes:
+
+```bash
+python -m backend.hf_access_audit --profile p01 --format markdown
+python -m backend.hf_access_audit --profile required_suite --format markdown
+```
+
+The P01 and full GPU pipelines run this access audit automatically before `scripts/download_models.sh` when `DOWNLOAD_MODELS=1`. P01 writes `logs/p01_hf_access_<timestamp>.json` and `outputs/reports/p01_hf_access_<timestamp>.md`; the full pipeline writes `logs/hf_access_<timestamp>.json` and `outputs/reports/hf_access_<timestamp>.md`.
+
 After download, audit checkpoint footprints:
 
 ```bash

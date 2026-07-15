@@ -13,6 +13,7 @@ MODE="${MODE:-container}"
 MIN_DISK_GIB="${MIN_DISK_GIB:-500}"
 EXECUTE="${EXECUTE:-0}"
 DOWNLOAD_MODELS="${DOWNLOAD_MODELS:-0}"
+HF_ACCESS_AUDIT="${HF_ACCESS_AUDIT:-1}"
 PREPARE_SOURCES="${PREPARE_SOURCES:-1}"
 RERUN="${RERUN:-0}"
 STAMP="$(date '+%Y%m%d_%H%M%S')"
@@ -61,6 +62,14 @@ run_model_audit() {
   "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/p01_model_audit_${suffix}.md"
 }
 
+run_hf_access_audit() {
+  local suffix="$1"
+  local args=(-m backend.hf_access_audit --profile p01)
+
+  "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/p01_hf_access_${suffix}.md"
+  "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/p01_hf_access_${suffix}.json" --strict
+}
+
 if [ "${PREPARE_SOURCES}" = "1" ]; then
   bash scripts/prepare_sources.sh 2>&1 | tee "${LOG_DIR}/p01_prepare_sources_${STAMP}.log"
 fi
@@ -82,6 +91,10 @@ fi
 
 run_preflight "${STAMP}" "${INITIAL_REQUIRE_MODELS}" "${INITIAL_STRICT}"
 run_model_audit "${STAMP}" "${INITIAL_MODEL_AUDIT_STRICT}"
+
+if [ "${DOWNLOAD_MODELS}" = "1" ] && [ "${HF_ACCESS_AUDIT}" = "1" ]; then
+  run_hf_access_audit "${STAMP}"
+fi
 
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
   MODEL_PROFILE="${MODEL_PROFILE:-p01}" MODEL_ROOT="${MODEL_ROOT}" bash scripts/download_models.sh 2>&1 | tee "${LOG_DIR}/p01_download_models_${STAMP}.log"
@@ -116,6 +129,10 @@ echo "p01_preflight_report=outputs/reports/p01_preflight_${STAMP}.md"
 echo "p01_model_audit_json=${LOG_DIR}/p01_model_audit_${STAMP}.json"
 echo "p01_model_audit_report=outputs/reports/p01_model_audit_${STAMP}.md"
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
+  if [ "${HF_ACCESS_AUDIT}" = "1" ]; then
+    echo "p01_hf_access_json=${LOG_DIR}/p01_hf_access_${STAMP}.json"
+    echo "p01_hf_access_report=outputs/reports/p01_hf_access_${STAMP}.md"
+  fi
   echo "p01_post_download_preflight_json=${LOG_DIR}/p01_preflight_${STAMP}_post_download.json"
   echo "p01_post_download_preflight_report=outputs/reports/p01_preflight_${STAMP}_post_download.md"
   echo "p01_post_download_model_audit_json=${LOG_DIR}/p01_model_audit_${STAMP}_post_download.json"
