@@ -20,7 +20,7 @@ class TaskStoreTest(unittest.TestCase):
             self.assertEqual(task["state"], "queued")
             self.assertEqual(task["resolution"], "256p")
             self.assertEqual(task["mode"], "t2v")
-            self.assertIn("run_base_t2v_smoke.sh", task["worker"]["command_hint"])
+            self.assertIn("magihuman_task_runner.sh", task["worker"]["command_hint"])
             self.assertEqual(store.get_task(task["id"])["prompt"], "A presenter says hello.")
 
     def test_reject_empty_prompt(self):
@@ -48,4 +48,3 @@ class TaskStoreTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

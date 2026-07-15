@@ -99,7 +99,7 @@ class TaskStore:
 
     def _command_hint(self, mode, resolution):
         if resolution == "256p" and mode == "t2v":
-            return "MODEL_ROOT=models bash scripts/run_base_t2v_smoke.sh"
+            return "MODEL_ROOT=models bash scripts/magihuman_task_runner.sh"
         if resolution == "256p" and mode == "ti2v":
             return "Run official example/base/run_TI2V.sh on the GPU host"
         if resolution == "540p":
@@ -117,4 +117,3 @@ class TaskStore:
         with tmp_path.open("w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2, sort_keys=True)
         tmp_path.replace(self.db_path)
-

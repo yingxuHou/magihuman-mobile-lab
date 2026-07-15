@@ -56,6 +56,8 @@ def process_next_task(store, command_template, output_dir, timeout_seconds=3600)
             "MAGIHUMAN_RESOLUTION": task["resolution"],
             "MAGIHUMAN_DURATION_SECONDS": str(task["duration_seconds"]),
             "MAGIHUMAN_RESULT_PATH": str(result_path),
+            "MAGIHUMAN_IMAGE_PATH": task.get("image_path") or "",
+            "MAGIHUMAN_AUDIO_PATH": task.get("audio_path") or "",
         }
     )
 
@@ -156,4 +158,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

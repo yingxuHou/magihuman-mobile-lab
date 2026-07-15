@@ -97,4 +97,4 @@ On a GPU machine, run:
 
 1. `scripts/cloud_env_check.sh`
 2. `scripts/download_models.sh`
-3. `scripts/run_base_t2v_smoke.sh`
+3. `scripts/magihuman_task_runner.sh`

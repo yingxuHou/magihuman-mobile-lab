@@ -21,7 +21,7 @@ example/base/run_T2V.sh
 Equivalent project wrapper:
 
 ```bash
-MODEL_ROOT=models bash scripts/run_base_t2v_smoke.sh
+MODEL_ROOT=models bash scripts/magihuman_task_runner.sh
 ```
 
 ## Why Base T2V First
@@ -51,8 +51,8 @@ MODEL_ROOT=models bash scripts/run_base_t2v_smoke.sh
 | Peak VRAM | `nvidia-smi --query-gpu=... -l 1` captured by script |
 | Wall time | `/usr/bin/time -v` when available |
 | CPU memory | `/usr/bin/time -v` maximum resident set size |
-| Output path | Printed by `scripts/run_base_t2v_smoke.sh` |
-| Log path | Printed by `scripts/run_base_t2v_smoke.sh` |
+| Output path | Printed by `scripts/magihuman_task_runner.sh` |
+| Log path | Printed by `scripts/magihuman_task_runner.sh` |
 | Video validity | open/play mp4; later verify with `ffprobe` |
 
 ## Current Blocker
@@ -99,7 +99,7 @@ git clone https://github.com/yingxuHou/magihuman-mobile-lab.git
 cd magihuman-mobile-lab
 bash scripts/cloud_env_check.sh
 MODEL_ROOT=models bash scripts/download_models.sh
-MODEL_ROOT=models bash scripts/run_base_t2v_smoke.sh
+MODEL_ROOT=models bash scripts/magihuman_task_runner.sh
 ```
 
 After execution, update:

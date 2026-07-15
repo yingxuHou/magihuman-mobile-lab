@@ -118,5 +118,5 @@ When a GPU host is available:
 
 1. Run `scripts/cloud_env_check.sh`.
 2. Download checkpoints.
-3. Run `scripts/run_base_t2v_smoke.sh`.
+3. Run `scripts/magihuman_task_runner.sh`.
 4. Connect the API task store to a real GPU worker.

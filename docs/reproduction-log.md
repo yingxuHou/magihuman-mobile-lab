@@ -29,7 +29,7 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Complete checkpoint footprint is about 285.63 GiB before cache/log/output overhead.
 - Local checkpoint download is skipped; cloud GPU host should download after Hugging Face access is confirmed.
 - Prepared Stage 05 smoke-test execution plan.
-- First inference target is base 256p T2V via `scripts/run_base_t2v_smoke.sh`.
+- First inference target is base 256p T2V via `scripts/magihuman_task_runner.sh`.
 - Stage 05 is not executed because the current workstation lacks NVIDIA GPU/CUDA/Docker/Conda.
 - Completed Stage 06 API and mobile static feasibility work.
 - Static source search found no official ONNX/Core ML/NCNN/MNN/TFLite/TorchScript export route.
@@ -37,4 +37,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Local API test command passed: `python -m unittest discover -s tests -v` with 6 tests.
 - Added GPU worker prototype for consuming queued tasks and updating task states.
 - Worker prototype validation passed; total local backend tests now 9.
+- Completed Stage 08 runner integration.
+- Added `backend/magihuman_config.py` to generate official config files for 256p, 540p, and 1080p tasks.
+- Added `scripts/magihuman_task_runner.sh` to bridge worker environment variables to `torchrun inference/pipeline/entry.py`.
+- Local validation now passes 13 tests.
 - No inference run has been completed yet.

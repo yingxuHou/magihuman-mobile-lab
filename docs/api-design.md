@@ -70,7 +70,7 @@ curl -X POST http://127.0.0.1:8080/tasks \
   "worker": {
     "required": "gpu",
     "status": "not_started",
-    "command_hint": "MODEL_ROOT=models bash scripts/run_base_t2v_smoke.sh"
+    "command_hint": "MODEL_ROOT=models bash scripts/magihuman_task_runner.sh"
   }
 }
 ```
@@ -96,7 +96,7 @@ python -m unittest discover -s tests -v
 Current result:
 
 ```text
-Ran 9 tests
+Ran 13 tests
 OK
 ```
 
@@ -132,12 +132,29 @@ Example:
 python -m backend.worker `
   --data-dir api_data `
   --output-dir outputs/api-results `
-  --command "MODEL_ROOT=models bash scripts/run_base_t2v_smoke.sh"
+  --command "MODEL_ROOT=models bash scripts/magihuman_task_runner.sh"
 ```
 
 Current validation:
 
 ```text
-Ran 9 tests in 1.950s
+Ran 13 tests in 2.001s
 OK
 ```
+
+## MagiHuman Runner
+
+Added:
+
+- `backend/magihuman_config.py`
+- `scripts/magihuman_task_runner.sh`
+
+The runner maps task fields to official daVinci-MagiHuman runtime parameters:
+
+| Task resolution | Config template | Base size | SR size |
+| --- | --- | --- | --- |
+| `256p` | `example/base/config.json` | `448x256` | none |
+| `540p` | `example/sr_540p/config.json` | `448x256` | `896x512` |
+| `1080p` | `example/sr_1080p/config.json` | `448x256` | `1920x1088` |
+
+The runner generates a config under `run_configs/`, calls `torchrun inference/pipeline/entry.py`, finds the generated mp4 for the output prefix, and copies it to `MAGIHUMAN_RESULT_PATH` for the API result endpoint.

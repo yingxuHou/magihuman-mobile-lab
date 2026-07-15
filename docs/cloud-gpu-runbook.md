@@ -84,10 +84,28 @@ Use `huggingface-cli download` after confirming access and disk capacity.
 
 ## 7. First Smoke Test
 
-Start with base 256p T2V:
+Start with the worker-compatible runner:
 
 ```bash
 cd /workspace/daVinci-MagiHuman
+bash example/base/run_T2V.sh
+```
+
+```bash
+MAGIHUMAN_TASK_ID=manual-256p \
+MAGIHUMAN_PROMPT="$(cat third_party/daVinci-MagiHuman/example/assets/prompt.txt)" \
+MAGIHUMAN_MODE=t2v \
+MAGIHUMAN_RESOLUTION=256p \
+MAGIHUMAN_DURATION_SECONDS=5 \
+MAGIHUMAN_RESULT_PATH="$PWD/outputs/smoke-test/manual-256p.mp4" \
+MODEL_ROOT="$PWD/models" \
+bash scripts/magihuman_task_runner.sh
+```
+
+The raw official script is still useful for comparison:
+
+```bash
+cd third_party/daVinci-MagiHuman
 bash example/base/run_T2V.sh
 ```
 
