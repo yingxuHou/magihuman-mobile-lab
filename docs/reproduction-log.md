@@ -82,4 +82,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/final_report.py` to combine static, runtime, quality, and cost evidence into one Markdown/JSON report.
 - Generated current tracked report at `docs/mobile-feasibility-report.md`.
 - Local final report validation passed; total local backend tests now 69.
+- Completed Stage 20 GPU evidence packaging and import audit.
+- Added `scripts/package_gpu_evidence.sh` to package small GPU evidence files without videos or model weights.
+- Added `backend/evidence_import.py` to audit imported metrics, quality review, cost review, and final-report readiness.
+- Generated current tracked import audit at `docs/gpu-evidence-import-audit.md`; total local backend tests now 74.
 - No inference run has been completed yet.

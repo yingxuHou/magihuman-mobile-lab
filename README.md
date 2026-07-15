@@ -55,6 +55,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 17 added a structured generated-sample quality review gate. The backend prototype now passes 55 local tests using Python standard library only.
 - Stage 18 added a cost and wait-time review gate. The backend prototype now passes 64 local tests using Python standard library only.
 - Stage 19 added a combined final feasibility report generator. The backend prototype now passes 69 local tests using Python standard library only.
+- Stage 20 added GPU evidence packaging and import-audit tooling. The backend prototype now passes 74 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -104,4 +105,10 @@ Generate the combined report:
 
 ```powershell
 python -m backend.final_report --log-dir logs --format markdown --output docs/mobile-feasibility-report.md
+```
+
+Audit imported GPU evidence:
+
+```powershell
+python -m backend.evidence_import --log-dir logs --final-report-output docs/mobile-feasibility-report.md --format markdown --output docs/gpu-evidence-import-audit.md
 ```

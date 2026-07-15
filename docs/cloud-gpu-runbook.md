@@ -249,3 +249,23 @@ python -m backend.final_report \
 ```
 
 The pipeline also writes a timestamped report under `outputs/reports/`.
+
+## 14. Package Evidence For Import
+
+Package only small evidence files. Do not include model weights or generated videos.
+
+```bash
+bash scripts/package_gpu_evidence.sh
+```
+
+Copy the produced archive back to the local repository machine, unpack it into the project root, then audit:
+
+```bash
+python -m backend.evidence_import \
+  --log-dir logs \
+  --quality-review docs/quality-review.json \
+  --cost-review docs/cost-review.json \
+  --final-report-output docs/mobile-feasibility-report.md \
+  --format markdown \
+  --output docs/gpu-evidence-import-audit.md
+```
