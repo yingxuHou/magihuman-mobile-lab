@@ -49,3 +49,18 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 11 added experiment result aggregation for metrics JSON files. The backend prototype now passes 27 local tests using Python standard library only.
 - Stage 12 added a case-level experiment runner with dependency checks. The backend prototype now passes 32 local tests using Python standard library only.
 - Stage 13 added retry and result-retention cleanup policies. The backend prototype now passes 35 local tests using Python standard library only.
+- Stage 14 added a repeatable feasibility decision generator. The backend prototype now passes 38 local tests using Python standard library only.
+
+## Current Mobile Feasibility Decision
+
+Run:
+
+```powershell
+python -m backend.feasibility_decision --log-dir logs --format markdown
+```
+
+Current output is `B_pending_runtime`:
+
+- A. Official on-device inference is `not_viable` based on model size, CUDA/server-GPU dependencies, and no visible official mobile export route.
+- B. Mobile app plus cloud GPU backend is `pending_runtime_evidence` until P01/P03/P04/T01/T02 metrics and sample quality review exist.
+- C. Stopping productization is `not_decided` because the cloud GPU path has not been measured yet.

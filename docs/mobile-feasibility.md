@@ -37,6 +37,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-15 | Experiment result aggregator passed local tests; total backend tests now 27 | Missing GPU evidence is now explicit and measurable in the final feasibility report |
 | 2026-07-15 | Experiment runner with dependency checks passed local tests; total backend tests now 32 | GPU host can execute cases in the intended order and avoid invalid 1080p/multilingual runs before P01 passes |
 | 2026-07-16 | Retry and result-retention cleanup policies passed local tests; total backend tests now 35 | Cloud backend route now covers common production mechanics: retry failed jobs and expire generated videos |
+| 2026-07-16 | Feasibility decision generator passed local tests; current output is `B_pending_runtime` with missing required cases P01/P03/P04/T01/T02 | Official on-device stack is rejected by static evidence, while cloud backend remains pending real GPU measurements |
 
 ## Interim Position
 
@@ -54,3 +55,19 @@ Use option B as the working product direction:
 - Storage: uploaded inputs, logs, generated videos, expiration cleanup.
 
 This recommendation still needs real GPU inference measurements before it becomes the final project conclusion.
+
+## Repeatable Decision Command
+
+Current command:
+
+```powershell
+python -m backend.feasibility_decision --log-dir logs --format markdown
+```
+
+Current output summary:
+
+- A. Official on-device inference: `not_viable`
+- B. Mobile app plus cloud GPU backend: `pending_runtime_evidence`
+- C. Stop app productization: `not_decided`
+- Recommendation: `B_pending_runtime`
+- Missing required runtime cases: P01, P03, P04, T01, T02

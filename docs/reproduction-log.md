@@ -58,4 +58,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added worker auto-retry via `max_retries` and `retry_count`.
 - Added `backend/retention.py` to expire generated result files by TTL.
 - Local validation now passes 35 tests.
+- Completed Stage 14 feasibility decision generator.
+- Added `backend/feasibility_decision.py` to convert static evidence and runtime metrics status into A/B/C mobile feasibility states.
+- Current generated recommendation is `B_pending_runtime`: official on-device inference is not viable, while the cloud GPU backend route still needs P01/P03/P04/T01/T02 runtime metrics and quality review.
+- Local feasibility decision validation passed; total local backend tests now 38.
 - No inference run has been completed yet.
