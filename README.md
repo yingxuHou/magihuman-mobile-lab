@@ -41,3 +41,4 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 02 route decision is complete.
 - Local full inference is not viable on the current workstation because no NVIDIA GPU/CUDA/Docker/Conda environment is available.
 - Actual inference reproduction should run on a Linux NVIDIA GPU machine, preferably H100, using the official Docker image `sandai/magi-human:latest`.
+- Stage 06 added a local API prototype for the mobile-client/cloud-GPU architecture. It passed 6 local tests using Python standard library only.

@@ -31,4 +31,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Prepared Stage 05 smoke-test execution plan.
 - First inference target is base 256p T2V via `scripts/run_base_t2v_smoke.sh`.
 - Stage 05 is not executed because the current workstation lacks NVIDIA GPU/CUDA/Docker/Conda.
+- Completed Stage 06 API and mobile static feasibility work.
+- Static source search found no official ONNX/Core ML/NCNN/MNN/TFLite/TorchScript export route.
+- Added standard-library backend API prototype and tests.
+- Local API test command passed: `python -m unittest discover -s tests -v` with 6 tests.
 - No inference run has been completed yet.

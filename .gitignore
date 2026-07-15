@@ -15,6 +15,9 @@ third_party/*
 # Generated run configs
 run_configs/
 
+# Local API runtime state
+api_data/
+
 # Python/cache files
 __pycache__/
 *.py[cod]

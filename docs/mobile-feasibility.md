@@ -28,9 +28,22 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-15 | Official README uses CUDA/PyTorch/MagiCompiler/Flash Attention and reports H100 performance | Strong evidence that normal mobile CPUs/NPUs are not the target runtime |
 | 2026-07-15 | Current local machine has Intel Iris Xe only, no NVIDIA GPU/CUDA/Docker/Conda | Local machine cannot provide inference data; runtime measurements require a GPU server |
 | 2026-07-15 | External required models add about 84.36 GiB, bringing the complete checkpoint estimate to about 285.63 GiB | Strong evidence that direct mobile packaging is not viable for the official stack |
+| 2026-07-15 | Static source search found no ONNX/Core ML/NCNN/MNN/TFLite/TorchScript export path in the official daVinci-MagiHuman repo | Official stack has no visible mobile export workflow |
+| 2026-07-15 | Local API prototype passed 6 tests for task creation, query, result lookup, and deletion | Cloud backend route is technically straightforward at the API layer, pending GPU worker execution |
 
 ## Interim Position
 
 Do not treat this as the final answer yet.
 
 Current evidence is already enough to reject bundling the official full stack into a normal mobile app package. The remaining open question is whether a cloud GPU backend can meet latency, cost, and quality expectations for a mobile app.
+
+## Current Recommendation
+
+Use option B as the working product direction:
+
+- Mobile app: account/session, prompt input, reference image upload, task status, video playback, save/share.
+- Backend API: task creation, queue state, result delivery, deletion.
+- GPU worker: daVinci-MagiHuman model loading and generation.
+- Storage: uploaded inputs, logs, generated videos, expiration cleanup.
+
+This recommendation still needs real GPU inference measurements before it becomes the final project conclusion.
