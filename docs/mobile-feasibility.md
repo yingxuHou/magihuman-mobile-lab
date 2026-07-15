@@ -63,6 +63,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Download log audit passed local tests; total backend tests now 146 | GPU-host downloads now produce an auditable command log and reject P01 runs that request SR or distill checkpoint groups |
 | 2026-07-16 | P01 smoke acceptance gate passed local tests; total backend tests now 151 | The full GPU suite is now blocked until P01 has measured metrics, matching run context, expected duration, audio/video streams, and mobile playback evidence |
 | 2026-07-16 | Required suite acceptance gate passed local tests; total backend tests now 157 | Quality review, cost review, and final App feasibility are now blocked until P01/P03/P04/T01/T02 all have measured runtime, context, result, duration, audio/video, and mobile playback evidence |
+| 2026-07-16 | GPU reproduction workflow passed local tests; total backend tests now 161 | The GPU host now has one audited command that runs P01 first, gates the full suite, gates quality/cost review, and packages small evidence |
 
 ## Interim Position
 
@@ -117,6 +118,12 @@ Full pipeline:
 
 ```bash
 INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+```
+
+Preferred end-to-end GPU workflow:
+
+```bash
+INSTALL_MAGICOMPILER=1 bash scripts/run_gpu_reproduction_workflow.sh
 ```
 
 Fresh GPU host bootstrap:

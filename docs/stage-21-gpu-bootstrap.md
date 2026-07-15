@@ -59,8 +59,7 @@ Inside the container:
 
 ```bash
 INSTALL_MAGICOMPILER=1 bash scripts/prepare_sources.sh
-DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
-bash scripts/package_gpu_evidence.sh
+INSTALL_MAGICOMPILER=1 bash scripts/run_gpu_reproduction_workflow.sh
 ```
 
 ## Current Limitation
@@ -85,4 +84,4 @@ OK
 
 ## Next Step
 
-Run `bash scripts/bootstrap_gpu_host.sh` on a Linux NVIDIA GPU host, enter the generated container, execute the full GPU reproduction pipeline, then package and import the evidence.
+Run `bash scripts/bootstrap_gpu_host.sh` on a Linux NVIDIA GPU host, enter the generated container, execute `bash scripts/run_gpu_reproduction_workflow.sh`, then import the packaged evidence.

@@ -75,6 +75,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 37 added checkpoint download log audits so P01 and required-suite downloads are rejected if logged Hugging Face commands request the wrong checkpoint groups. The backend prototype now passes 146 local tests using Python standard library only.
 - Stage 38 added a P01 smoke acceptance gate so the first GPU run must have measured metrics, matching context, expected duration, audio/video streams, and mobile playback evidence before the full suite runs. The backend prototype now passes 151 local tests using Python standard library only.
 - Stage 39 added a required-suite acceptance gate so P01/P03/P04/T01/T02 must all have measured metrics, matching context, result MP4s, expected durations, audio/video streams, and mobile playback evidence before quality and cost review. The backend prototype now passes 157 local tests using Python standard library only.
+- Stage 40 added a GPU reproduction workflow script so a container can run upstream audit, source prep, P01, full suite, acceptance gates, and evidence packaging through one audited command. The backend prototype now passes 161 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -132,6 +133,12 @@ For the first GPU attempt, run only the 256p P01 smoke case:
 
 ```bash
 INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pipeline.sh
+```
+
+Or run the end-to-end GPU-host workflow after entering the container:
+
+```bash
+INSTALL_MAGICOMPILER=1 bash scripts/run_gpu_reproduction_workflow.sh
 ```
 
 Audit Hugging Face access before downloads:

@@ -46,11 +46,10 @@ Use `UPSTREAM_DRIFT_AUDIT=0 bash scripts/bootstrap_gpu_host.sh` only when metada
 Inside the container:
 
 ```bash
-INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pipeline.sh
-bash scripts/package_gpu_evidence.sh
+INSTALL_MAGICOMPILER=1 bash scripts/run_gpu_reproduction_workflow.sh
 ```
 
-Only start `EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh` after the P01 acceptance report says `ready_for_full_suite` or `ready_for_full_suite_with_transcode_required`.
+The workflow runs upstream audit, locked source preparation, P01, P01 acceptance, full required suite, required-suite acceptance, and evidence packaging. It stops on the first failed gate.
 
 The bootstrap path locks source repositories to the verified commits:
 
@@ -296,6 +295,14 @@ python -m backend.mobile_video_check --log-dir logs --format markdown
 ## 11. Pipeline Workflow
 
 After the host is prepared, prefer the pipeline script so preflight, runs, summaries, and the feasibility decision are generated together.
+
+End-to-end workflow inside the container:
+
+```bash
+INSTALL_MAGICOMPILER=1 bash scripts/run_gpu_reproduction_workflow.sh
+```
+
+This is the preferred path for a real reproduction attempt because it runs P01 before the full suite and packages evidence after the gates pass.
 
 Dry run:
 

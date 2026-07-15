@@ -26,9 +26,15 @@ class GpuBootstrapTest(unittest.TestCase):
 
         self.assertIn("INSTALL_MAGICOMPILER=1 bash scripts/prepare_sources.sh", commands)
         self.assertIn(
-            "PREPARE_SOURCES=0 DOWNLOAD_MODELS=1 EXECUTE=1 INCLUDE_OPTIONAL=1 bash scripts/gpu_reproduction_pipeline.sh",
+            "PREPARE_SOURCES=0 INSTALL_MAGICOMPILER=1 RUN_P01=1 RUN_FULL=1 PACKAGE_EVIDENCE=1 P01_DOWNLOAD_MODELS=1 FULL_DOWNLOAD_MODELS=1 INCLUDE_OPTIONAL=1 bash scripts/run_gpu_reproduction_workflow.sh",
             commands,
         )
+
+    def test_container_commands_keep_dry_run_pipeline_available(self):
+        commands = container_commands(download_models=False, execute=False, include_optional=False)
+
+        self.assertIn("PREPARE_SOURCES=0 bash scripts/gpu_reproduction_pipeline.sh", commands)
+        self.assertIn("bash scripts/package_gpu_evidence.sh", commands)
 
     def test_bootstrap_plan_contains_verified_commits(self):
         plan = build_bootstrap_plan()

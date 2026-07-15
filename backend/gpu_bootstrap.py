@@ -35,16 +35,25 @@ def container_commands(download_models=False, execute=False, include_optional=Fa
         "INSTALL_MAGICOMPILER=1 bash scripts/prepare_sources.sh",
         "python -m backend.gpu_preflight --mode container --format markdown",
     ]
-    env_parts = ["PREPARE_SOURCES=0"]
-    if download_models:
-        env_parts.append("DOWNLOAD_MODELS=1")
     if execute:
-        env_parts.append("EXECUTE=1")
-    if include_optional:
-        env_parts.append("INCLUDE_OPTIONAL=1")
-    env_parts.append("bash scripts/gpu_reproduction_pipeline.sh")
-    commands.append(" ".join(env_parts))
-    commands.append("bash scripts/package_gpu_evidence.sh")
+        env_parts = ["PREPARE_SOURCES=0", "INSTALL_MAGICOMPILER=1", "RUN_P01=1", "RUN_FULL=1", "PACKAGE_EVIDENCE=1"]
+        if download_models:
+            env_parts.extend(["P01_DOWNLOAD_MODELS=1", "FULL_DOWNLOAD_MODELS=1"])
+        else:
+            env_parts.extend(["P01_DOWNLOAD_MODELS=0", "FULL_DOWNLOAD_MODELS=0"])
+        if include_optional:
+            env_parts.append("INCLUDE_OPTIONAL=1")
+        env_parts.append("bash scripts/run_gpu_reproduction_workflow.sh")
+        commands.append(" ".join(env_parts))
+    else:
+        env_parts = ["PREPARE_SOURCES=0"]
+        if download_models:
+            env_parts.append("DOWNLOAD_MODELS=1")
+        if include_optional:
+            env_parts.append("INCLUDE_OPTIONAL=1")
+        env_parts.append("bash scripts/gpu_reproduction_pipeline.sh")
+        commands.append(" ".join(env_parts))
+        commands.append("bash scripts/package_gpu_evidence.sh")
     return commands
 
 

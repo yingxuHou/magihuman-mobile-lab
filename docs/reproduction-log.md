@@ -166,4 +166,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Integrated the required-suite acceptance gate into `scripts/gpu_reproduction_pipeline.sh` for `EXECUTE=1` runs.
 - Added required-suite acceptance JSON/Markdown to full pipeline artifact audit and GPU evidence packaging.
 - Local required-suite acceptance validation passed; total local backend tests now 157.
+- Completed Stage 40 GPU reproduction workflow.
+- Added `scripts/run_gpu_reproduction_workflow.sh` to run upstream audit, locked source preparation, P01, full suite, acceptance gates, and evidence packaging from one GPU-container command.
+- Updated `backend/gpu_bootstrap.py` so execute-mode bootstrap plans use the workflow script instead of starting the full suite directly.
+- Local workflow validation passed; total local backend tests now 161.
 - No inference run has been completed yet.
