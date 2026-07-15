@@ -70,6 +70,27 @@ run_hf_access_audit() {
   "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/p01_hf_access_${suffix}.json" --strict
 }
 
+run_pipeline_artifact_audit() {
+  local suffix="$1"
+  local args=(-m backend.pipeline_artifact_audit --run p01 --stamp "${suffix}" --log-dir "${LOG_DIR}" --report-dir outputs/reports --result-dir "${RESULT_DIR}")
+
+  if [ "${PREPARE_SOURCES}" = "1" ]; then
+    args+=(--prepare-sources)
+  fi
+  if [ "${DOWNLOAD_MODELS}" = "1" ]; then
+    args+=(--download-models)
+  fi
+  if [ "${HF_ACCESS_AUDIT}" != "1" ]; then
+    args+=(--skip-hf-access-audit)
+  fi
+  if [ "${EXECUTE}" = "1" ]; then
+    args+=(--execute)
+  fi
+
+  "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/p01_pipeline_artifact_audit_${suffix}.json"
+  "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/p01_pipeline_artifact_audit_${suffix}.md" --strict
+}
+
 if [ "${PREPARE_SOURCES}" = "1" ]; then
   bash scripts/prepare_sources.sh 2>&1 | tee "${LOG_DIR}/p01_prepare_sources_${STAMP}.log"
 fi
@@ -124,6 +145,8 @@ fi
 "${PYTHON_BIN}" -m backend.final_report --log-dir "${LOG_DIR}" --format markdown \
   | tee "outputs/reports/p01_final_report_${STAMP}.md"
 
+run_pipeline_artifact_audit "${STAMP}"
+
 echo "p01_preflight_json=${LOG_DIR}/p01_preflight_${STAMP}.json"
 echo "p01_preflight_report=outputs/reports/p01_preflight_${STAMP}.md"
 echo "p01_model_audit_json=${LOG_DIR}/p01_model_audit_${STAMP}.json"
@@ -146,3 +169,5 @@ echo "p01_experiment_report=outputs/reports/p01_experiment_results_${STAMP}.md"
 echo "p01_mobile_video_report=outputs/reports/p01_mobile_video_check_${STAMP}.md"
 echo "p01_feasibility_report=outputs/reports/p01_feasibility_decision_${STAMP}.md"
 echo "p01_final_report=outputs/reports/p01_final_report_${STAMP}.md"
+echo "p01_pipeline_artifact_audit_json=${LOG_DIR}/p01_pipeline_artifact_audit_${STAMP}.json"
+echo "p01_pipeline_artifact_audit_report=outputs/reports/p01_pipeline_artifact_audit_${STAMP}.md"

@@ -69,6 +69,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 31 added a metrics context audit so imported GPU evidence is rejected if metrics lack run context or if P01 seed/manifest fields do not match. The backend prototype now passes 117 local tests using Python standard library only.
 - Stage 32 added evidence package provenance so returned GPU evidence records the project commit, official source commits, worktree dirty state, and P01 manifest hash. The backend prototype now passes 120 local tests using Python standard library only.
 - Stage 33 added a Hugging Face access audit so P01 and required-suite downloads verify gated repository access with lightweight HEAD probes before checkpoint transfer. The backend prototype now passes 126 local tests using Python standard library only.
+- Stage 34 added pipeline artifact audits so successful P01 and full GPU runs verify their expected logs, reports, metrics, and result MP4 files before evidence packaging. The backend prototype now passes 131 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -126,6 +127,13 @@ Audit Hugging Face access before downloads:
 ```bash
 python -m backend.hf_access_audit --profile p01 --format markdown
 python -m backend.hf_access_audit --profile required_suite --format markdown
+```
+
+Audit expected pipeline artifacts after a GPU run:
+
+```bash
+python -m backend.pipeline_artifact_audit --run p01 --stamp "<timestamp>" --download-models --execute --format markdown
+python -m backend.pipeline_artifact_audit --run full --stamp "<timestamp>" --download-models --execute --format markdown
 ```
 
 Create a quality review template after samples exist:

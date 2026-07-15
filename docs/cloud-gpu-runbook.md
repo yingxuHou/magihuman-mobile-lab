@@ -142,6 +142,15 @@ python -m backend.model_audit --model-root models --profile required_suite --for
 
 The P01 and full GPU pipelines run a report-only audit before download, then run a strict audit after download. If `EXECUTE=1` is used without `DOWNLOAD_MODELS=1`, the initial model audit is strict because models are expected to already exist.
 
+At the end of a successful pipeline, check the artifact audit report before packaging evidence:
+
+```bash
+python -m backend.pipeline_artifact_audit --run p01 --stamp "<timestamp>" --download-models --execute --format markdown
+python -m backend.pipeline_artifact_audit --run full --stamp "<timestamp>" --download-models --execute --format markdown
+```
+
+The P01 pipeline writes `outputs/reports/p01_pipeline_artifact_audit_<timestamp>.md`; the full pipeline writes `outputs/reports/pipeline_artifact_audit_<timestamp>.md`. These reports confirm whether expected logs, reports, metrics JSON, and result MP4 files exist.
+
 ## 8. First Smoke Test
 
 Start with the worker-compatible runner:

@@ -140,4 +140,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/hf_access_audit.py` to run lightweight HEAD probes against representative Hugging Face checkpoint files before large downloads.
 - Integrated the access audit into P01 and full GPU pipelines before `scripts/download_models.sh` when `DOWNLOAD_MODELS=1`.
 - Local HF access audit validation passed; total local backend tests now 126.
+- Completed Stage 34 pipeline artifact audit.
+- Added `backend/pipeline_artifact_audit.py` to verify expected logs, reports, metrics JSON, and result MP4 files for P01 and full GPU pipeline runs.
+- Integrated artifact audit generation into P01 and full GPU pipelines, and added artifact audit JSON to evidence packaging.
+- Local pipeline artifact audit validation passed; total local backend tests now 131.
 - No inference run has been completed yet.

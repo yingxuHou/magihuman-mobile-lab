@@ -72,6 +72,27 @@ run_hf_access_audit() {
   "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/hf_access_${suffix}.json" --strict
 }
 
+run_pipeline_artifact_audit() {
+  local suffix="$1"
+  local args=(-m backend.pipeline_artifact_audit --run full --stamp "${suffix}" --log-dir "${LOG_DIR}" --report-dir outputs/reports --result-dir "${RESULT_DIR}")
+
+  if [ "${PREPARE_SOURCES}" = "1" ]; then
+    args+=(--prepare-sources)
+  fi
+  if [ "${DOWNLOAD_MODELS}" = "1" ]; then
+    args+=(--download-models)
+  fi
+  if [ "${HF_ACCESS_AUDIT}" != "1" ]; then
+    args+=(--skip-hf-access-audit)
+  fi
+  if [ "${EXECUTE}" = "1" ]; then
+    args+=(--execute)
+  fi
+
+  "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/pipeline_artifact_audit_${suffix}.json"
+  "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/pipeline_artifact_audit_${suffix}.md" --strict
+}
+
 if [ "${PREPARE_SOURCES}" = "1" ]; then
   bash scripts/prepare_sources.sh 2>&1 | tee "${LOG_DIR}/prepare_sources_${STAMP}.log"
 fi
@@ -137,6 +158,8 @@ if [ "${COST_REVIEW}" != "" ]; then
 fi
 "${PYTHON_BIN}" "${FINAL_REPORT_ARGS[@]}" | tee "outputs/reports/final_report_${STAMP}.md"
 
+run_pipeline_artifact_audit "${STAMP}"
+
 echo "preflight_json=${LOG_DIR}/gpu_preflight_${STAMP}.json"
 echo "preflight_report=outputs/reports/gpu_preflight_${STAMP}.md"
 echo "model_audit_json=${LOG_DIR}/model_audit_${STAMP}.json"
@@ -158,3 +181,5 @@ echo "experiment_report=outputs/reports/experiment_results_${STAMP}.md"
 echo "mobile_video_report=outputs/reports/mobile_video_check_${STAMP}.md"
 echo "feasibility_report=outputs/reports/feasibility_decision_${STAMP}.md"
 echo "final_report=outputs/reports/final_report_${STAMP}.md"
+echo "pipeline_artifact_audit_json=${LOG_DIR}/pipeline_artifact_audit_${STAMP}.json"
+echo "pipeline_artifact_audit_report=outputs/reports/pipeline_artifact_audit_${STAMP}.md"
