@@ -65,6 +65,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Required suite acceptance gate passed local tests; total backend tests now 157 | Quality review, cost review, and final App feasibility are now blocked until P01/P03/P04/T01/T02 all have measured runtime, context, result, duration, audio/video, and mobile playback evidence |
 | 2026-07-16 | GPU reproduction workflow passed local tests; total backend tests now 161 | The GPU host now has one audited command that runs P01 first, gates the full suite, gates quality/cost review, and packages small evidence |
 | 2026-07-16 | Workflow readiness audit passed locally; total backend tests now 164 | The GPU workflow command chain is now checked before expensive downloads or inference, reducing risk of invalid GPU evidence |
+| 2026-07-16 | GPU evidence import workflow passed local tests; total backend tests now 167 | Returned GPU evidence archives can now be safely imported locally and used to regenerate the final feasibility report |
 
 ## Interim Position
 
@@ -228,4 +229,10 @@ Audit imported GPU evidence:
 
 ```powershell
 python -m backend.evidence_import --log-dir logs --final-report-output docs/mobile-feasibility-report.md --format markdown --output docs/gpu-evidence-import-audit.md
+```
+
+Import returned GPU evidence archive:
+
+```powershell
+.\scripts\import_gpu_evidence_package.ps1 -Archive outputs\gpu-evidence-<timestamp>.tar.gz
 ```

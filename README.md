@@ -77,6 +77,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 39 added a required-suite acceptance gate so P01/P03/P04/T01/T02 must all have measured metrics, matching context, result MP4s, expected durations, audio/video streams, and mobile playback evidence before quality and cost review. The backend prototype now passes 157 local tests using Python standard library only.
 - Stage 40 added a GPU reproduction workflow script so a container can run upstream audit, source prep, P01, full suite, acceptance gates, and evidence packaging through one audited command. The backend prototype now passes 161 local tests using Python standard library only.
 - Stage 41 added a workflow readiness audit so the GPU workflow command chain is statically checked before downloads or inference. The backend prototype now passes 164 local tests using Python standard library only.
+- Stage 42 added a GPU evidence import workflow so returned evidence archives are safely extracted, validated, imported, and used to regenerate the import audit and final feasibility report. The backend prototype now passes 167 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -221,4 +222,10 @@ Package small GPU-host evidence for import:
 
 ```bash
 bash scripts/package_gpu_evidence.sh
+```
+
+Import a returned GPU evidence package locally:
+
+```powershell
+.\scripts\import_gpu_evidence_package.ps1 -Archive outputs\gpu-evidence-<timestamp>.tar.gz
 ```

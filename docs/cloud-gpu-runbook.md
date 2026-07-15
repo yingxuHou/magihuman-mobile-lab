@@ -411,11 +411,11 @@ Before importing the package, inspect `evidence-provenance.md`. It should show t
 Copy the produced archive back to the local repository machine, unpack it into the project root, then audit:
 
 ```bash
-python -m backend.evidence_import \
-  --log-dir logs \
-  --quality-review docs/quality-review.json \
-  --cost-review docs/cost-review.json \
-  --final-report-output docs/mobile-feasibility-report.md \
-  --format markdown \
-  --output docs/gpu-evidence-import-audit.md
+bash scripts/import_gpu_evidence_package.sh outputs/gpu-evidence-<timestamp>.tar.gz
+```
+
+On Windows:
+
+```powershell
+.\scripts\import_gpu_evidence_package.ps1 -Archive outputs\gpu-evidence-<timestamp>.tar.gz
 ```

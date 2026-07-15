@@ -174,4 +174,7 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/workflow_readiness_audit.py` and integrated it into `scripts/run_gpu_reproduction_workflow.sh` before expensive GPU steps.
 - Generated tracked readiness reports at `docs/gpu-workflow-readiness-audit.md/json`; current status is `ready`.
 - Local workflow-readiness validation passed; total local backend tests now 164.
+- Completed Stage 42 GPU evidence import workflow.
+- Added `backend/gpu_evidence_import_workflow.py` plus Bash/PowerShell wrappers to safely extract returned evidence archives, reject packages containing generated videos or model weights, import only small evidence files, and regenerate the import audit plus final feasibility report.
+- Local GPU evidence import workflow validation passed; total local backend tests now 167.
 - No inference run has been completed yet.
