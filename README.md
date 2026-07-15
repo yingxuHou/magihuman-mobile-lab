@@ -33,3 +33,11 @@ Official references:
 7. Use the measured data to decide between on-device inference, cloud GPU inference, or stopping the app integration attempt.
 
 Large files such as model weights, generated videos, and cloned third-party repositories should not be committed directly.
+
+## Current Status
+
+- Stage 00 official verification is complete.
+- Stage 01 local environment check is complete.
+- Stage 02 route decision is complete.
+- Local full inference is not viable on the current workstation because no NVIDIA GPU/CUDA/Docker/Conda environment is available.
+- Actual inference reproduction should run on a Linux NVIDIA GPU machine, preferably H100, using the official Docker image `sandai/magi-human:latest`.

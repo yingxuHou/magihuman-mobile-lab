@@ -1,0 +1,119 @@
+# Cloud GPU Runbook
+
+This runbook is for the machine that will actually run daVinci-MagiHuman inference.
+
+## Target Machine
+
+Preferred:
+
+- Linux
+- NVIDIA H100
+- Docker
+- NVIDIA Container Toolkit
+- At least 500 GiB disk
+
+Minimum for exploratory testing:
+
+- High-VRAM NVIDIA GPU
+- Working `nvidia-smi`
+- Enough disk for the selected checkpoint group and external models
+
+## 1. Clone Project
+
+```bash
+git clone https://github.com/yingxuHou/magihuman-mobile-lab.git
+cd magihuman-mobile-lab
+```
+
+## 2. Check Environment
+
+```bash
+nvidia-smi
+docker --version
+docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi
+git --version
+git lfs version
+python3 --version
+df -h
+```
+
+## 3. Pull Official Docker Image
+
+```bash
+docker pull sandai/magi-human:latest
+```
+
+## 4. Start Container
+
+```bash
+mkdir -p third_party models outputs logs
+
+docker run -it --gpus all --network host --ipc host \
+  -v "$PWD/third_party:/workspace" \
+  -v "$PWD/models:/models" \
+  -v "$PWD/outputs:/outputs" \
+  -v "$PWD/logs:/logs" \
+  --name my-magi-human \
+  sandai/magi-human:latest \
+  bash
+```
+
+## 5. Inside Container
+
+```bash
+cd /workspace
+git clone https://github.com/SandAI-org/MagiCompiler.git
+cd MagiCompiler
+pip install -r requirements.txt
+pip install .
+cd /workspace
+git clone https://github.com/GAIR-NLP/daVinci-MagiHuman
+cd daVinci-MagiHuman
+```
+
+## 6. Download Checkpoints
+
+The official README requires:
+
+- `GAIR/daVinci-MagiHuman`
+- `google/t5gemma-9b-9b-ul2`
+- `stabilityai/stable-audio-open-1.0`
+- `Wan-AI/Wan2.2-TI2V-5B`
+
+Use `huggingface-cli download` after confirming access and disk capacity.
+
+## 7. First Smoke Test
+
+Start with base 256p T2V:
+
+```bash
+cd /workspace/daVinci-MagiHuman
+bash example/base/run_T2V.sh
+```
+
+Record:
+
+- Command
+- GPU model
+- Peak VRAM
+- Total runtime
+- Output path
+- Log path
+- Whether mp4 plays correctly
+
+## 8. Report Back
+
+After each run, update:
+
+- `docs/reproduction-log.md`
+- `docs/mobile-feasibility.md`
+- a stage report under `docs/`
+
+Then commit and push:
+
+```bash
+git status
+git add docs scripts 7.15-todolist.md
+git commit -m "Record <stage>"
+git push
+```

@@ -16,4 +16,7 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Local machine has Intel Iris Xe Graphics only; no NVIDIA GPU was detected.
 - `nvidia-smi`, `nvcc`, Docker, Conda, and torch are unavailable in the current environment.
 - Local full inference reproduction is not viable on this machine. Continue local source/runbook preparation and move actual inference to a cloud or remote NVIDIA GPU environment.
+- Completed Stage 02 reproduction route decision.
+- Selected actual inference route: Linux NVIDIA GPU machine, preferably H100, using official Docker image `sandai/magi-human:latest`.
+- Added cloud GPU runbook.
 - No inference run has been completed yet.
