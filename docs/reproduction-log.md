@@ -144,4 +144,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/pipeline_artifact_audit.py` to verify expected logs, reports, metrics JSON, and result MP4 files for P01 and full GPU pipeline runs.
 - Integrated artifact audit generation into P01 and full GPU pipelines, and added artifact audit JSON to evidence packaging.
 - Local pipeline artifact audit validation passed; total local backend tests now 131.
+- Completed Stage 35 upstream drift audit.
+- Added `backend/upstream_drift_audit.py` and generated `docs/upstream-drift-audit.md/json`.
+- Live upstream metadata audit reports `locked_current`: daVinci-MagiHuman code, MagiCompiler code, Hugging Face model, and Hugging Face Space all match the project lock.
+- Local upstream drift audit validation passed; total local backend tests now 136.
 - No inference run has been completed yet.

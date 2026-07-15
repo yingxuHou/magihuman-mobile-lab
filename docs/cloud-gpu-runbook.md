@@ -35,6 +35,14 @@ bash scripts/bootstrap_gpu_host.sh
 bash outputs/run_magi_container.sh
 ```
 
+The bootstrap script also writes `outputs/reports/upstream_drift_audit.md` and `.json` by default. Confirm the status is `locked_current` before spending GPU time. If the GPU host cannot reach GitHub/Hugging Face metadata, run:
+
+```bash
+python -m backend.upstream_drift_audit --format markdown
+```
+
+Use `UPSTREAM_DRIFT_AUDIT=0 bash scripts/bootstrap_gpu_host.sh` only when metadata access is unavailable and the locked commits were already checked elsewhere.
+
 Inside the container:
 
 ```bash

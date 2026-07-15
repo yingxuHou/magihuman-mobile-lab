@@ -70,6 +70,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 32 added evidence package provenance so returned GPU evidence records the project commit, official source commits, worktree dirty state, and P01 manifest hash. The backend prototype now passes 120 local tests using Python standard library only.
 - Stage 33 added a Hugging Face access audit so P01 and required-suite downloads verify gated repository access with lightweight HEAD probes before checkpoint transfer. The backend prototype now passes 126 local tests using Python standard library only.
 - Stage 34 added pipeline artifact audits so successful P01 and full GPU runs verify their expected logs, reports, metrics, and result MP4 files before evidence packaging. The backend prototype now passes 131 local tests using Python standard library only.
+- Stage 35 added an upstream drift audit so GPU runs can verify the locked official code/model/Space SHAs still match current upstream metadata before spending GPU time. The backend prototype now passes 136 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -108,6 +109,12 @@ Bootstrap a fresh Linux NVIDIA GPU host and generate the container launcher:
 ```bash
 export HF_TOKEN="<your_huggingface_token>"
 bash scripts/bootstrap_gpu_host.sh
+```
+
+Audit upstream locks:
+
+```bash
+python -m backend.upstream_drift_audit --format markdown
 ```
 
 Or run the full GPU-host pipeline:

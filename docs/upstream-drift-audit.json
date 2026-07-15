@@ -1,0 +1,49 @@
+{
+  "status": "locked_current",
+  "rows": [
+    {
+      "id": "daVinci-MagiHuman-code",
+      "kind": "git",
+      "source": "https://github.com/GAIR-NLP/daVinci-MagiHuman.git",
+      "ref": "refs/heads/main",
+      "locked_sha": "209209b7086eba2020c5439265221495a8357322",
+      "upstream_sha": "209209b7086eba2020c5439265221495a8357322",
+      "status": "matches_lock",
+      "detail": "git ls-remote refs/heads/main"
+    },
+    {
+      "id": "MagiCompiler-code",
+      "kind": "git",
+      "source": "https://github.com/SandAI-org/MagiCompiler.git",
+      "ref": "refs/heads/main",
+      "locked_sha": "bfef5bc70226a0c0740e4c551e4f7245a974fb4f",
+      "upstream_sha": "bfef5bc70226a0c0740e4c551e4f7245a974fb4f",
+      "status": "matches_lock",
+      "detail": "git ls-remote refs/heads/main"
+    },
+    {
+      "id": "daVinci-MagiHuman-model",
+      "kind": "hf_model",
+      "source": "GAIR/daVinci-MagiHuman",
+      "api_url": "https://huggingface.co/api/models/GAIR/daVinci-MagiHuman",
+      "locked_sha": "7fe95e50c11bd92bdadf94cd51dbec18427f8e0c",
+      "upstream_sha": "7fe95e50c11bd92bdadf94cd51dbec18427f8e0c",
+      "last_modified": "2026-03-25T14:00:27.000Z",
+      "status": "matches_lock",
+      "detail": "https://huggingface.co/api/models/GAIR/daVinci-MagiHuman"
+    },
+    {
+      "id": "daVinci-MagiHuman-space",
+      "kind": "hf_space",
+      "source": "SII-GAIR/daVinci-MagiHuman",
+      "api_url": "https://huggingface.co/api/spaces/SII-GAIR/daVinci-MagiHuman",
+      "locked_sha": "f4ca1ddf0ab78843686894301a8d0d7ec2cf027b",
+      "upstream_sha": "f4ca1ddf0ab78843686894301a8d0d7ec2cf027b",
+      "last_modified": "2026-03-24T12:36:17.000Z",
+      "status": "matches_lock",
+      "detail": "https://huggingface.co/api/spaces/SII-GAIR/daVinci-MagiHuman"
+    }
+  ],
+  "drift": [],
+  "unreachable": []
+}
