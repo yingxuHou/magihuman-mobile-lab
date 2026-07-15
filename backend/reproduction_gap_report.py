@@ -130,6 +130,7 @@ def reproduction_gap_status(final_report, required_suite_acceptance, review_read
 
 
 def build_reproduction_gap_report(
+    project_root=".",
     log_dir="logs",
     result_dir="outputs/experiment-results",
     p01_result_path="outputs/smoke-test/P01.mp4",
@@ -157,7 +158,7 @@ def build_reproduction_gap_report(
         quality_review_path=quality_review_path or "docs/quality-review.json",
         cost_review_path=cost_review_path or "docs/cost-review.json",
     )
-    execution_packet = build_execution_packet(repo_url=repo_url)
+    execution_packet = build_execution_packet(project_root=project_root, repo_url=repo_url)
     gaps = build_gap_items(final_report, required_suite, review_readiness, execution_packet)
     status = reproduction_gap_status(final_report, required_suite, review_readiness, execution_packet)
 
@@ -211,6 +212,7 @@ def markdown_gap_report(report):
 
 def main():
     parser = argparse.ArgumentParser(description="Summarize remaining gaps before final MagiHuman mobile feasibility decision")
+    parser.add_argument("--project-root", default=".")
     parser.add_argument("--log-dir", default="logs")
     parser.add_argument("--result-dir", default="outputs/experiment-results")
     parser.add_argument("--p01-result-path", default="outputs/smoke-test/P01.mp4")
@@ -224,6 +226,7 @@ def main():
     args = parser.parse_args()
 
     report = build_reproduction_gap_report(
+        project_root=args.project_root,
         log_dir=args.log_dir,
         result_dir=args.result_dir,
         p01_result_path=args.p01_result_path,

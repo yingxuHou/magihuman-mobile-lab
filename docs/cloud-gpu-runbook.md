@@ -445,3 +445,5 @@ After import, regenerate the gap report:
 ```powershell
 python -m backend.reproduction_gap_report --format markdown --output docs\reproduction-gap-report.md
 ```
+
+The import workflow also refreshes `docs/reproduction-gap-report.md` automatically after safe import; rerun the command above only if you want to regenerate it after editing review files.

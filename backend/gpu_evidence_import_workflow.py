@@ -7,6 +7,7 @@ from pathlib import Path, PurePosixPath
 from backend.evidence_import import build_import_audit, markdown_import_audit
 from backend.evidence_package import build_manifest
 from backend.final_report import build_final_report, markdown_final_report
+from backend.reproduction_gap_report import build_reproduction_gap_report, markdown_gap_report
 from backend.review_readiness import build_review_readiness, markdown_review_readiness
 
 
@@ -94,6 +95,7 @@ def build_import_workflow_report(
     final_report_output="docs/mobile-feasibility-report.md",
     import_audit_output="docs/gpu-evidence-import-audit.md",
     review_readiness_output="docs/review-readiness.md",
+    gap_report_output="docs/reproduction-gap-report.md",
 ):
     project_root = Path(project_root)
     extracted_dir = extract_archive(archive_path, extract_root=project_root / extract_root)
@@ -110,6 +112,7 @@ def build_import_workflow_report(
             "import_audit": None,
             "final_report_status": None,
             "review_readiness_status": None,
+            "gap_report_status": None,
         }
 
     imported_files = copy_importable_files(package_dir, project_root)
@@ -143,6 +146,16 @@ def build_import_workflow_report(
     )
     write_text(project_root / import_audit_output, markdown_import_audit(import_audit))
     write_text(project_root / final_report_output, markdown_final_report(final_report))
+    gap_report = build_reproduction_gap_report(
+        project_root=project_root,
+        log_dir=project_root / "logs",
+        result_dir=project_root / "outputs" / "experiment-results",
+        p01_result_path=project_root / "outputs" / "smoke-test" / "P01.mp4",
+        p01_manifest_path=project_root / "docs" / "p01-smoke-manifest.json",
+        quality_review_path=quality_path,
+        cost_review_path=cost_path,
+    )
+    write_text(project_root / gap_report_output, markdown_gap_report(gap_report))
 
     status = "imported_ready_for_final_update" if import_audit["status"] == "ready_for_final_update" else "imported_incomplete"
     return {
@@ -155,6 +168,7 @@ def build_import_workflow_report(
         "import_audit": import_audit,
         "final_report_status": final_report["status"],
         "review_readiness_status": review_readiness["status"],
+        "gap_report_status": gap_report["status"],
     }
 
 
@@ -170,6 +184,7 @@ def markdown_import_workflow_report(report):
         "- Imported file count: {}".format(len(report["imported_files"])),
         "- Final report status: `{}`".format(report["final_report_status"] or "-"),
         "- Review readiness status: `{}`".format(report["review_readiness_status"] or "-"),
+        "- Reproduction gap status: `{}`".format(report["gap_report_status"] or "-"),
         "",
         "## Imported Files",
         "",
@@ -194,6 +209,7 @@ def main():
     parser.add_argument("--final-report-output", default="docs/mobile-feasibility-report.md")
     parser.add_argument("--import-audit-output", default="docs/gpu-evidence-import-audit.md")
     parser.add_argument("--review-readiness-output", default="docs/review-readiness.md")
+    parser.add_argument("--gap-report-output", default="docs/reproduction-gap-report.md")
     parser.add_argument("--workflow-output", default="docs/gpu-evidence-import-workflow.md")
     parser.add_argument("--format", choices=["json", "markdown"], default="markdown")
     parser.add_argument("--output")
@@ -209,6 +225,7 @@ def main():
         final_report_output=args.final_report_output,
         import_audit_output=args.import_audit_output,
         review_readiness_output=args.review_readiness_output,
+        gap_report_output=args.gap_report_output,
     )
     body = json.dumps(report, ensure_ascii=False, indent=2) if args.format == "json" else markdown_import_workflow_report(report)
     output = args.output or args.workflow_output

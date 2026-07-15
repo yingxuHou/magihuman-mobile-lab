@@ -42,7 +42,9 @@ class GpuEvidenceImportWorkflowTest(unittest.TestCase):
             self.assertTrue((project / "docs" / "gpu-evidence-import-audit.md").is_file())
             self.assertTrue((project / "docs" / "mobile-feasibility-report.md").is_file())
             self.assertTrue((project / "docs" / "review-readiness.md").is_file())
+            self.assertTrue((project / "docs" / "reproduction-gap-report.md").is_file())
             self.assertEqual(report["review_readiness_status"], "runtime_not_ready")
+            self.assertEqual(report["gap_report_status"], "handoff_not_ready")
 
     def test_forbidden_media_package_is_not_imported(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -55,6 +57,7 @@ class GpuEvidenceImportWorkflowTest(unittest.TestCase):
 
         self.assertEqual(report["status"], "package_not_imported")
         self.assertEqual(report["imported_files"], [])
+        self.assertIsNone(report["gap_report_status"])
 
     def test_unsafe_archive_member_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:

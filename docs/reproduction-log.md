@@ -191,4 +191,7 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/reproduction_gap_report.py` plus Bash/PowerShell wrappers to summarize missing runtime, mobile playback, quality, cost, review-readiness, and handoff evidence.
 - Generated current tracked gap report at `docs/reproduction-gap-report.md/json`; current status is `awaiting_gpu_runtime`.
 - Local reproduction-gap validation passed; total local backend tests now 184.
+- Completed Stage 46 import gap report refresh.
+- Updated `backend/gpu_evidence_import_workflow.py` so safe evidence import also regenerates `docs/reproduction-gap-report.md` and reports the reproduction gap status.
+- Local import/gap integration validation passed; total local backend tests remain 184.
 - No inference run has been completed yet.
