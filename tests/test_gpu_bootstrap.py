@@ -16,13 +16,15 @@ class GpuBootstrapTest(unittest.TestCase):
         command = docker_run_command(project_root="/work/magihuman")
 
         self.assertIn("--gpus all", command)
+        self.assertIn("-e HF_TOKEN", command)
+        self.assertIn("-e HUGGINGFACE_HUB_TOKEN", command)
         self.assertIn('-v "/work/magihuman:/repo"', command)
         self.assertIn(DEFAULT_DOCKER_IMAGE, command)
 
     def test_container_commands_include_pipeline_flags(self):
         commands = container_commands(download_models=True, execute=True, include_optional=True)
 
-        self.assertIn("bash scripts/prepare_sources.sh", commands)
+        self.assertIn("INSTALL_MAGICOMPILER=1 bash scripts/prepare_sources.sh", commands)
         self.assertIn(
             "PREPARE_SOURCES=0 DOWNLOAD_MODELS=1 EXECUTE=1 INCLUDE_OPTIONAL=1 bash scripts/gpu_reproduction_pipeline.sh",
             commands,

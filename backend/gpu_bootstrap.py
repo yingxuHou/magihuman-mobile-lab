@@ -20,6 +20,8 @@ def docker_run_command(project_root="$PWD", image=DEFAULT_DOCKER_IMAGE, containe
             "--ipc host",
             "--shm-size 64g",
             "--name {}".format(container_name),
+            "-e HF_TOKEN",
+            "-e HUGGINGFACE_HUB_TOKEN",
             '-v "{}:/repo"'.format(project_root),
             "-w /repo",
             image,
@@ -30,7 +32,7 @@ def docker_run_command(project_root="$PWD", image=DEFAULT_DOCKER_IMAGE, containe
 
 def container_commands(download_models=False, execute=False, include_optional=False):
     commands = [
-        "bash scripts/prepare_sources.sh",
+        "INSTALL_MAGICOMPILER=1 bash scripts/prepare_sources.sh",
         "python -m backend.gpu_preflight --mode container --format markdown",
     ]
     env_parts = ["PREPARE_SOURCES=0"]

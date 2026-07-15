@@ -91,4 +91,9 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `scripts/prepare_sources.sh` to clone or update daVinci-MagiHuman and MagiCompiler at verified commits.
 - Added `scripts/bootstrap_gpu_host.sh` to run host preflight, write the bootstrap plan, generate `outputs/run_magi_container.sh`, and optionally pull/run the official Docker image.
 - Local bootstrap validation passed; total local backend tests now 79.
+- Completed Stage 22 GPU pipeline hardening.
+- Added Hugging Face auth preflight for gated model downloads and strict preflight failure mode.
+- Updated the GPU pipeline to prepare official sources before preflight and run a post-download model directory check when `DOWNLOAD_MODELS=1`.
+- Updated the generated Docker command to pass `HF_TOKEN` and `HUGGINGFACE_HUB_TOKEN` into the container.
+- Local pipeline hardening validation passed; total local backend tests now 81.
 - No inference run has been completed yet.

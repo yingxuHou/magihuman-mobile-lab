@@ -57,6 +57,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 19 added a combined final feasibility report generator. The backend prototype now passes 69 local tests using Python standard library only.
 - Stage 20 added GPU evidence packaging and import-audit tooling. The backend prototype now passes 74 local tests using Python standard library only.
 - Stage 21 added GPU host bootstrap and verified source-locking tooling. The backend prototype now passes 79 local tests using Python standard library only.
+- Stage 22 hardened the GPU pipeline with source preparation, Hugging Face auth preflight, post-download model checks, and Docker token passthrough. The backend prototype now passes 81 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -87,13 +88,14 @@ bash scripts/run_experiment_suite.sh --execute
 Bootstrap a fresh Linux NVIDIA GPU host and generate the container launcher:
 
 ```bash
+export HF_TOKEN="<your_huggingface_token>"
 bash scripts/bootstrap_gpu_host.sh
 ```
 
 Or run the full GPU-host pipeline:
 
 ```bash
-DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 ```
 
 Create a quality review template after samples exist:

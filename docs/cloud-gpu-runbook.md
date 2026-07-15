@@ -30,6 +30,7 @@ cd magihuman-mobile-lab
 Use the bootstrap script on a fresh GPU host. It runs host preflight, writes the bootstrap plan, creates `outputs/run_magi_container.sh`, and can pull the official Docker image.
 
 ```bash
+export HF_TOKEN="<your_huggingface_token>"
 bash scripts/bootstrap_gpu_host.sh
 bash outputs/run_magi_container.sh
 ```
@@ -37,8 +38,7 @@ bash outputs/run_magi_container.sh
 Inside the container:
 
 ```bash
-INSTALL_MAGICOMPILER=1 bash scripts/prepare_sources.sh
-DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 bash scripts/package_gpu_evidence.sh
 ```
 
@@ -46,6 +46,8 @@ The bootstrap path locks source repositories to the verified commits:
 
 - daVinci-MagiHuman: `209209b7086eba2020c5439265221495a8357322`
 - MagiCompiler: `bfef5bc70226a0c0740e4c551e4f7245a974fb4f`
+
+The generated Docker command passes `HF_TOKEN` and `HUGGINGFACE_HUB_TOKEN` into the container, so set one of them on the host before running `outputs/run_magi_container.sh`.
 
 The manual steps below are retained for debugging individual setup failures.
 
@@ -100,6 +102,8 @@ The official README requires:
 - `Wan-AI/Wan2.2-TI2V-5B`
 
 Use `huggingface-cli download` after confirming access and disk capacity.
+
+The pipeline checks Hugging Face auth before download when `DOWNLOAD_MODELS=1`. Either set `HF_TOKEN`/`HUGGINGFACE_HUB_TOKEN` or run `huggingface-cli login` inside the container.
 
 ## 8. First Smoke Test
 

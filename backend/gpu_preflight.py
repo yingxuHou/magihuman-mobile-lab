@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 import shutil
 from pathlib import Path
 
@@ -16,6 +17,7 @@ HOST_COMMANDS = [
 CONTAINER_COMMANDS = [
     ("nvidia-smi", "nvidia-smi", True),
     ("torchrun", "torchrun", True),
+    ("git", "git", True),
     ("python", "python", True),
     ("bash", "bash", True),
     ("ffmpeg", "ffmpeg", False),
@@ -28,6 +30,8 @@ MODEL_DIRS = [
     "stable-audio-open-1.0",
     "Wan2.2-TI2V-5B",
 ]
+
+HUGGINGFACE_TOKEN_NAMES = ["HF_TOKEN", "HUGGINGFACE_HUB_TOKEN"]
 
 
 def command_check(label, command, required=True, lookup=None):
@@ -77,14 +81,43 @@ def disk_check(label, path, min_free_gib, required=True):
     }
 
 
+def auth_check(label="huggingface auth", required=True, env=None, home=None):
+    env = env if env is not None else os.environ
+    for name in HUGGINGFACE_TOKEN_NAMES:
+        if env.get(name):
+            return {
+                "type": "auth",
+                "name": label,
+                "target": "Hugging Face",
+                "required": required,
+                "ok": True,
+                "detail": "token found in {}".format(name),
+            }
+
+    home = Path(home) if home is not None else Path.home()
+    token_file = home / ".cache" / "huggingface" / "token"
+    ok = token_file.is_file()
+    return {
+        "type": "auth",
+        "name": label,
+        "target": "Hugging Face",
+        "required": required,
+        "ok": ok,
+        "detail": "token cache exists" if ok else "set HF_TOKEN, HUGGINGFACE_HUB_TOKEN, or run huggingface-cli login",
+    }
+
+
 def build_preflight(
     project_root=".",
     repo_dir="third_party/daVinci-MagiHuman",
     model_root="models",
     mode="host",
     require_models=False,
+    require_hf_auth=False,
     min_disk_gib=500.0,
     command_lookup=None,
+    env=None,
+    home=None,
 ):
     project_root = Path(project_root)
     repo_dir = Path(repo_dir)
@@ -99,6 +132,9 @@ def build_preflight(
     for model_dir in MODEL_DIRS:
         checks.append(path_check("model {}".format(model_dir), model_root / model_dir, required=require_models))
 
+    if require_hf_auth:
+        checks.append(auth_check(required=True, env=env, home=home))
+
     checks.append(disk_check("disk free", project_root, min_disk_gib, required=True))
 
     required_failures = [check for check in checks if check["required"] and not check["ok"]]
@@ -106,6 +142,7 @@ def build_preflight(
         "mode": mode,
         "status": "ready" if not required_failures else "not_ready",
         "require_models": require_models,
+        "require_hf_auth": require_hf_auth,
         "min_disk_gib": min_disk_gib,
         "checks": checks,
         "required_failures": required_failures,
@@ -119,6 +156,7 @@ def markdown_preflight(report):
         "- Mode: `{}`".format(report["mode"]),
         "- Status: `{}`".format(report["status"]),
         "- Require models: {}".format("yes" if report["require_models"] else "no"),
+        "- Require Hugging Face auth: {}".format("yes" if report.get("require_hf_auth") else "no"),
         "- Minimum disk: {:.2f} GiB".format(report["min_disk_gib"]),
         "",
         "| Type | Check | Required | Status | Detail |",
@@ -144,9 +182,11 @@ def main():
     parser.add_argument("--model-root", default="models")
     parser.add_argument("--mode", choices=["host", "container"], default="host")
     parser.add_argument("--require-models", action="store_true")
+    parser.add_argument("--require-hf-auth", action="store_true")
     parser.add_argument("--min-disk-gib", type=float, default=500.0)
     parser.add_argument("--format", choices=["json", "markdown"], default="markdown")
     parser.add_argument("--output")
+    parser.add_argument("--strict", action="store_true", help="Exit non-zero when required checks fail.")
     args = parser.parse_args()
 
     report = build_preflight(
@@ -155,6 +195,7 @@ def main():
         model_root=args.model_root,
         mode=args.mode,
         require_models=args.require_models,
+        require_hf_auth=args.require_hf_auth,
         min_disk_gib=args.min_disk_gib,
     )
     body = json.dumps(report, ensure_ascii=False, indent=2) if args.format == "json" else markdown_preflight(report)
@@ -163,6 +204,8 @@ def main():
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(body + "\n", encoding="utf-8")
     print(body)
+    if args.strict and report["status"] != "ready":
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

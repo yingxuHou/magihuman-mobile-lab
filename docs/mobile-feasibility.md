@@ -45,6 +45,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Final feasibility report generator passed local tests; total backend tests now 69 | Static, runtime, quality, and cost evidence are now combined into one tracked report |
 | 2026-07-16 | GPU evidence import audit passed local tests; total backend tests now 74 | GPU host evidence can now be packaged, imported, audited, and used to refresh the final report without committing videos or model weights |
 | 2026-07-16 | GPU host bootstrap and source-locking tooling passed local tests; total backend tests now 79 | A fresh GPU host can now generate a preflight report, a Docker launcher, and verified source checkouts before running the required experiment suite |
+| 2026-07-16 | GPU pipeline hardening passed local tests; total backend tests now 81 | The GPU run now fails early for missing Hugging Face auth, prepares official sources before preflight, and verifies model directories after download |
 
 ## Interim Position
 
@@ -98,12 +99,13 @@ bash scripts/run_experiment_suite.sh --execute
 Full pipeline:
 
 ```bash
-DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 ```
 
 Fresh GPU host bootstrap:
 
 ```bash
+export HF_TOKEN="<your_huggingface_token>"
 bash scripts/bootstrap_gpu_host.sh
 bash outputs/run_magi_container.sh
 ```

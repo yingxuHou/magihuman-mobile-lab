@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from backend.gpu_preflight import build_preflight, command_check, markdown_preflight, path_check
+from backend.gpu_preflight import auth_check, build_preflight, command_check, markdown_preflight, path_check
 
 
 def fake_lookup(command):
@@ -21,6 +21,27 @@ class GpuPreflightTest(unittest.TestCase):
 
         self.assertFalse(check["ok"])
         self.assertTrue(check["required"])
+
+    def test_auth_check_accepts_env_token(self):
+        check = auth_check(env={"HF_TOKEN": "secret"}, home="does-not-exist")
+
+        self.assertTrue(check["ok"])
+        self.assertEqual(check["detail"], "token found in HF_TOKEN")
+
+    def test_hf_auth_required_when_requested(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            report = build_preflight(
+                project_root=root,
+                require_hf_auth=True,
+                min_disk_gib=0,
+                command_lookup=fake_lookup,
+                env={},
+                home=root / "home",
+            )
+
+        self.assertEqual(report["status"], "not_ready")
+        self.assertIn("huggingface auth", [item["name"] for item in report["required_failures"]])
 
     def test_ready_when_required_paths_and_commands_exist(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -70,6 +91,7 @@ class GpuPreflightTest(unittest.TestCase):
         self.assertIn("# GPU Preflight", text)
         self.assertIn("nvidia-smi", text)
         self.assertIn("Status:", text)
+        self.assertIn("Require Hugging Face auth:", text)
 
 
 if __name__ == "__main__":
