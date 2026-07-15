@@ -19,4 +19,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Completed Stage 02 reproduction route decision.
 - Selected actual inference route: Linux NVIDIA GPU machine, preferably H100, using official Docker image `sandai/magi-human:latest`.
 - Added cloud GPU runbook.
+- Completed Stage 03 local source preparation.
+- Cloned `GAIR-NLP/daVinci-MagiHuman` locally under ignored `third_party/`, commit `209209b7086eba2020c5439265221495a8357322`.
+- Cloned `SandAI-org/MagiCompiler` locally under ignored `third_party/`, commit `bfef5bc70226a0c0740e4c551e4f7245a974fb4f`.
+- Added cloud environment, model download, and base 256p T2V smoke-test scripts.
 - No inference run has been completed yet.

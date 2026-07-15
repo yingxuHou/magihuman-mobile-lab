@@ -5,10 +5,15 @@ article.md
 models/
 outputs/*
 !outputs/.gitkeep
+logs/*
+!logs/.gitkeep
 
 # Cloned upstream repositories
 third_party/*
 !third_party/.gitkeep
+
+# Generated run configs
+run_configs/
 
 # Python/cache files
 __pycache__/
@@ -32,4 +37,3 @@ __pycache__/
 .venv/
 venv/
 conda-meta/
-
