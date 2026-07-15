@@ -156,4 +156,9 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Updated `scripts/download_models.sh` so every Hugging Face download command is logged as `download_command=...`.
 - Added `backend/download_log_audit.py` and integrated it into P01/full pipelines after checkpoint download.
 - Local download log audit validation passed; total local backend tests now 146.
+- Completed Stage 38 P01 smoke acceptance gate.
+- Added `backend/p01_acceptance.py` to combine P01 runtime metrics, metrics context audit, expected result MP4 existence, 5-second duration tolerance, audio/video presence, and mobile video compatibility into one proceed/stop decision.
+- Integrated the acceptance gate into `scripts/run_p01_smoke_pipeline.sh` for `EXECUTE=1` runs.
+- Added P01 acceptance JSON/Markdown to pipeline artifact audit and GPU evidence packaging.
+- Local P01 acceptance validation passed; total local backend tests now 151.
 - No inference run has been completed yet.

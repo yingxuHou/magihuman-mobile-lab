@@ -47,9 +47,10 @@ Inside the container:
 
 ```bash
 INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pipeline.sh
-EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 bash scripts/package_gpu_evidence.sh
 ```
+
+Only start `EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh` after the P01 acceptance report says `ready_for_full_suite` or `ready_for_full_suite_with_transcode_required`.
 
 The bootstrap path locks source repositories to the verified commits:
 
@@ -176,7 +177,7 @@ Start with the worker-compatible runner:
 INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pipeline.sh
 ```
 
-This runs only P01: 256p, T2V, base model, 5 seconds. Continue to the full suite only after P01 writes a playable mp4 and metrics JSON.
+This runs only P01: 256p, T2V, base model, 5 seconds. Continue to the full suite only after P01 writes a playable mp4, metrics JSON, matching run context, and an acceptance report whose status starts with `ready_for_full_suite`.
 
 Before download or execution, the P01 pipeline checks that `docs/p01-smoke-manifest.json` matches the generated P01 plan. It writes:
 
@@ -225,7 +226,15 @@ Record:
 - Whether mp4 plays correctly
 - Metrics JSON path from `scripts/magihuman_task_runner.sh`
 - Mobile video compatibility report from `python -m backend.mobile_video_check --log-dir logs --cases P01 --format markdown`
+- P01 acceptance report from `python -m backend.p01_acceptance --log-dir logs --result-path outputs/smoke-test/P01.mp4 --format markdown`
 - P01 checkpoint audit report from `python -m backend.model_audit --model-root models --profile p01 --format markdown`
+
+The P01 pipeline writes:
+
+- `logs/p01_acceptance_<timestamp>.json`
+- `outputs/reports/p01_acceptance_<timestamp>.md`
+
+If the status is `not_ready`, do not run P03/P04/T01/T02 yet. If the status is `ready_for_full_suite_with_transcode_required`, the full suite may run, but final mobile feasibility must include a mobile delivery transcode path.
 
 If metrics are not generated automatically, run:
 
@@ -263,7 +272,7 @@ python -m backend.experiment_matrix --output run_configs/experiment_matrix.json
 python -m backend.experiment_matrix --format markdown
 ```
 
-Run `P01` first. Continue with `P03`, `P04`, and multilingual TI2V cases only after `P01` produces a playable mp4 and valid metrics JSON.
+Run `P01` first. Continue with `P03`, `P04`, and multilingual TI2V cases only after `P01` produces a playable mp4, valid metrics JSON, and a passing P01 acceptance report.
 
 Dry-run a case:
 

@@ -61,6 +61,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Upstream drift audit passed local tests and live metadata check; total backend tests now 136 | The locked reproduction target still matches current official code/model/Space SHAs before the GPU run |
 | 2026-07-16 | P01 smoke plan audit passed local tests; total backend tests now 141 | The first GPU run is now blocked if the tracked P01 manifest diverges from the generated execution plan |
 | 2026-07-16 | Download log audit passed local tests; total backend tests now 146 | GPU-host downloads now produce an auditable command log and reject P01 runs that request SR or distill checkpoint groups |
+| 2026-07-16 | P01 smoke acceptance gate passed local tests; total backend tests now 151 | The full GPU suite is now blocked until P01 has measured metrics, matching run context, expected duration, audio/video streams, and mobile playback evidence |
 
 ## Interim Position
 
@@ -135,6 +136,12 @@ Mobile playback compatibility:
 
 ```powershell
 python -m backend.mobile_video_check --log-dir logs --format markdown
+```
+
+P01 full-suite unlock gate:
+
+```powershell
+python -m backend.p01_acceptance --log-dir logs --result-path outputs/smoke-test/P01.mp4 --format markdown
 ```
 
 Checkpoint footprint audit:

@@ -69,6 +69,7 @@ class PipelineArtifactAuditTest(unittest.TestCase):
                 "p01_preflight_{}_post_download.json",
                 "p01_model_audit_{}_post_download.json",
                 "p01_smoke_execute_{}.log",
+                "p01_acceptance_{}.json",
             ]:
                 touch(log_dir / name.format(stamp))
             for name in [
@@ -82,6 +83,7 @@ class PipelineArtifactAuditTest(unittest.TestCase):
                 "p01_smoke_plan_{}.sh",
                 "p01_experiment_results_{}.md",
                 "p01_mobile_video_check_{}.md",
+                "p01_acceptance_{}.md",
                 "p01_feasibility_decision_{}.md",
                 "p01_final_report_{}.md",
             ]:
@@ -134,6 +136,7 @@ class PipelineArtifactAuditTest(unittest.TestCase):
         self.assertIn("backend.pipeline_artifact_audit --run p01", p01)
         self.assertIn("backend.pipeline_artifact_audit --run full", full)
         self.assertIn("*artifact_audit*.json", package)
+        self.assertIn("p01_acceptance", p01)
 
 
 if __name__ == "__main__":

@@ -15,7 +15,8 @@ if [ -d logs ]; then
     -name '*hf_access*.json' -o \
     -name '*artifact_audit*.json' -o \
     -name '*smoke_plan_audit*.json' -o \
-    -name '*download_log_audit*.json' \
+    -name '*download_log_audit*.json' -o \
+    -name '*p01_acceptance*.json' \
   \) -exec cp {} "${PACKAGE_DIR}/logs/" \; 2>/dev/null || true
 fi
 

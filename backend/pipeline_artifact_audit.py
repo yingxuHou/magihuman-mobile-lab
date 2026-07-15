@@ -100,6 +100,8 @@ def build_p01_artifacts(
                 exact_row("P01 execute log", log_dir / "p01_smoke_execute_{}.log".format(stamp)),
                 glob_row("P01 metrics JSON", log_dir, "P01_*_metrics.json"),
                 exact_row("P01 result mp4", result_dir / "P01.mp4"),
+                exact_row("P01 acceptance JSON", log_dir / "p01_acceptance_{}.json".format(stamp)),
+                exact_row("P01 acceptance report", report_dir / "p01_acceptance_{}.md".format(stamp)),
             ]
         )
     add_common_reports(rows, report_dir, "p01_", stamp)

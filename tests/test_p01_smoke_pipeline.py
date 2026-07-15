@@ -18,6 +18,7 @@ class P01SmokePipelineTest(unittest.TestCase):
         self.assertIn("backend.hf_access_audit --profile p01", text)
         self.assertIn("scripts/download_models.sh", text)
         self.assertIn("backend.experiment_results", text)
+        self.assertIn("backend.p01_acceptance", text)
         self.assertIn("backend.feasibility_decision", text)
 
 

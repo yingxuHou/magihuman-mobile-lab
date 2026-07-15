@@ -73,6 +73,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 35 added an upstream drift audit so GPU runs can verify the locked official code/model/Space SHAs still match current upstream metadata before spending GPU time. The backend prototype now passes 136 local tests using Python standard library only.
 - Stage 36 added a P01 smoke plan audit so the tracked manifest must match the generated P01 execution plan before downloads or GPU execution. The backend prototype now passes 141 local tests using Python standard library only.
 - Stage 37 added checkpoint download log audits so P01 and required-suite downloads are rejected if logged Hugging Face commands request the wrong checkpoint groups. The backend prototype now passes 146 local tests using Python standard library only.
+- Stage 38 added a P01 smoke acceptance gate so the first GPU run must have measured metrics, matching context, expected duration, audio/video streams, and mobile playback evidence before the full suite runs. The backend prototype now passes 151 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -156,6 +157,12 @@ Check generated videos for mobile playback compatibility:
 
 ```powershell
 python -m backend.mobile_video_check --log-dir logs --format markdown
+```
+
+Decide whether P01 is ready to unlock the full suite:
+
+```powershell
+python -m backend.p01_acceptance --log-dir logs --result-path outputs/smoke-test/P01.mp4 --format markdown
 ```
 
 Audit downloaded checkpoint footprints:
