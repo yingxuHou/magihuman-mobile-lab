@@ -1,0 +1,76 @@
+{
+  "status": "awaiting_gpu_runtime",
+  "recommendation": "B_pending_runtime",
+  "final_report_status": "incomplete_runtime_evidence",
+  "required_suite_acceptance_status": "not_ready",
+  "review_readiness_status": "runtime_not_ready",
+  "gpu_execution_packet_status": "ready_for_gpu_handoff",
+  "gate_statuses": {
+    "Static on-device feasibility": "not_viable",
+    "Required GPU runtime metrics": "insufficient_runtime_evidence",
+    "Generated sample quality": "missing_quality_review",
+    "Cloud GPU cost and wait time": "missing_cost_review",
+    "Mobile video playback compatibility": "missing_mobile_video_evidence"
+  },
+  "missing_required_runtime_cases": [
+    "P01",
+    "P03",
+    "P04",
+    "T01",
+    "T02"
+  ],
+  "missing_mobile_video_cases": [
+    "P01",
+    "P03",
+    "P04",
+    "T01",
+    "T02"
+  ],
+  "gaps": [
+    {
+      "gate": "Required GPU runtime metrics",
+      "status": "missing",
+      "detail": "Missing required cases: P01, P03, P04, T01, T02",
+      "next_action": "Run the GPU execution packet on a Linux NVIDIA GPU host and import the returned evidence package."
+    },
+    {
+      "gate": "Required-suite acceptance",
+      "status": "not_ready",
+      "detail": "Runtime, context, result MP4, duration, audio/video, or mobile playback checks are not complete.",
+      "next_action": "Use `python -m backend.required_suite_acceptance --format markdown` after GPU evidence import."
+    },
+    {
+      "gate": "Mobile video playback evidence",
+      "status": "missing",
+      "detail": "Missing mobile playback metrics for: P01, P03, P04, T01, T02",
+      "next_action": "Collect ffprobe/video metadata from generated MP4 outputs and rerun mobile video checks."
+    },
+    {
+      "gate": "Generated sample quality review",
+      "status": "missing_quality_review",
+      "detail": "No quality review file was provided.",
+      "next_action": "Create/fill `docs/quality-review.json` only after review readiness reports `review_inputs_ready`."
+    },
+    {
+      "gate": "Cloud GPU cost and wait-time review",
+      "status": "missing_cost_review",
+      "detail": "No cost review file was provided.",
+      "next_action": "Fill `docs/cost-review.json` with GPU hourly price, overhead multiplier, max cost, and max wall time."
+    },
+    {
+      "gate": "Review input readiness",
+      "status": "runtime_not_ready",
+      "detail": "Required-suite runtime evidence is not ready; do not create or fill review inputs yet.",
+      "next_action": "Do not fill quality/cost reviews until required-suite acceptance is ready."
+    }
+  ],
+  "next_actions": [
+    "Run the GPU execution packet on a Linux NVIDIA GPU host and import the returned evidence package.",
+    "Use `python -m backend.required_suite_acceptance --format markdown` after GPU evidence import.",
+    "Collect ffprobe/video metadata from generated MP4 outputs and rerun mobile video checks.",
+    "Create/fill `docs/quality-review.json` only after review readiness reports `review_inputs_ready`.",
+    "Fill `docs/cost-review.json` with GPU hourly price, overhead multiplier, max cost, and max wall time.",
+    "Do not fill quality/cost reviews until required-suite acceptance is ready."
+  ],
+  "decision_rule": "The final mobile App recommendation remains provisional until all required runtime, quality, cost, and mobile playback gaps are closed."
+}

@@ -310,6 +310,12 @@ python -m backend.gpu_execution_packet --format markdown --output docs/gpu-execu
 
 The packet collects the clone/bootstrap/workflow commands, expected evidence archive, and local import commands in one report.
 
+Generate the current gap report before the GPU session:
+
+```bash
+python -m backend.reproduction_gap_report --format markdown --output docs/reproduction-gap-report.md
+```
+
 End-to-end workflow inside the container:
 
 ```bash
@@ -432,4 +438,10 @@ On Windows:
 
 ```powershell
 .\scripts\import_gpu_evidence_package.ps1 -Archive outputs\gpu-evidence-<timestamp>.tar.gz
+```
+
+After import, regenerate the gap report:
+
+```powershell
+python -m backend.reproduction_gap_report --format markdown --output docs\reproduction-gap-report.md
 ```
