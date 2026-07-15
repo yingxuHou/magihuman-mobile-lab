@@ -1,0 +1,35 @@
+# Local source material
+article.md
+
+# Model weights and generated artifacts
+models/
+outputs/*
+!outputs/.gitkeep
+
+# Cloned upstream repositories
+third_party/*
+!third_party/.gitkeep
+
+# Python/cache files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Large media and model files
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+
+# Environment files
+.env
+.venv/
+venv/
+conda-meta/
+
