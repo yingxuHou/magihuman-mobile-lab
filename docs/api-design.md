@@ -96,7 +96,7 @@ python -m unittest discover -s tests -v
 Current result:
 
 ```text
-Ran 6 tests
+Ran 9 tests
 OK
 ```
 
@@ -105,3 +105,39 @@ OK
 The prototype stores tasks in `api_data/tasks.json`, which is ignored by Git. A GPU worker can later poll for `queued` tasks, mark them `running`, call the MagiHuman inference script, write `result_path`, then mark the task `succeeded` or `failed`.
 
 For a single GPU worker, use one active task at a time unless measured VRAM proves safe concurrency. For H100 production, the first implementation should still serialize jobs because MagiHuman is a large video generation model and compilation/cache warmup can cause transient memory spikes.
+
+## Worker Prototype
+
+Added:
+
+- `backend/worker.py`
+- `scripts/run_worker.ps1`
+- `scripts/run_worker.sh`
+
+The worker consumes one queued task at a time. It passes task metadata through environment variables:
+
+- `MAGIHUMAN_TASK_ID`
+- `MAGIHUMAN_PROMPT`
+- `MAGIHUMAN_LANGUAGE`
+- `MAGIHUMAN_MODE`
+- `MAGIHUMAN_RESOLUTION`
+- `MAGIHUMAN_DURATION_SECONDS`
+- `MAGIHUMAN_RESULT_PATH`
+
+The configured command must create the file at `MAGIHUMAN_RESULT_PATH`. If the command exits non-zero or does not create the file, the task is marked `failed`.
+
+Example:
+
+```powershell
+python -m backend.worker `
+  --data-dir api_data `
+  --output-dir outputs/api-results `
+  --command "MODEL_ROOT=models bash scripts/run_base_t2v_smoke.sh"
+```
+
+Current validation:
+
+```text
+Ran 9 tests in 1.950s
+OK
+```

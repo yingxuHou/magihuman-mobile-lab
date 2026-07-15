@@ -35,4 +35,6 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Static source search found no official ONNX/Core ML/NCNN/MNN/TFLite/TorchScript export route.
 - Added standard-library backend API prototype and tests.
 - Local API test command passed: `python -m unittest discover -s tests -v` with 6 tests.
+- Added GPU worker prototype for consuming queued tasks and updating task states.
+- Worker prototype validation passed; total local backend tests now 9.
 - No inference run has been completed yet.
