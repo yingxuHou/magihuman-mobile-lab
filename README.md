@@ -52,6 +52,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 14 added a repeatable feasibility decision generator. The backend prototype now passes 38 local tests using Python standard library only.
 - Stage 15 added a required GPU experiment suite runner for P01/P03/P04/T01/T02. The backend prototype now passes 43 local tests using Python standard library only.
 - Stage 16 added GPU preflight checks and a pipeline script for cloud reproduction. The backend prototype now passes 48 local tests using Python standard library only.
+- Stage 17 added a structured generated-sample quality review gate. The backend prototype now passes 55 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -64,7 +65,7 @@ python -m backend.feasibility_decision --log-dir logs --format markdown
 Current output is `B_pending_runtime`:
 
 - A. Official on-device inference is `not_viable` based on model size, CUDA/server-GPU dependencies, and no visible official mobile export route.
-- B. Mobile app plus cloud GPU backend is `pending_runtime_evidence` until P01/P03/P04/T01/T02 metrics and sample quality review exist.
+- B. Mobile app plus cloud GPU backend is `pending_runtime_evidence` until P01/P03/P04/T01/T02 metrics, sample quality review, and cost review exist.
 - C. Stopping productization is `not_decided` because the cloud GPU path has not been measured yet.
 
 Plan the required GPU suite:
@@ -83,4 +84,10 @@ Or run the full GPU-host pipeline:
 
 ```bash
 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+```
+
+Create a quality review template after samples exist:
+
+```powershell
+python -m backend.quality_review --create-template --output docs/quality-review.json
 ```

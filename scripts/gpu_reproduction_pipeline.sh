@@ -14,6 +14,7 @@ MIN_DISK_GIB="${MIN_DISK_GIB:-500}"
 EXECUTE="${EXECUTE:-0}"
 DOWNLOAD_MODELS="${DOWNLOAD_MODELS:-0}"
 INCLUDE_OPTIONAL="${INCLUDE_OPTIONAL:-0}"
+QUALITY_REVIEW="${QUALITY_REVIEW:-}"
 STAMP="$(date '+%Y%m%d_%H%M%S')"
 
 mkdir -p "${LOG_DIR}" "${RESULT_DIR}" outputs/reports
@@ -51,8 +52,11 @@ fi
 
 "${PYTHON_BIN}" -m backend.experiment_results --log-dir "${LOG_DIR}" --format markdown \
   --output "outputs/reports/experiment_results_${STAMP}.md"
-"${PYTHON_BIN}" -m backend.feasibility_decision --log-dir "${LOG_DIR}" --format markdown \
-  | tee "outputs/reports/feasibility_decision_${STAMP}.md"
+FEASIBILITY_ARGS=(-m backend.feasibility_decision --log-dir "${LOG_DIR}" --format markdown)
+if [ "${QUALITY_REVIEW}" != "" ]; then
+  FEASIBILITY_ARGS+=(--quality-review "${QUALITY_REVIEW}")
+fi
+"${PYTHON_BIN}" "${FEASIBILITY_ARGS[@]}" | tee "outputs/reports/feasibility_decision_${STAMP}.md"
 
 echo "preflight_json=${LOG_DIR}/gpu_preflight_${STAMP}.json"
 echo "preflight_report=outputs/reports/gpu_preflight_${STAMP}.md"

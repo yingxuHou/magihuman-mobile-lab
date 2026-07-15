@@ -40,6 +40,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Feasibility decision generator passed local tests; current output is `B_pending_runtime` with missing required cases P01/P03/P04/T01/T02 | Official on-device stack is rejected by static evidence, while cloud backend remains pending real GPU measurements |
 | 2026-07-16 | Required GPU experiment suite runner passed local tests; total backend tests now 43 | P01/P03/P04/T01/T02 can now be planned or executed as one ordered suite on the GPU host |
 | 2026-07-16 | GPU preflight and reproduction pipeline passed local tests; total backend tests now 48 | GPU host execution now has a single auditable pipeline that produces preflight, results, and feasibility reports |
+| 2026-07-16 | Quality review gate passed local tests; total backend tests now 55 | Runtime metrics alone are not enough; final cloud feasibility now requires structured sample review evidence |
 
 ## Interim Position
 
@@ -73,6 +74,7 @@ Current output summary:
 - C. Stop app productization: `not_decided`
 - Recommendation: `B_pending_runtime`
 - Missing required runtime cases: P01, P03, P04, T01, T02
+- Missing quality review: P01, P03, P04, T01, T02
 
 ## Required GPU Suite
 
@@ -92,4 +94,24 @@ Full pipeline:
 
 ```bash
 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+```
+
+## Quality Review Gate
+
+Create a review template after GPU samples exist:
+
+```powershell
+python -m backend.quality_review --create-template --output docs/quality-review.json
+```
+
+Summarize the review:
+
+```powershell
+python -m backend.quality_review --review docs/quality-review.json --format markdown
+```
+
+Use it in the decision:
+
+```powershell
+python -m backend.feasibility_decision --log-dir logs --quality-review docs/quality-review.json --format markdown
 ```

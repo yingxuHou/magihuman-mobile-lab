@@ -70,6 +70,12 @@ Include optional cases:
 INCLUDE_OPTIONAL=1 EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 ```
 
+With a completed quality review:
+
+```bash
+QUALITY_REVIEW=docs/quality-review.json EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+```
+
 ## Pipeline Outputs
 
 The pipeline writes:

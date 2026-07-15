@@ -194,3 +194,24 @@ EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 ```
 
 The pipeline writes timestamped reports under `outputs/reports/` and logs under `logs/`.
+
+## 11. Quality Review
+
+After generated videos exist, create and fill a review file:
+
+```bash
+python -m backend.quality_review --create-template --output docs/quality-review.json
+python -m backend.quality_review --review docs/quality-review.json --format markdown
+```
+
+Then rerun the final decision with the review file:
+
+```bash
+python -m backend.feasibility_decision --log-dir logs --quality-review docs/quality-review.json --format markdown
+```
+
+Or pass the review file to the pipeline:
+
+```bash
+QUALITY_REVIEW=docs/quality-review.json EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
+```

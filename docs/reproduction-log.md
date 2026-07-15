@@ -70,4 +70,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/gpu_preflight.py` to produce structured readiness checks for GPU host and container modes.
 - Added `scripts/gpu_reproduction_pipeline.sh` to run preflight, optional model download, required experiment suite, result summary, and feasibility decision.
 - Local preflight validation passed; total local backend tests now 48.
+- Completed Stage 17 quality review gate.
+- Added `backend/quality_review.py` to create review templates and summarize P01/P03/P04/T01/T02 sample quality.
+- Updated `backend/feasibility_decision.py` so measured runtime data still needs quality review before cloud route can advance to cost review.
+- Local quality review validation passed; total local backend tests now 55.
 - No inference run has been completed yet.
