@@ -22,6 +22,23 @@ def exact_row(label, path, required=True):
     }
 
 
+def any_exact_row(label, paths, required=True):
+    candidates = [Path(path) for path in paths]
+    matches = [path for path in candidates if path.is_file()]
+    ok = bool(matches)
+    return {
+        "label": label,
+        "kind": "any_file",
+        "target": " | ".join(str(path) for path in candidates),
+        "required": required,
+        "ok": ok,
+        "count": len(matches),
+        "size_bytes": sum(path.stat().st_size for path in matches),
+        "matches": [str(path) for path in matches],
+        "detail": "{} match(es)".format(len(matches)) if ok else "missing",
+    }
+
+
 def glob_row(label, root, pattern, required=True):
     root = Path(root)
     matches = sorted(path for path in root.glob(pattern) if path.is_file())
@@ -152,7 +169,21 @@ def build_full_artifacts(
         rows.append(exact_row("experiment suite execute log", log_dir / "experiment_suite_{}.log".format(stamp)))
         for case_id in REQUIRED_FULL_CASES:
             rows.append(glob_row("{} metrics JSON".format(case_id), log_dir, "{}_*_metrics.json".format(case_id)))
-            rows.append(exact_row("{} result mp4".format(case_id), result_dir / "{}.mp4".format(case_id)))
+            if case_id == "P01":
+                rows.append(
+                    any_exact_row(
+                        "P01 result mp4",
+                        [result_dir / "P01.mp4", result_dir.parent / "smoke-test" / "P01.mp4"],
+                    )
+                )
+            else:
+                rows.append(exact_row("{} result mp4".format(case_id), result_dir / "{}.mp4".format(case_id)))
+        rows.extend(
+            [
+                exact_row("required suite acceptance JSON", log_dir / "required_suite_acceptance_{}.json".format(stamp)),
+                exact_row("required suite acceptance report", report_dir / "required_suite_acceptance_{}.md".format(stamp)),
+            ]
+        )
     else:
         rows.append(exact_row("experiment suite dry-run script", log_dir / "experiment_suite_dryrun_{}.sh".format(stamp)))
     add_common_reports(rows, report_dir, "", stamp)

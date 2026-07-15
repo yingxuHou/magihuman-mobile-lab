@@ -27,6 +27,7 @@ class PipelineScriptTest(unittest.TestCase):
         self.assertIn('run_model_audit "${STAMP}" "${INITIAL_MODEL_AUDIT_STRICT}"', text)
         self.assertIn("backend.hf_access_audit --profile required_suite", text)
         self.assertIn("backend.download_log_audit", text)
+        self.assertIn("backend.required_suite_acceptance", text)
         self.assertIn('if [ "${DOWNLOAD_MODELS}" = "1" ] && [ "${HF_ACCESS_AUDIT}" = "1" ]; then', text)
         self.assertIn('DOWNLOAD_PROFILE="${MODEL_PROFILE:-required_suite}"', text)
         self.assertIn('MODEL_PROFILE="${DOWNLOAD_PROFILE}"', text)

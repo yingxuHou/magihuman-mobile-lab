@@ -128,6 +128,37 @@ class PipelineArtifactAuditTest(unittest.TestCase):
         self.assertEqual(report["status"], "ready")
         self.assertIn("experiment suite dry-run script", text)
 
+    def test_full_execute_requires_suite_acceptance_and_all_results(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            stamp = "20260716_010203"
+            log_dir = root / "logs"
+            report_dir = root / "outputs" / "reports"
+            result_dir = root / "outputs" / "experiment-results"
+            for path in [
+                log_dir / "gpu_preflight_{}.json".format(stamp),
+                log_dir / "model_audit_{}.json".format(stamp),
+                log_dir / "experiment_suite_{}.log".format(stamp),
+                log_dir / "required_suite_acceptance_{}.json".format(stamp),
+                report_dir / "gpu_preflight_{}.md".format(stamp),
+                report_dir / "model_audit_{}.md".format(stamp),
+                report_dir / "experiment_results_{}.md".format(stamp),
+                report_dir / "mobile_video_check_{}.md".format(stamp),
+                report_dir / "required_suite_acceptance_{}.md".format(stamp),
+                report_dir / "feasibility_decision_{}.md".format(stamp),
+                report_dir / "final_report_{}.md".format(stamp),
+            ]:
+                touch(path)
+            for case_id in ["P01", "P03", "P04", "T01", "T02"]:
+                touch(log_dir / "{}_test_metrics.json".format(case_id))
+                result = root / "outputs" / "smoke-test" / "P01.mp4" if case_id == "P01" else result_dir / "{}.mp4".format(case_id)
+                touch(result)
+
+            report = build_artifact_audit("full", stamp, log_dir=log_dir, report_dir=report_dir, result_dir=result_dir, execute=True)
+
+        self.assertEqual(report["status"], "ready")
+        self.assertTrue(any(row["label"] == "required suite acceptance report" for row in report["rows"]))
+
     def test_scripts_run_pipeline_artifact_audit(self):
         p01 = Path("scripts/run_p01_smoke_pipeline.sh").read_text(encoding="utf-8")
         full = Path("scripts/gpu_reproduction_pipeline.sh").read_text(encoding="utf-8")
@@ -137,6 +168,7 @@ class PipelineArtifactAuditTest(unittest.TestCase):
         self.assertIn("backend.pipeline_artifact_audit --run full", full)
         self.assertIn("*artifact_audit*.json", package)
         self.assertIn("p01_acceptance", p01)
+        self.assertIn("required_suite_acceptance", full)
 
 
 if __name__ == "__main__":

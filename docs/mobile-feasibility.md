@@ -62,6 +62,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | P01 smoke plan audit passed local tests; total backend tests now 141 | The first GPU run is now blocked if the tracked P01 manifest diverges from the generated execution plan |
 | 2026-07-16 | Download log audit passed local tests; total backend tests now 146 | GPU-host downloads now produce an auditable command log and reject P01 runs that request SR or distill checkpoint groups |
 | 2026-07-16 | P01 smoke acceptance gate passed local tests; total backend tests now 151 | The full GPU suite is now blocked until P01 has measured metrics, matching run context, expected duration, audio/video streams, and mobile playback evidence |
+| 2026-07-16 | Required suite acceptance gate passed local tests; total backend tests now 157 | Quality review, cost review, and final App feasibility are now blocked until P01/P03/P04/T01/T02 all have measured runtime, context, result, duration, audio/video, and mobile playback evidence |
 
 ## Interim Position
 
@@ -142,6 +143,12 @@ P01 full-suite unlock gate:
 
 ```powershell
 python -m backend.p01_acceptance --log-dir logs --result-path outputs/smoke-test/P01.mp4 --format markdown
+```
+
+Required-suite quality/cost review gate:
+
+```powershell
+python -m backend.required_suite_acceptance --log-dir logs --result-dir outputs/experiment-results --p01-result-path outputs/smoke-test/P01.mp4 --format markdown
 ```
 
 Checkpoint footprint audit:

@@ -319,11 +319,19 @@ The pipeline writes timestamped reports under `outputs/reports/` and logs under 
 
 It also writes a mobile video compatibility report. If the report returns `mobile_video_needs_transcode`, use the printed `ffmpeg` command as the starting point for a mobile delivery copy.
 
+When `EXECUTE=1`, the full pipeline also writes:
+
+- `logs/required_suite_acceptance_<timestamp>.json`
+- `outputs/reports/required_suite_acceptance_<timestamp>.md`
+
+Only start quality review and cost review after the required-suite acceptance status starts with `ready_for_quality_and_cost_review`. If the status is `ready_for_quality_and_cost_review_with_transcode_required`, continue review but keep mobile transcoding as a required product task.
+
 ## 12. Quality Review
 
 After generated videos exist, create and fill a review file:
 
 ```bash
+python -m backend.required_suite_acceptance --log-dir logs --result-dir outputs/experiment-results --p01-result-path outputs/smoke-test/P01.mp4 --format markdown
 python -m backend.quality_review --create-template --output docs/quality-review.json
 python -m backend.quality_review --review docs/quality-review.json --format markdown
 ```

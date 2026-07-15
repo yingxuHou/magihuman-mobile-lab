@@ -161,4 +161,9 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Integrated the acceptance gate into `scripts/run_p01_smoke_pipeline.sh` for `EXECUTE=1` runs.
 - Added P01 acceptance JSON/Markdown to pipeline artifact audit and GPU evidence packaging.
 - Local P01 acceptance validation passed; total local backend tests now 151.
+- Completed Stage 39 required suite acceptance gate.
+- Added `backend/required_suite_acceptance.py` to check P01/P03/P04/T01/T02 runtime metrics, metrics context, result MP4s, duration tolerance, audio/video presence, and mobile video compatibility before quality/cost review.
+- Integrated the required-suite acceptance gate into `scripts/gpu_reproduction_pipeline.sh` for `EXECUTE=1` runs.
+- Added required-suite acceptance JSON/Markdown to full pipeline artifact audit and GPU evidence packaging.
+- Local required-suite acceptance validation passed; total local backend tests now 157.
 - No inference run has been completed yet.

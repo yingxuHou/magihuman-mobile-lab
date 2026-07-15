@@ -103,6 +103,14 @@ run_pipeline_artifact_audit() {
   "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/pipeline_artifact_audit_${suffix}.md" --strict
 }
 
+run_required_suite_acceptance() {
+  local suffix="$1"
+  local args=(-m backend.required_suite_acceptance --log-dir "${LOG_DIR}" --result-dir "${RESULT_DIR}" --p01-result-path outputs/smoke-test/P01.mp4 --p01-manifest docs/p01-smoke-manifest.json)
+
+  "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/required_suite_acceptance_${suffix}.json"
+  "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/required_suite_acceptance_${suffix}.md" --strict
+}
+
 if [ "${PREPARE_SOURCES}" = "1" ]; then
   bash scripts/prepare_sources.sh 2>&1 | tee "${LOG_DIR}/prepare_sources_${STAMP}.log"
 fi
@@ -152,6 +160,9 @@ fi
   --output "outputs/reports/experiment_results_${STAMP}.md"
 "${PYTHON_BIN}" -m backend.mobile_video_check --log-dir "${LOG_DIR}" --format markdown \
   --output "outputs/reports/mobile_video_check_${STAMP}.md"
+if [ "${EXECUTE}" = "1" ]; then
+  run_required_suite_acceptance "${STAMP}"
+fi
 FEASIBILITY_ARGS=(-m backend.feasibility_decision --log-dir "${LOG_DIR}" --format markdown)
 if [ "${QUALITY_REVIEW}" != "" ]; then
   FEASIBILITY_ARGS+=(--quality-review "${QUALITY_REVIEW}")
@@ -193,6 +204,10 @@ if [ "${DOWNLOAD_MODELS}" = "1" ]; then
 fi
 echo "experiment_report=outputs/reports/experiment_results_${STAMP}.md"
 echo "mobile_video_report=outputs/reports/mobile_video_check_${STAMP}.md"
+if [ "${EXECUTE}" = "1" ]; then
+  echo "required_suite_acceptance_json=${LOG_DIR}/required_suite_acceptance_${STAMP}.json"
+  echo "required_suite_acceptance_report=outputs/reports/required_suite_acceptance_${STAMP}.md"
+fi
 echo "feasibility_report=outputs/reports/feasibility_decision_${STAMP}.md"
 echo "final_report=outputs/reports/final_report_${STAMP}.md"
 echo "pipeline_artifact_audit_json=${LOG_DIR}/pipeline_artifact_audit_${STAMP}.json"
