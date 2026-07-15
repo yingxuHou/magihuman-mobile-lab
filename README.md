@@ -78,6 +78,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 40 added a GPU reproduction workflow script so a container can run upstream audit, source prep, P01, full suite, acceptance gates, and evidence packaging through one audited command. The backend prototype now passes 161 local tests using Python standard library only.
 - Stage 41 added a workflow readiness audit so the GPU workflow command chain is statically checked before downloads or inference. The backend prototype now passes 164 local tests using Python standard library only.
 - Stage 42 added a GPU evidence import workflow so returned evidence archives are safely extracted, validated, imported, and used to regenerate the import audit and final feasibility report. The backend prototype now passes 167 local tests using Python standard library only.
+- Stage 43 added a review-input readiness workflow so quality and cost review templates are created only after required-suite acceptance passes. The backend prototype now passes 173 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -185,6 +186,12 @@ Decide whether the required suite is ready for quality and cost review:
 
 ```powershell
 python -m backend.required_suite_acceptance --log-dir logs --result-dir outputs/experiment-results --p01-result-path outputs/smoke-test/P01.mp4 --format markdown
+```
+
+Prepare quality and cost review inputs after required-suite acceptance passes:
+
+```powershell
+python -m backend.review_readiness --create-templates --format markdown --output docs/review-readiness.md
 ```
 
 Audit downloaded checkpoint footprints:

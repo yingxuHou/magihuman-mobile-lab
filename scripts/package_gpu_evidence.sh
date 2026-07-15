@@ -25,6 +25,8 @@ fi
 for file in \
   docs/quality-review.json \
   docs/cost-review.json \
+  docs/review-readiness.md \
+  docs/review-readiness.json \
   docs/mobile-feasibility-report.md \
   docs/gpu-evidence-import-audit.md \
   docs/p01-smoke-manifest.json \

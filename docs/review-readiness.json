@@ -1,0 +1,870 @@
+{
+  "status": "runtime_not_ready",
+  "summary": "Required-suite runtime evidence is not ready; do not create or fill review inputs yet.",
+  "log_dir": "logs",
+  "result_dir": "outputs/experiment-results",
+  "p01_result_path": "outputs/smoke-test/P01.mp4",
+  "p01_manifest_path": "docs/p01-smoke-manifest.json",
+  "quality_review_path": "docs/quality-review.json",
+  "cost_review_path": "docs/cost-review.json",
+  "create_templates": true,
+  "overwrite": false,
+  "created_files": [],
+  "checks": [
+    {
+      "label": "required suite ready for review",
+      "ok": false,
+      "detail": "not_ready"
+    },
+    {
+      "label": "quality review input exists",
+      "ok": false,
+      "detail": "docs/quality-review.json"
+    },
+    {
+      "label": "cost review input exists",
+      "ok": false,
+      "detail": "docs/cost-review.json"
+    }
+  ],
+  "required_suite_acceptance": {
+    "status": "not_ready",
+    "log_dir": "logs",
+    "result_dir": "outputs/experiment-results",
+    "p01_result_path": "outputs/smoke-test/P01.mp4",
+    "p01_manifest_path": "docs/p01-smoke-manifest.json",
+    "case_ids": [
+      "P01",
+      "P03",
+      "P04",
+      "T01",
+      "T02"
+    ],
+    "rows": [
+      {
+        "case_id": "P01",
+        "status": "not_ready",
+        "metrics_path": null,
+        "result_path": "outputs\\smoke-test\\P01.mp4",
+        "mobile_video_status": "missing_video_metrics",
+        "checks": [
+          {
+            "label": "runtime metrics measured",
+            "ok": false,
+            "required": true,
+            "detail": "missing metrics"
+          },
+          {
+            "label": "metrics context ready",
+            "ok": false,
+            "required": true,
+            "detail": "missing_metrics"
+          },
+          {
+            "label": "result mp4 exists",
+            "ok": false,
+            "required": true,
+            "detail": "outputs\\smoke-test\\P01.mp4"
+          },
+          {
+            "label": "video duration near target",
+            "ok": false,
+            "required": true,
+            "detail": "None seconds, target 5 +/- 1.0"
+          },
+          {
+            "label": "video has audio",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "video has video",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "mobile video evidence usable",
+            "ok": false,
+            "required": true,
+            "detail": "missing_video_metrics"
+          }
+        ],
+        "failures": [
+          {
+            "label": "runtime metrics measured",
+            "ok": false,
+            "required": true,
+            "detail": "missing metrics"
+          },
+          {
+            "label": "metrics context ready",
+            "ok": false,
+            "required": true,
+            "detail": "missing_metrics"
+          },
+          {
+            "label": "result mp4 exists",
+            "ok": false,
+            "required": true,
+            "detail": "outputs\\smoke-test\\P01.mp4"
+          },
+          {
+            "label": "video duration near target",
+            "ok": false,
+            "required": true,
+            "detail": "None seconds, target 5 +/- 1.0"
+          },
+          {
+            "label": "video has audio",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "video has video",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "mobile video evidence usable",
+            "ok": false,
+            "required": true,
+            "detail": "missing_video_metrics"
+          }
+        ],
+        "summary": {
+          "id": "P01",
+          "name": "base_256p_t2v_smoke",
+          "category": "performance",
+          "language": "en",
+          "mode": "t2v",
+          "resolution": "256p",
+          "variant": "base",
+          "required": true,
+          "status": "missing_metrics",
+          "metrics_path": null
+        },
+        "context": {
+          "case_id": "P01",
+          "status": "missing_metrics",
+          "metrics_path": null,
+          "checks": []
+        },
+        "mobile_video": {
+          "case_id": "P01",
+          "metrics_path": null,
+          "sample_path": null,
+          "status": "missing_video_metrics",
+          "checks": [],
+          "required_failures": [],
+          "transcode_command": null
+        }
+      },
+      {
+        "case_id": "P03",
+        "status": "not_ready",
+        "metrics_path": null,
+        "result_path": "outputs\\experiment-results\\P03.mp4",
+        "mobile_video_status": "missing_video_metrics",
+        "checks": [
+          {
+            "label": "runtime metrics measured",
+            "ok": false,
+            "required": true,
+            "detail": "missing metrics"
+          },
+          {
+            "label": "metrics context ready",
+            "ok": false,
+            "required": true,
+            "detail": "missing_metrics"
+          },
+          {
+            "label": "result mp4 exists",
+            "ok": false,
+            "required": true,
+            "detail": "outputs\\experiment-results\\P03.mp4"
+          },
+          {
+            "label": "video duration near target",
+            "ok": false,
+            "required": true,
+            "detail": "None seconds, target 5 +/- 1.0"
+          },
+          {
+            "label": "video has audio",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "video has video",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "mobile video evidence usable",
+            "ok": false,
+            "required": true,
+            "detail": "missing_video_metrics"
+          }
+        ],
+        "failures": [
+          {
+            "label": "runtime metrics measured",
+            "ok": false,
+            "required": true,
+            "detail": "missing metrics"
+          },
+          {
+            "label": "metrics context ready",
+            "ok": false,
+            "required": true,
+            "detail": "missing_metrics"
+          },
+          {
+            "label": "result mp4 exists",
+            "ok": false,
+            "required": true,
+            "detail": "outputs\\experiment-results\\P03.mp4"
+          },
+          {
+            "label": "video duration near target",
+            "ok": false,
+            "required": true,
+            "detail": "None seconds, target 5 +/- 1.0"
+          },
+          {
+            "label": "video has audio",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "video has video",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "mobile video evidence usable",
+            "ok": false,
+            "required": true,
+            "detail": "missing_video_metrics"
+          }
+        ],
+        "summary": {
+          "id": "P03",
+          "name": "sr_540p_t2v",
+          "category": "performance",
+          "language": "en",
+          "mode": "t2v",
+          "resolution": "540p",
+          "variant": "base",
+          "required": true,
+          "status": "missing_metrics",
+          "metrics_path": null
+        },
+        "context": {
+          "case_id": "P03",
+          "status": "missing_metrics",
+          "metrics_path": null,
+          "checks": []
+        },
+        "mobile_video": {
+          "case_id": "P03",
+          "metrics_path": null,
+          "sample_path": null,
+          "status": "missing_video_metrics",
+          "checks": [],
+          "required_failures": [],
+          "transcode_command": null
+        }
+      },
+      {
+        "case_id": "P04",
+        "status": "not_ready",
+        "metrics_path": null,
+        "result_path": "outputs\\experiment-results\\P04.mp4",
+        "mobile_video_status": "missing_video_metrics",
+        "checks": [
+          {
+            "label": "runtime metrics measured",
+            "ok": false,
+            "required": true,
+            "detail": "missing metrics"
+          },
+          {
+            "label": "metrics context ready",
+            "ok": false,
+            "required": true,
+            "detail": "missing_metrics"
+          },
+          {
+            "label": "result mp4 exists",
+            "ok": false,
+            "required": true,
+            "detail": "outputs\\experiment-results\\P04.mp4"
+          },
+          {
+            "label": "video duration near target",
+            "ok": false,
+            "required": true,
+            "detail": "None seconds, target 5 +/- 1.0"
+          },
+          {
+            "label": "video has audio",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "video has video",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "mobile video evidence usable",
+            "ok": false,
+            "required": true,
+            "detail": "missing_video_metrics"
+          }
+        ],
+        "failures": [
+          {
+            "label": "runtime metrics measured",
+            "ok": false,
+            "required": true,
+            "detail": "missing metrics"
+          },
+          {
+            "label": "metrics context ready",
+            "ok": false,
+            "required": true,
+            "detail": "missing_metrics"
+          },
+          {
+            "label": "result mp4 exists",
+            "ok": false,
+            "required": true,
+            "detail": "outputs\\experiment-results\\P04.mp4"
+          },
+          {
+            "label": "video duration near target",
+            "ok": false,
+            "required": true,
+            "detail": "None seconds, target 5 +/- 1.0"
+          },
+          {
+            "label": "video has audio",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "video has video",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "mobile video evidence usable",
+            "ok": false,
+            "required": true,
+            "detail": "missing_video_metrics"
+          }
+        ],
+        "summary": {
+          "id": "P04",
+          "name": "sr_1080p_t2v",
+          "category": "performance",
+          "language": "en",
+          "mode": "t2v",
+          "resolution": "1080p",
+          "variant": "base",
+          "required": true,
+          "status": "missing_metrics",
+          "metrics_path": null
+        },
+        "context": {
+          "case_id": "P04",
+          "status": "missing_metrics",
+          "metrics_path": null,
+          "checks": []
+        },
+        "mobile_video": {
+          "case_id": "P04",
+          "metrics_path": null,
+          "sample_path": null,
+          "status": "missing_video_metrics",
+          "checks": [],
+          "required_failures": [],
+          "transcode_command": null
+        }
+      },
+      {
+        "case_id": "T01",
+        "status": "not_ready",
+        "metrics_path": null,
+        "result_path": "outputs\\experiment-results\\T01.mp4",
+        "mobile_video_status": "missing_video_metrics",
+        "checks": [
+          {
+            "label": "runtime metrics measured",
+            "ok": false,
+            "required": true,
+            "detail": "missing metrics"
+          },
+          {
+            "label": "metrics context ready",
+            "ok": false,
+            "required": true,
+            "detail": "missing_metrics"
+          },
+          {
+            "label": "result mp4 exists",
+            "ok": false,
+            "required": true,
+            "detail": "outputs\\experiment-results\\T01.mp4"
+          },
+          {
+            "label": "video duration near target",
+            "ok": false,
+            "required": true,
+            "detail": "None seconds, target 5 +/- 1.0"
+          },
+          {
+            "label": "video has audio",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "video has video",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "mobile video evidence usable",
+            "ok": false,
+            "required": true,
+            "detail": "missing_video_metrics"
+          }
+        ],
+        "failures": [
+          {
+            "label": "runtime metrics measured",
+            "ok": false,
+            "required": true,
+            "detail": "missing metrics"
+          },
+          {
+            "label": "metrics context ready",
+            "ok": false,
+            "required": true,
+            "detail": "missing_metrics"
+          },
+          {
+            "label": "result mp4 exists",
+            "ok": false,
+            "required": true,
+            "detail": "outputs\\experiment-results\\T01.mp4"
+          },
+          {
+            "label": "video duration near target",
+            "ok": false,
+            "required": true,
+            "detail": "None seconds, target 5 +/- 1.0"
+          },
+          {
+            "label": "video has audio",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "video has video",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "mobile video evidence usable",
+            "ok": false,
+            "required": true,
+            "detail": "missing_video_metrics"
+          }
+        ],
+        "summary": {
+          "id": "T01",
+          "name": "mandarin_ti2v",
+          "category": "multilingual",
+          "language": "zh",
+          "mode": "ti2v",
+          "resolution": "256p",
+          "variant": "base",
+          "required": true,
+          "status": "missing_metrics",
+          "metrics_path": null
+        },
+        "context": {
+          "case_id": "T01",
+          "status": "missing_metrics",
+          "metrics_path": null,
+          "checks": []
+        },
+        "mobile_video": {
+          "case_id": "T01",
+          "metrics_path": null,
+          "sample_path": null,
+          "status": "missing_video_metrics",
+          "checks": [],
+          "required_failures": [],
+          "transcode_command": null
+        }
+      },
+      {
+        "case_id": "T02",
+        "status": "not_ready",
+        "metrics_path": null,
+        "result_path": "outputs\\experiment-results\\T02.mp4",
+        "mobile_video_status": "missing_video_metrics",
+        "checks": [
+          {
+            "label": "runtime metrics measured",
+            "ok": false,
+            "required": true,
+            "detail": "missing metrics"
+          },
+          {
+            "label": "metrics context ready",
+            "ok": false,
+            "required": true,
+            "detail": "missing_metrics"
+          },
+          {
+            "label": "result mp4 exists",
+            "ok": false,
+            "required": true,
+            "detail": "outputs\\experiment-results\\T02.mp4"
+          },
+          {
+            "label": "video duration near target",
+            "ok": false,
+            "required": true,
+            "detail": "None seconds, target 5 +/- 1.0"
+          },
+          {
+            "label": "video has audio",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "video has video",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "mobile video evidence usable",
+            "ok": false,
+            "required": true,
+            "detail": "missing_video_metrics"
+          }
+        ],
+        "failures": [
+          {
+            "label": "runtime metrics measured",
+            "ok": false,
+            "required": true,
+            "detail": "missing metrics"
+          },
+          {
+            "label": "metrics context ready",
+            "ok": false,
+            "required": true,
+            "detail": "missing_metrics"
+          },
+          {
+            "label": "result mp4 exists",
+            "ok": false,
+            "required": true,
+            "detail": "outputs\\experiment-results\\T02.mp4"
+          },
+          {
+            "label": "video duration near target",
+            "ok": false,
+            "required": true,
+            "detail": "None seconds, target 5 +/- 1.0"
+          },
+          {
+            "label": "video has audio",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "video has video",
+            "ok": false,
+            "required": true,
+            "detail": "None"
+          },
+          {
+            "label": "mobile video evidence usable",
+            "ok": false,
+            "required": true,
+            "detail": "missing_video_metrics"
+          }
+        ],
+        "summary": {
+          "id": "T02",
+          "name": "english_ti2v",
+          "category": "multilingual",
+          "language": "en",
+          "mode": "ti2v",
+          "resolution": "256p",
+          "variant": "base",
+          "required": true,
+          "status": "missing_metrics",
+          "metrics_path": null
+        },
+        "context": {
+          "case_id": "T02",
+          "status": "missing_metrics",
+          "metrics_path": null,
+          "checks": []
+        },
+        "mobile_video": {
+          "case_id": "T02",
+          "metrics_path": null,
+          "sample_path": null,
+          "status": "missing_video_metrics",
+          "checks": [],
+          "required_failures": [],
+          "transcode_command": null
+        }
+      }
+    ],
+    "failures": [
+      {
+        "label": "runtime metrics measured",
+        "ok": false,
+        "required": true,
+        "detail": "missing metrics"
+      },
+      {
+        "label": "metrics context ready",
+        "ok": false,
+        "required": true,
+        "detail": "missing_metrics"
+      },
+      {
+        "label": "result mp4 exists",
+        "ok": false,
+        "required": true,
+        "detail": "outputs\\smoke-test\\P01.mp4"
+      },
+      {
+        "label": "video duration near target",
+        "ok": false,
+        "required": true,
+        "detail": "None seconds, target 5 +/- 1.0"
+      },
+      {
+        "label": "video has audio",
+        "ok": false,
+        "required": true,
+        "detail": "None"
+      },
+      {
+        "label": "video has video",
+        "ok": false,
+        "required": true,
+        "detail": "None"
+      },
+      {
+        "label": "mobile video evidence usable",
+        "ok": false,
+        "required": true,
+        "detail": "missing_video_metrics"
+      },
+      {
+        "label": "runtime metrics measured",
+        "ok": false,
+        "required": true,
+        "detail": "missing metrics"
+      },
+      {
+        "label": "metrics context ready",
+        "ok": false,
+        "required": true,
+        "detail": "missing_metrics"
+      },
+      {
+        "label": "result mp4 exists",
+        "ok": false,
+        "required": true,
+        "detail": "outputs\\experiment-results\\P03.mp4"
+      },
+      {
+        "label": "video duration near target",
+        "ok": false,
+        "required": true,
+        "detail": "None seconds, target 5 +/- 1.0"
+      },
+      {
+        "label": "video has audio",
+        "ok": false,
+        "required": true,
+        "detail": "None"
+      },
+      {
+        "label": "video has video",
+        "ok": false,
+        "required": true,
+        "detail": "None"
+      },
+      {
+        "label": "mobile video evidence usable",
+        "ok": false,
+        "required": true,
+        "detail": "missing_video_metrics"
+      },
+      {
+        "label": "runtime metrics measured",
+        "ok": false,
+        "required": true,
+        "detail": "missing metrics"
+      },
+      {
+        "label": "metrics context ready",
+        "ok": false,
+        "required": true,
+        "detail": "missing_metrics"
+      },
+      {
+        "label": "result mp4 exists",
+        "ok": false,
+        "required": true,
+        "detail": "outputs\\experiment-results\\P04.mp4"
+      },
+      {
+        "label": "video duration near target",
+        "ok": false,
+        "required": true,
+        "detail": "None seconds, target 5 +/- 1.0"
+      },
+      {
+        "label": "video has audio",
+        "ok": false,
+        "required": true,
+        "detail": "None"
+      },
+      {
+        "label": "video has video",
+        "ok": false,
+        "required": true,
+        "detail": "None"
+      },
+      {
+        "label": "mobile video evidence usable",
+        "ok": false,
+        "required": true,
+        "detail": "missing_video_metrics"
+      },
+      {
+        "label": "runtime metrics measured",
+        "ok": false,
+        "required": true,
+        "detail": "missing metrics"
+      },
+      {
+        "label": "metrics context ready",
+        "ok": false,
+        "required": true,
+        "detail": "missing_metrics"
+      },
+      {
+        "label": "result mp4 exists",
+        "ok": false,
+        "required": true,
+        "detail": "outputs\\experiment-results\\T01.mp4"
+      },
+      {
+        "label": "video duration near target",
+        "ok": false,
+        "required": true,
+        "detail": "None seconds, target 5 +/- 1.0"
+      },
+      {
+        "label": "video has audio",
+        "ok": false,
+        "required": true,
+        "detail": "None"
+      },
+      {
+        "label": "video has video",
+        "ok": false,
+        "required": true,
+        "detail": "None"
+      },
+      {
+        "label": "mobile video evidence usable",
+        "ok": false,
+        "required": true,
+        "detail": "missing_video_metrics"
+      },
+      {
+        "label": "runtime metrics measured",
+        "ok": false,
+        "required": true,
+        "detail": "missing metrics"
+      },
+      {
+        "label": "metrics context ready",
+        "ok": false,
+        "required": true,
+        "detail": "missing_metrics"
+      },
+      {
+        "label": "result mp4 exists",
+        "ok": false,
+        "required": true,
+        "detail": "outputs\\experiment-results\\T02.mp4"
+      },
+      {
+        "label": "video duration near target",
+        "ok": false,
+        "required": true,
+        "detail": "None seconds, target 5 +/- 1.0"
+      },
+      {
+        "label": "video has audio",
+        "ok": false,
+        "required": true,
+        "detail": "None"
+      },
+      {
+        "label": "video has video",
+        "ok": false,
+        "required": true,
+        "detail": "None"
+      },
+      {
+        "label": "mobile video evidence usable",
+        "ok": false,
+        "required": true,
+        "detail": "missing_video_metrics"
+      }
+    ],
+    "metrics_context_status": "missing_metrics",
+    "mobile_video_status": "missing_mobile_video_evidence"
+  }
+}

@@ -111,6 +111,13 @@ run_required_suite_acceptance() {
   "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/required_suite_acceptance_${suffix}.md" --strict
 }
 
+run_review_readiness() {
+  local args=(-m backend.review_readiness --log-dir "${LOG_DIR}" --result-dir "${RESULT_DIR}" --p01-result-path outputs/smoke-test/P01.mp4 --p01-manifest docs/p01-smoke-manifest.json --create-templates)
+
+  "${PYTHON_BIN}" "${args[@]}" --format markdown --output docs/review-readiness.md
+  "${PYTHON_BIN}" "${args[@]}" --format json --output docs/review-readiness.json
+}
+
 if [ "${PREPARE_SOURCES}" = "1" ]; then
   bash scripts/prepare_sources.sh 2>&1 | tee "${LOG_DIR}/prepare_sources_${STAMP}.log"
 fi
@@ -162,6 +169,7 @@ fi
   --output "outputs/reports/mobile_video_check_${STAMP}.md"
 if [ "${EXECUTE}" = "1" ]; then
   run_required_suite_acceptance "${STAMP}"
+  run_review_readiness
 fi
 FEASIBILITY_ARGS=(-m backend.feasibility_decision --log-dir "${LOG_DIR}" --format markdown)
 if [ "${QUALITY_REVIEW}" != "" ]; then
@@ -207,6 +215,8 @@ echo "mobile_video_report=outputs/reports/mobile_video_check_${STAMP}.md"
 if [ "${EXECUTE}" = "1" ]; then
   echo "required_suite_acceptance_json=${LOG_DIR}/required_suite_acceptance_${STAMP}.json"
   echo "required_suite_acceptance_report=outputs/reports/required_suite_acceptance_${STAMP}.md"
+  echo "review_readiness_report=docs/review-readiness.md"
+  echo "review_readiness_json=docs/review-readiness.json"
 fi
 echo "feasibility_report=outputs/reports/feasibility_decision_${STAMP}.md"
 echo "final_report=outputs/reports/final_report_${STAMP}.md"

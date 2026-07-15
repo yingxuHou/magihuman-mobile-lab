@@ -92,6 +92,7 @@ fi
   echo ""
   echo "- P01 acceptance: \`outputs/reports/p01_acceptance_*.md\`"
   echo "- Required-suite acceptance: \`outputs/reports/required_suite_acceptance_*.md\`"
+  echo "- Review readiness: \`docs/review-readiness.md\`"
   echo "- Evidence package manifest: \`outputs/gpu-evidence-*/evidence-manifest.md\`"
   echo ""
   echo "Workflow completed."

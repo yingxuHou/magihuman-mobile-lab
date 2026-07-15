@@ -41,6 +41,8 @@ class GpuEvidenceImportWorkflowTest(unittest.TestCase):
             self.assertIn("logs/P01_test_metrics.json", report["imported_files"])
             self.assertTrue((project / "docs" / "gpu-evidence-import-audit.md").is_file())
             self.assertTrue((project / "docs" / "mobile-feasibility-report.md").is_file())
+            self.assertTrue((project / "docs" / "review-readiness.md").is_file())
+            self.assertEqual(report["review_readiness_status"], "runtime_not_ready")
 
     def test_forbidden_media_package_is_not_imported(self):
         with tempfile.TemporaryDirectory() as tmp:

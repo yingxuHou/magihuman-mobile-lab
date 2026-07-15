@@ -66,6 +66,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | GPU reproduction workflow passed local tests; total backend tests now 161 | The GPU host now has one audited command that runs P01 first, gates the full suite, gates quality/cost review, and packages small evidence |
 | 2026-07-16 | Workflow readiness audit passed locally; total backend tests now 164 | The GPU workflow command chain is now checked before expensive downloads or inference, reducing risk of invalid GPU evidence |
 | 2026-07-16 | GPU evidence import workflow passed local tests; total backend tests now 167 | Returned GPU evidence archives can now be safely imported locally and used to regenerate the final feasibility report |
+| 2026-07-16 | Review input readiness workflow passed local tests; total backend tests now 173 | Quality and cost review templates are now created only after required-suite acceptance passes; current tracked status is `runtime_not_ready` |
 
 ## Interim Position
 
@@ -166,6 +167,12 @@ Required-suite quality/cost review gate:
 python -m backend.required_suite_acceptance --log-dir logs --result-dir outputs/experiment-results --p01-result-path outputs/smoke-test/P01.mp4 --format markdown
 ```
 
+Review input readiness gate:
+
+```powershell
+python -m backend.review_readiness --create-templates --format markdown --output docs/review-readiness.md
+```
+
 Checkpoint footprint audit:
 
 ```powershell
@@ -174,10 +181,10 @@ python -m backend.model_audit --model-root models --profile p01 --format markdow
 
 ## Quality Review Gate
 
-Create a review template after GPU samples exist:
+Create or refresh review inputs only through the readiness gate:
 
 ```powershell
-python -m backend.quality_review --create-template --output docs/quality-review.json
+python -m backend.review_readiness --create-templates --format markdown --output docs/review-readiness.md
 ```
 
 Summarize the review:
@@ -194,10 +201,10 @@ python -m backend.feasibility_decision --log-dir logs --quality-review docs/qual
 
 ## Cost Review Gate
 
-Create a cost review template:
+Create or refresh the cost review input only through the readiness gate:
 
 ```powershell
-python -m backend.cost_review --create-template --output docs/cost-review.json
+python -m backend.review_readiness --create-templates --format markdown --output docs/review-readiness.md
 ```
 
 Summarize the review:
@@ -218,6 +225,7 @@ Current tracked report:
 
 - `docs/mobile-feasibility-report.md`
 - `docs/gpu-evidence-import-audit.md`
+- `docs/review-readiness.md`
 
 Regenerate:
 

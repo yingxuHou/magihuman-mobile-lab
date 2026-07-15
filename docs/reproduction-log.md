@@ -177,4 +177,10 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Completed Stage 42 GPU evidence import workflow.
 - Added `backend/gpu_evidence_import_workflow.py` plus Bash/PowerShell wrappers to safely extract returned evidence archives, reject packages containing generated videos or model weights, import only small evidence files, and regenerate the import audit plus final feasibility report.
 - Local GPU evidence import workflow validation passed; total local backend tests now 167.
+- Completed Stage 43 review input readiness workflow.
+- Added `backend/review_readiness.py` plus Bash/PowerShell wrappers to create `docs/quality-review.json` and `docs/cost-review.json` only after required-suite acceptance passes.
+- Integrated review readiness into the full GPU pipeline after strict required-suite acceptance and added readiness reports to the evidence package allowlist.
+- Integrated review readiness into the GPU evidence import workflow so returned evidence refreshes `docs/review-readiness.md` after import.
+- Generated current tracked readiness reports at `docs/review-readiness.md/json`; current status is `runtime_not_ready` because no real GPU metrics, result MP4s, or mobile playback evidence have been imported yet.
+- Local review-readiness validation passed; total local backend tests now 173.
 - No inference run has been completed yet.

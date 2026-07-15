@@ -340,13 +340,20 @@ When `EXECUTE=1`, the full pipeline also writes:
 
 Only start quality review and cost review after the required-suite acceptance status starts with `ready_for_quality_and_cost_review`. If the status is `ready_for_quality_and_cost_review_with_transcode_required`, continue review but keep mobile transcoding as a required product task.
 
+Prepare the review inputs through the readiness gate:
+
+```bash
+python -m backend.review_readiness --create-templates --format markdown --output docs/review-readiness.md
+```
+
+This command writes `docs/review-readiness.md`. It creates `docs/quality-review.json` and `docs/cost-review.json` only when required-suite acceptance is ready.
+
 ## 12. Quality Review
 
-After generated videos exist, create and fill a review file:
+After `docs/review-readiness.md` reports `review_inputs_ready`, fill the quality review file:
 
 ```bash
 python -m backend.required_suite_acceptance --log-dir logs --result-dir outputs/experiment-results --p01-result-path outputs/smoke-test/P01.mp4 --format markdown
-python -m backend.quality_review --create-template --output docs/quality-review.json
 python -m backend.quality_review --review docs/quality-review.json --format markdown
 ```
 
@@ -364,10 +371,9 @@ QUALITY_REVIEW=docs/quality-review.json EXECUTE=1 bash scripts/gpu_reproduction_
 
 ## 13. Cost Review
 
-After metrics exist, create and fill a cost review:
+After `docs/review-readiness.md` reports `review_inputs_ready`, fill the cost review with GPU hourly price, overhead multiplier, and acceptance thresholds:
 
 ```bash
-python -m backend.cost_review --create-template --output docs/cost-review.json
 python -m backend.cost_review --review docs/cost-review.json --log-dir logs --format markdown
 ```
 
@@ -404,7 +410,7 @@ Package only small evidence files. Do not include model weights or generated vid
 bash scripts/package_gpu_evidence.sh
 ```
 
-The evidence package includes metrics, preflight JSON, model audit JSON, report files, the P01 smoke manifest, `evidence-provenance.json` / `evidence-provenance.md`, and an `evidence-manifest.json` / `evidence-manifest.md`. The manifest rejects video files and model weights.
+The evidence package includes metrics, preflight JSON, model audit JSON, review readiness reports, report files, the P01 smoke manifest, `evidence-provenance.json` / `evidence-provenance.md`, and an `evidence-manifest.json` / `evidence-manifest.md`. The manifest rejects video files and model weights.
 
 Before importing the package, inspect `evidence-provenance.md`. It should show the project commit used on the GPU host, the locked daVinci-MagiHuman and MagiCompiler commits, and the P01 manifest hash.
 

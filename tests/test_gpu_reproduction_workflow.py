@@ -18,6 +18,7 @@ class GpuReproductionWorkflowTest(unittest.TestCase):
         self.assertIn("backend.workflow_readiness_audit", text)
         self.assertIn("p01_acceptance_*.md", text)
         self.assertIn("required_suite_acceptance_*.md", text)
+        self.assertIn("docs/review-readiness.md", text)
         self.assertIn("gpu_reproduction_workflow_", text)
         self.assertIn("UPSTREAM_DRIFT_AUDIT", text)
 
