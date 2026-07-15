@@ -23,4 +23,9 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Cloned `GAIR-NLP/daVinci-MagiHuman` locally under ignored `third_party/`, commit `209209b7086eba2020c5439265221495a8357322`.
 - Cloned `SandAI-org/MagiCompiler` locally under ignored `third_party/`, commit `bfef5bc70226a0c0740e4c551e4f7245a974fb4f`.
 - Added cloud environment, model download, and base 256p T2V smoke-test scripts.
+- Completed Stage 04 model checkpoint plan.
+- Full daVinci-MagiHuman stack is about 201.27 GiB.
+- External models add about 84.36 GiB.
+- Complete checkpoint footprint is about 285.63 GiB before cache/log/output overhead.
+- Local checkpoint download is skipped; cloud GPU host should download after Hugging Face access is confirmed.
 - No inference run has been completed yet.
