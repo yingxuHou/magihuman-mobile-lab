@@ -27,6 +27,15 @@ def parse_percent(value):
     return None if number is None else float(number)
 
 
+def parse_int(value):
+    if value is None:
+        return None
+    try:
+        return int(float(value))
+    except (TypeError, ValueError):
+        return None
+
+
 def parse_nvidia_smi_csv_text(text):
     rows = list(csv.DictReader(text.splitlines()))
     samples = []
@@ -121,6 +130,7 @@ def parse_ffprobe_json_text(text):
                 break
 
     first_video = video_streams[0] if video_streams else {}
+    first_audio = audio_streams[0] if audio_streams else {}
     return {
         "duration_seconds": float(duration) if duration is not None else None,
         "has_video": bool(video_streams),
@@ -129,8 +139,17 @@ def parse_ffprobe_json_text(text):
         "audio_stream_count": len(audio_streams),
         "width": first_video.get("width"),
         "height": first_video.get("height"),
+        "video_codec_name": first_video.get("codec_name"),
+        "video_profile": first_video.get("profile"),
+        "video_pix_fmt": first_video.get("pix_fmt"),
+        "video_bit_rate": parse_int(first_video.get("bit_rate")),
+        "audio_codec_name": first_audio.get("codec_name"),
+        "audio_sample_rate": parse_int(first_audio.get("sample_rate")),
+        "audio_channels": parse_int(first_audio.get("channels")),
+        "audio_bit_rate": parse_int(first_audio.get("bit_rate")),
         "format_name": format_info.get("format_name"),
         "size_bytes": int(format_info["size"]) if format_info.get("size") else None,
+        "format_bit_rate": parse_int(format_info.get("bit_rate")),
     }
 
 

@@ -23,6 +23,7 @@ Recommendation: `B_pending_runtime`
 | Required GPU runtime metrics | `insufficient_runtime_evidence` |
 | Generated sample quality | `missing_quality_review` |
 | Cloud GPU cost and wait time | `missing_cost_review` |
+| Mobile video playback compatibility | `missing_mobile_video_evidence` |
 
 ## Missing Evidence
 
@@ -54,6 +55,7 @@ Recommendation: `B_pending_runtime`
 | Required GPU runtime metrics | `insufficient_runtime_evidence` | Required GPU metrics are missing: P01, P03, P04, T01, T02 |
 | Generated sample quality | `missing_quality_review` | No quality review file was provided. |
 | Cloud GPU cost and wait time | `missing_cost_review` | No cost review file was provided. |
+| Mobile video playback compatibility | `missing_mobile_video_evidence` | Mobile playback evidence is missing for required cases: P01, P03, P04, T01, T02 |
 
 #### Decision
 
@@ -135,3 +137,18 @@ Recommendation: `B_pending_runtime`
 | Case | Status | Wall time (s) | Cost/video | Cost status | Latency status |
 | --- | --- | ---: | ---: | --- | --- |
 | - | `missing_cost_review` | - | - | - | - |
+
+#### Mobile Video Compatibility
+
+##### Mobile Video Compatibility
+
+- Status: `missing_mobile_video_evidence`
+- Source: logs
+
+| Case | Status | Metrics | Failed checks | Transcode command |
+| --- | --- | --- | --- | --- |
+| P01 | `missing_video_metrics` | - | - | - |
+| P03 | `missing_video_metrics` | - | - | - |
+| P04 | `missing_video_metrics` | - | - | - |
+| T01 | `missing_video_metrics` | - | - | - |
+| T02 | `missing_video_metrics` | - | - | - |

@@ -84,6 +84,8 @@ fi
 
 "${PYTHON_BIN}" -m backend.experiment_results --log-dir "${LOG_DIR}" --format markdown \
   --output "outputs/reports/p01_experiment_results_${STAMP}.md"
+"${PYTHON_BIN}" -m backend.mobile_video_check --log-dir "${LOG_DIR}" --cases P01 --format markdown \
+  --output "outputs/reports/p01_mobile_video_check_${STAMP}.md"
 "${PYTHON_BIN}" -m backend.feasibility_decision --log-dir "${LOG_DIR}" --format markdown \
   | tee "outputs/reports/p01_feasibility_decision_${STAMP}.md"
 "${PYTHON_BIN}" -m backend.final_report --log-dir "${LOG_DIR}" --format markdown \
@@ -100,5 +102,6 @@ if [ "${EXECUTE}" = "1" ]; then
   echo "p01_execute_log=${LOG_DIR}/p01_smoke_execute_${STAMP}.log"
 fi
 echo "p01_experiment_report=outputs/reports/p01_experiment_results_${STAMP}.md"
+echo "p01_mobile_video_report=outputs/reports/p01_mobile_video_check_${STAMP}.md"
 echo "p01_feasibility_report=outputs/reports/p01_feasibility_decision_${STAMP}.md"
 echo "p01_final_report=outputs/reports/p01_final_report_${STAMP}.md"

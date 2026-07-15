@@ -151,6 +151,7 @@ Record:
 - Log path
 - Whether mp4 plays correctly
 - Metrics JSON path from `scripts/magihuman_task_runner.sh`
+- Mobile video compatibility report from `python -m backend.mobile_video_check --log-dir logs --cases P01 --format markdown`
 
 If metrics are not generated automatically, run:
 
@@ -206,6 +207,7 @@ Summarize results:
 
 ```bash
 python -m backend.experiment_results --log-dir logs --format markdown
+python -m backend.mobile_video_check --log-dir logs --format markdown
 ```
 
 ## 11. Pipeline Workflow
@@ -231,6 +233,8 @@ EXECUTE=1 bash scripts/gpu_reproduction_pipeline.sh
 ```
 
 The pipeline writes timestamped reports under `outputs/reports/` and logs under `logs/`.
+
+It also writes a mobile video compatibility report. If the report returns `mobile_video_needs_transcode`, use the printed `ffmpeg` command as the starting point for a mobile delivery copy.
 
 ## 12. Quality Review
 

@@ -59,6 +59,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 21 added GPU host bootstrap and verified source-locking tooling. The backend prototype now passes 79 local tests using Python standard library only.
 - Stage 22 hardened the GPU pipeline with source preparation, Hugging Face auth preflight, post-download model checks, and Docker token passthrough. The backend prototype now passes 81 local tests using Python standard library only.
 - Stage 23 added a P01-only 256p smoke pipeline for the first GPU execution attempt. The backend prototype now passes 83 local tests using Python standard library only.
+- Stage 24 added a mobile video compatibility gate for generated MP4/H.264/AAC playback evidence. The backend prototype now passes 90 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -109,6 +110,12 @@ Create a quality review template after samples exist:
 
 ```powershell
 python -m backend.quality_review --create-template --output docs/quality-review.json
+```
+
+Check generated videos for mobile playback compatibility:
+
+```powershell
+python -m backend.mobile_video_check --log-dir logs --format markdown
 ```
 
 Create a cost review template after runtime metrics exist:

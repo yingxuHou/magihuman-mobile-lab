@@ -100,4 +100,9 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `scripts/run_p01_smoke_pipeline.sh` so the first GPU execution can run only P01 before the full required suite.
 - Local P01 smoke dry-run generated a P01-only plan and reported `not_ready` for missing `nvidia-smi`/`torchrun`, as expected on this workstation.
 - Local P01 smoke validation passed; total local backend tests now 83.
+- Completed Stage 24 mobile video compatibility gate.
+- Added `backend/mobile_video_check.py` to verify generated mp4 metrics against conservative mobile playback constraints.
+- Extended `backend/run_metrics.py` to preserve video/audio codec, pixel format, and bitrate metadata from `ffprobe`.
+- Regenerated `docs/mobile-feasibility-report.md`; it now includes `missing_mobile_video_evidence` as a tracked evidence gate.
+- Local mobile video validation passed; total local backend tests now 90.
 - No inference run has been completed yet.

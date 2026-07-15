@@ -84,6 +84,8 @@ fi
 
 "${PYTHON_BIN}" -m backend.experiment_results --log-dir "${LOG_DIR}" --format markdown \
   --output "outputs/reports/experiment_results_${STAMP}.md"
+"${PYTHON_BIN}" -m backend.mobile_video_check --log-dir "${LOG_DIR}" --format markdown \
+  --output "outputs/reports/mobile_video_check_${STAMP}.md"
 FEASIBILITY_ARGS=(-m backend.feasibility_decision --log-dir "${LOG_DIR}" --format markdown)
 if [ "${QUALITY_REVIEW}" != "" ]; then
   FEASIBILITY_ARGS+=(--quality-review "${QUALITY_REVIEW}")
@@ -112,5 +114,6 @@ if [ "${DOWNLOAD_MODELS}" = "1" ]; then
   echo "post_download_preflight_report=outputs/reports/gpu_preflight_${STAMP}_post_download.md"
 fi
 echo "experiment_report=outputs/reports/experiment_results_${STAMP}.md"
+echo "mobile_video_report=outputs/reports/mobile_video_check_${STAMP}.md"
 echo "feasibility_report=outputs/reports/feasibility_decision_${STAMP}.md"
 echo "final_report=outputs/reports/final_report_${STAMP}.md"

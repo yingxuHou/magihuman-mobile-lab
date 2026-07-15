@@ -55,10 +55,24 @@ class RunMetricsTest(unittest.TestCase):
     def test_parse_ffprobe_json_text(self):
         payload = {
             "streams": [
-                {"codec_type": "video", "width": 448, "height": 256, "duration": "5.000000"},
-                {"codec_type": "audio", "duration": "5.000000"},
+                {
+                    "codec_type": "video",
+                    "codec_name": "h264",
+                    "profile": "High",
+                    "pix_fmt": "yuv420p",
+                    "width": 448,
+                    "height": 256,
+                    "duration": "5.000000",
+                    "bit_rate": "1200000",
+                },
+                {"codec_type": "audio", "codec_name": "aac", "sample_rate": "48000", "channels": 2, "duration": "5.000000"},
             ],
-            "format": {"duration": "5.000000", "size": "12345", "format_name": "mov,mp4,m4a,3gp,3g2,mj2"},
+            "format": {
+                "duration": "5.000000",
+                "size": "12345",
+                "bit_rate": "1400000",
+                "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+            },
         }
         metrics = parse_ffprobe_json_text(json.dumps(payload))
         self.assertEqual(metrics["duration_seconds"], 5.0)
@@ -67,8 +81,14 @@ class RunMetricsTest(unittest.TestCase):
         self.assertEqual(metrics["width"], 448)
         self.assertEqual(metrics["height"], 256)
         self.assertEqual(metrics["size_bytes"], 12345)
+        self.assertEqual(metrics["video_codec_name"], "h264")
+        self.assertEqual(metrics["video_pix_fmt"], "yuv420p")
+        self.assertEqual(metrics["video_bit_rate"], 1200000)
+        self.assertEqual(metrics["audio_codec_name"], "aac")
+        self.assertEqual(metrics["audio_sample_rate"], 48000)
+        self.assertEqual(metrics["audio_channels"], 2)
+        self.assertEqual(metrics["format_bit_rate"], 1400000)
 
 
 if __name__ == "__main__":
     unittest.main()
-

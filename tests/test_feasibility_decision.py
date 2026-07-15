@@ -18,6 +18,10 @@ def sample_metrics(width=448, height=256, wall=5.5, vram=40000):
             "has_audio": True,
             "width": width,
             "height": height,
+            "video_codec_name": "h264",
+            "video_pix_fmt": "yuv420p",
+            "audio_codec_name": "aac",
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
             "size_bytes": 1234567,
         },
     }
