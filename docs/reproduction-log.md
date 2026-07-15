@@ -115,4 +115,7 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Updated `scripts/package_gpu_evidence.sh` to include preflight JSON, model audit JSON, report files, and manifest JSON/Markdown.
 - Updated `backend/evidence_import.py` so missing mobile video evidence is listed in the import audit.
 - Local evidence package validation passed; total local backend tests now 100.
+- Completed Stage 27 model audit strict-mode ordering fix.
+- Updated P01 and full GPU pipelines so pre-download model audits are report-only, while post-download audits and direct execution without download remain strict.
+- Added script-level tests for the fresh GPU host download path; total local backend tests now 103.
 - No inference run has been completed yet.

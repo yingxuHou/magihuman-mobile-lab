@@ -113,7 +113,7 @@ python -m backend.model_audit --model-root models --profile p01 --format markdow
 python -m backend.model_audit --model-root models --profile required_suite --format markdown
 ```
 
-The P01 and full GPU pipelines run this audit automatically in strict mode when `EXECUTE=1` or `DOWNLOAD_MODELS=1`.
+The P01 and full GPU pipelines run a report-only audit before download, then run a strict audit after download. If `EXECUTE=1` is used without `DOWNLOAD_MODELS=1`, the initial model audit is strict because models are expected to already exist.
 
 ## 8. First Smoke Test
 

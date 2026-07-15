@@ -63,7 +63,7 @@ python -m backend.model_audit --model-root models --profile p01 --strict
 - `logs/model_audit_<timestamp>.json`
 - `outputs/reports/model_audit_<timestamp>.md`
 
-When `EXECUTE=1` or `DOWNLOAD_MODELS=1`, the audit runs in strict mode and fails before inference if checkpoint groups are missing or too small.
+When `DOWNLOAD_MODELS=1`, the audit runs in report-only mode before download and strict mode after download. When `EXECUTE=1` is used without `DOWNLOAD_MODELS=1`, the initial audit is strict because checkpoint groups are expected to already exist.
 
 ## Local Dry-Run Result
 

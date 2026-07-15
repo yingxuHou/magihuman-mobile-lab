@@ -77,8 +77,13 @@ if [ "${EXECUTE}" = "1" ] || [ "${DOWNLOAD_MODELS}" = "1" ]; then
   INITIAL_STRICT=1
 fi
 
+INITIAL_MODEL_AUDIT_STRICT=0
+if [ "${EXECUTE}" = "1" ] && [ "${DOWNLOAD_MODELS}" != "1" ]; then
+  INITIAL_MODEL_AUDIT_STRICT=1
+fi
+
 run_preflight "${STAMP}" "${INITIAL_REQUIRE_MODELS}" "${INITIAL_STRICT}"
-run_model_audit "${STAMP}" "${INITIAL_STRICT}"
+run_model_audit "${STAMP}" "${INITIAL_MODEL_AUDIT_STRICT}"
 
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
   MODEL_ROOT="${MODEL_ROOT}" bash scripts/download_models.sh 2>&1 | tee "${LOG_DIR}/download_models_${STAMP}.log"
