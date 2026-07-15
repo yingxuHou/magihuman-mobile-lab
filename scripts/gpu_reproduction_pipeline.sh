@@ -62,7 +62,17 @@ if [ "${COST_REVIEW}" != "" ]; then
 fi
 "${PYTHON_BIN}" "${FEASIBILITY_ARGS[@]}" | tee "outputs/reports/feasibility_decision_${STAMP}.md"
 
+FINAL_REPORT_ARGS=(-m backend.final_report --log-dir "${LOG_DIR}" --format markdown)
+if [ "${QUALITY_REVIEW}" != "" ]; then
+  FINAL_REPORT_ARGS+=(--quality-review "${QUALITY_REVIEW}")
+fi
+if [ "${COST_REVIEW}" != "" ]; then
+  FINAL_REPORT_ARGS+=(--cost-review "${COST_REVIEW}")
+fi
+"${PYTHON_BIN}" "${FINAL_REPORT_ARGS[@]}" | tee "outputs/reports/final_report_${STAMP}.md"
+
 echo "preflight_json=${LOG_DIR}/gpu_preflight_${STAMP}.json"
 echo "preflight_report=outputs/reports/gpu_preflight_${STAMP}.md"
 echo "experiment_report=outputs/reports/experiment_results_${STAMP}.md"
 echo "feasibility_report=outputs/reports/feasibility_decision_${STAMP}.md"
+echo "final_report=outputs/reports/final_report_${STAMP}.md"

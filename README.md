@@ -54,6 +54,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 16 added GPU preflight checks and a pipeline script for cloud reproduction. The backend prototype now passes 48 local tests using Python standard library only.
 - Stage 17 added a structured generated-sample quality review gate. The backend prototype now passes 55 local tests using Python standard library only.
 - Stage 18 added a cost and wait-time review gate. The backend prototype now passes 64 local tests using Python standard library only.
+- Stage 19 added a combined final feasibility report generator. The backend prototype now passes 69 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -97,4 +98,10 @@ Create a cost review template after runtime metrics exist:
 
 ```powershell
 python -m backend.cost_review --create-template --output docs/cost-review.json
+```
+
+Generate the combined report:
+
+```powershell
+python -m backend.final_report --log-dir logs --format markdown --output docs/mobile-feasibility-report.md
 ```

@@ -65,6 +65,8 @@ After GPU metrics and quality review exist:
 - passing cost review -> `B_candidate_ready_for_product_review`
 - failed cost review -> `C_candidate_cost_failed`
 
+Stage 19 adds a combined report generator that records the current state of all evidence gates in one Markdown file.
+
 ## GPU Pipeline Integration
 
 After filling both review files:

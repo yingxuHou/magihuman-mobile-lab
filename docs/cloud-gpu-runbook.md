@@ -234,3 +234,18 @@ python -m backend.feasibility_decision \
   --cost-review docs/cost-review.json \
   --format markdown
 ```
+
+## 13. Final Report
+
+Generate the combined report after runtime, quality, and cost evidence are available:
+
+```bash
+python -m backend.final_report \
+  --log-dir logs \
+  --quality-review docs/quality-review.json \
+  --cost-review docs/cost-review.json \
+  --format markdown \
+  --output docs/mobile-feasibility-report.md
+```
+
+The pipeline also writes a timestamped report under `outputs/reports/`.

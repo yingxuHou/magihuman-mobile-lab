@@ -42,6 +42,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | GPU preflight and reproduction pipeline passed local tests; total backend tests now 48 | GPU host execution now has a single auditable pipeline that produces preflight, results, and feasibility reports |
 | 2026-07-16 | Quality review gate passed local tests; total backend tests now 55 | Runtime metrics alone are not enough; final cloud feasibility now requires structured sample review evidence |
 | 2026-07-16 | Cost and wait-time review gate passed local tests; total backend tests now 64 | Final cloud feasibility now requires per-video cost and latency thresholds from the selected GPU provider |
+| 2026-07-16 | Final feasibility report generator passed local tests; total backend tests now 69 | Static, runtime, quality, and cost evidence are now combined into one tracked report |
 
 ## Interim Position
 
@@ -136,4 +137,16 @@ Use both reviews in the decision:
 
 ```powershell
 python -m backend.feasibility_decision --log-dir logs --quality-review docs/quality-review.json --cost-review docs/cost-review.json --format markdown
+```
+
+## Combined Report
+
+Current tracked report:
+
+- `docs/mobile-feasibility-report.md`
+
+Regenerate:
+
+```powershell
+python -m backend.final_report --log-dir logs --format markdown --output docs/mobile-feasibility-report.md
 ```
