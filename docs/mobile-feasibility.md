@@ -38,6 +38,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-15 | Experiment runner with dependency checks passed local tests; total backend tests now 32 | GPU host can execute cases in the intended order and avoid invalid 1080p/multilingual runs before P01 passes |
 | 2026-07-16 | Retry and result-retention cleanup policies passed local tests; total backend tests now 35 | Cloud backend route now covers common production mechanics: retry failed jobs and expire generated videos |
 | 2026-07-16 | Feasibility decision generator passed local tests; current output is `B_pending_runtime` with missing required cases P01/P03/P04/T01/T02 | Official on-device stack is rejected by static evidence, while cloud backend remains pending real GPU measurements |
+| 2026-07-16 | Required GPU experiment suite runner passed local tests; total backend tests now 43 | P01/P03/P04/T01/T02 can now be planned or executed as one ordered suite on the GPU host |
 
 ## Interim Position
 
@@ -71,3 +72,17 @@ Current output summary:
 - C. Stop app productization: `not_decided`
 - Recommendation: `B_pending_runtime`
 - Missing required runtime cases: P01, P03, P04, T01, T02
+
+## Required GPU Suite
+
+Dry-run locally:
+
+```powershell
+python -m backend.experiment_suite --log-dir logs --format markdown
+```
+
+Execute on a prepared Linux NVIDIA GPU host:
+
+```bash
+bash scripts/run_experiment_suite.sh --execute
+```

@@ -62,4 +62,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/feasibility_decision.py` to convert static evidence and runtime metrics status into A/B/C mobile feasibility states.
 - Current generated recommendation is `B_pending_runtime`: official on-device inference is not viable, while the cloud GPU backend route still needs P01/P03/P04/T01/T02 runtime metrics and quality review.
 - Local feasibility decision validation passed; total local backend tests now 38.
+- Completed Stage 15 required GPU experiment suite.
+- Added `backend/experiment_suite.py` to plan or execute P01/P03/P04/T01/T02 in dependency order.
+- Added launchers `scripts/run_experiment_suite.ps1` and `scripts/run_experiment_suite.sh`.
+- Local suite validation passed; total local backend tests now 43.
 - No inference run has been completed yet.
