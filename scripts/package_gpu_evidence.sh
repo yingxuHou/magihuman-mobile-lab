@@ -7,9 +7,15 @@ ARCHIVE_PATH="${ARCHIVE_PATH:-${PACKAGE_DIR}.tar.gz}"
 
 mkdir -p "${PACKAGE_DIR}/logs" "${PACKAGE_DIR}/docs" "${PACKAGE_DIR}/outputs/reports"
 
-find logs -maxdepth 1 -type f -name '*_metrics.json' -exec cp {} "${PACKAGE_DIR}/logs/" \; 2>/dev/null || true
+if [ -d logs ]; then
+  find logs -maxdepth 1 -type f \( \
+    -name '*_metrics.json' -o \
+    -name '*preflight*.json' -o \
+    -name '*model_audit*.json' \
+  \) -exec cp {} "${PACKAGE_DIR}/logs/" \; 2>/dev/null || true
+fi
 
-for file in docs/quality-review.json docs/cost-review.json docs/mobile-feasibility-report.md; do
+for file in docs/quality-review.json docs/cost-review.json docs/mobile-feasibility-report.md docs/gpu-evidence-import-audit.md; do
   if [ -f "${file}" ]; then
     cp "${file}" "${PACKAGE_DIR}/docs/"
   fi
@@ -19,6 +25,11 @@ if [ -d outputs/reports ]; then
   find outputs/reports -maxdepth 1 -type f \( -name '*.md' -o -name '*.json' -o -name '*.log' \) \
     -exec cp {} "${PACKAGE_DIR}/outputs/reports/" \; 2>/dev/null || true
 fi
+
+python -m backend.evidence_package --package-dir "${PACKAGE_DIR}" --format json \
+  --output "${PACKAGE_DIR}/evidence-manifest.json" --strict
+python -m backend.evidence_package --package-dir "${PACKAGE_DIR}" --format markdown \
+  --output "${PACKAGE_DIR}/evidence-manifest.md" --strict
 
 tar -czf "${ARCHIVE_PATH}" -C "$(dirname "${PACKAGE_DIR}")" "$(basename "${PACKAGE_DIR}")"
 

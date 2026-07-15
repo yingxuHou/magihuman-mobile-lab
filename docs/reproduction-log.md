@@ -110,4 +110,9 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Integrated model audit into P01 and full GPU pipelines so execution mode fails early if downloaded checkpoints are missing or obviously incomplete.
 - Local P01 model audit reports `not_ready` with 0.0000 GiB found, which is expected because model weights are not downloaded on this workstation.
 - Local model audit validation passed; total local backend tests now 96.
+- Completed Stage 26 evidence package manifest and import audit coverage.
+- Added `backend/evidence_package.py` to generate evidence package manifests and reject media/model files.
+- Updated `scripts/package_gpu_evidence.sh` to include preflight JSON, model audit JSON, report files, and manifest JSON/Markdown.
+- Updated `backend/evidence_import.py` so missing mobile video evidence is listed in the import audit.
+- Local evidence package validation passed; total local backend tests now 100.
 - No inference run has been completed yet.

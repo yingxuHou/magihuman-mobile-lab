@@ -32,6 +32,7 @@ Recommendation: `B_pending_runtime`
 | runtime | P01, P03, P04, T01, T02 | Import logs/*_metrics.json from the GPU host for the missing cases. |
 | quality | missing_quality_review | Import or complete docs/quality-review.json. |
 | cost | missing_cost_review | Import or complete docs/cost-review.json. |
+| mobile_video | P01, P03, P04, T01, T02 | Import metrics JSON with ffprobe video metadata for generated samples. |
 
 ## Current Final Report
 

@@ -7,6 +7,7 @@ from backend.final_report import build_final_report, demote_headings, markdown_f
 
 COMPLETE_REPORT_STATUSES = {
     "cloud_candidate_ready_for_product_review",
+    "mobile_video_needs_transcode",
     "stop_candidate",
 }
 
@@ -50,6 +51,35 @@ def missing_evidence(final_report):
                 "gate": "cost",
                 "items": [cost_status],
                 "action": "Import or complete docs/cost-review.json.",
+            }
+        )
+
+    mobile_video = final_report.get("mobile_video_report", {})
+    mobile_status = mobile_video.get("status")
+    if mobile_status == "missing_mobile_video_evidence":
+        missing_cases = [
+            row["case_id"]
+            for row in mobile_video.get("rows", [])
+            if row.get("status") == "missing_video_metrics"
+        ]
+        missing.append(
+            {
+                "gate": "mobile_video",
+                "items": missing_cases or [mobile_status],
+                "action": "Import metrics JSON with ffprobe video metadata for generated samples.",
+            }
+        )
+    elif mobile_status == "mobile_video_not_ready":
+        failed_cases = [
+            row["case_id"]
+            for row in mobile_video.get("rows", [])
+            if row.get("status") == "mobile_video_not_ready"
+        ]
+        missing.append(
+            {
+                "gate": "mobile_video",
+                "items": failed_cases or [mobile_status],
+                "action": "Review generated videos and produce mobile-compatible delivery files or record why app playback is not viable.",
             }
         )
 

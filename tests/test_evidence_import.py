@@ -48,6 +48,12 @@ class EvidenceImportTest(unittest.TestCase):
         gates = [item["gate"] for item in missing_evidence(audit["final_report"])]
         self.assertEqual(gates, ["quality", "cost"])
 
+    def test_missing_mobile_video_evidence_is_listed(self):
+        audit = build_import_audit(log_dir="does-not-exist")
+
+        gates = [item["gate"] for item in audit["missing_evidence"]]
+        self.assertIn("mobile_video", gates)
+
     def test_markdown_import_audit_contains_sections(self):
         text = markdown_import_audit(build_import_audit(log_dir="does-not-exist"))
 

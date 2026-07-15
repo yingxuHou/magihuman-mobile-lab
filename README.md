@@ -61,6 +61,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 23 added a P01-only 256p smoke pipeline for the first GPU execution attempt. The backend prototype now passes 83 local tests using Python standard library only.
 - Stage 24 added a mobile video compatibility gate for generated MP4/H.264/AAC playback evidence. The backend prototype now passes 90 local tests using Python standard library only.
 - Stage 25 added checkpoint footprint audits for P01, required-suite, and complete model downloads. The backend prototype now passes 96 local tests using Python standard library only.
+- Stage 26 added evidence package manifests and expanded import-audit coverage for mobile-video evidence. The backend prototype now passes 100 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -141,4 +142,10 @@ Audit imported GPU evidence:
 
 ```powershell
 python -m backend.evidence_import --log-dir logs --final-report-output docs/mobile-feasibility-report.md --format markdown --output docs/gpu-evidence-import-audit.md
+```
+
+Package small GPU-host evidence for import:
+
+```bash
+bash scripts/package_gpu_evidence.sh
 ```

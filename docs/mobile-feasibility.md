@@ -49,6 +49,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | P01-only 256p smoke pipeline passed local dry-run and tests; total backend tests now 83 | The first GPU attempt can now run only the smallest required case before spending time on SR or multilingual cases |
 | 2026-07-16 | Mobile video compatibility gate passed local tests; total backend tests now 90 | Final app feasibility now requires generated videos to be checked for MP4/H.264/AAC mobile playback compatibility or marked for transcoding |
 | 2026-07-16 | Model checkpoint footprint audit passed local tests; total backend tests now 96 | GPU execution now fails early if required checkpoint groups are missing or obviously too small after download |
+| 2026-07-16 | Evidence package manifest and import audit coverage passed local tests; total backend tests now 100 | GPU-host evidence handoff now includes preflight/model audit JSON and explicitly tracks missing mobile-video evidence |
 
 ## Interim Position
 

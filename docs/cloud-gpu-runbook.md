@@ -309,6 +309,8 @@ Package only small evidence files. Do not include model weights or generated vid
 bash scripts/package_gpu_evidence.sh
 ```
 
+The evidence package includes metrics, preflight JSON, model audit JSON, report files, and an `evidence-manifest.json` / `evidence-manifest.md`. The manifest rejects video files and model weights.
+
 Copy the produced archive back to the local repository machine, unpack it into the project root, then audit:
 
 ```bash
