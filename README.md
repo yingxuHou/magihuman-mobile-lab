@@ -71,6 +71,7 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 33 added a Hugging Face access audit so P01 and required-suite downloads verify gated repository access with lightweight HEAD probes before checkpoint transfer. The backend prototype now passes 126 local tests using Python standard library only.
 - Stage 34 added pipeline artifact audits so successful P01 and full GPU runs verify their expected logs, reports, metrics, and result MP4 files before evidence packaging. The backend prototype now passes 131 local tests using Python standard library only.
 - Stage 35 added an upstream drift audit so GPU runs can verify the locked official code/model/Space SHAs still match current upstream metadata before spending GPU time. The backend prototype now passes 136 local tests using Python standard library only.
+- Stage 36 added a P01 smoke plan audit so the tracked manifest must match the generated P01 execution plan before downloads or GPU execution. The backend prototype now passes 141 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 
@@ -96,6 +97,7 @@ Inspect the locked P01 smoke input contract:
 
 ```powershell
 python -m backend.smoke_manifest --format markdown
+python -m backend.smoke_plan_audit --format markdown
 ```
 
 Execute it on a prepared Linux NVIDIA GPU host:

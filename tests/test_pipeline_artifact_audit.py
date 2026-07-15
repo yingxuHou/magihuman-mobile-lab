@@ -21,8 +21,10 @@ class PipelineArtifactAuditTest(unittest.TestCase):
             for path in [
                 log_dir / "p01_preflight_{}.json".format(stamp),
                 log_dir / "p01_model_audit_{}.json".format(stamp),
+                log_dir / "p01_smoke_plan_audit_{}.json".format(stamp),
                 report_dir / "p01_preflight_{}.md".format(stamp),
                 report_dir / "p01_model_audit_{}.md".format(stamp),
+                report_dir / "p01_smoke_plan_audit_{}.md".format(stamp),
                 report_dir / "p01_smoke_plan_{}.sh".format(stamp),
                 report_dir / "p01_experiment_results_{}.md".format(stamp),
                 report_dir / "p01_mobile_video_check_{}.md".format(stamp),
@@ -60,6 +62,7 @@ class PipelineArtifactAuditTest(unittest.TestCase):
             for name in [
                 "p01_preflight_{}.json",
                 "p01_model_audit_{}.json",
+                "p01_smoke_plan_audit_{}.json",
                 "p01_hf_access_{}.json",
                 "p01_download_models_{}.log",
                 "p01_preflight_{}_post_download.json",
@@ -70,6 +73,7 @@ class PipelineArtifactAuditTest(unittest.TestCase):
             for name in [
                 "p01_preflight_{}.md",
                 "p01_model_audit_{}.md",
+                "p01_smoke_plan_audit_{}.md",
                 "p01_hf_access_{}.md",
                 "p01_preflight_{}_post_download.md",
                 "p01_model_audit_{}_post_download.md",

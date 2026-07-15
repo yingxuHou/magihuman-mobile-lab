@@ -169,6 +169,17 @@ INSTALL_MAGICOMPILER=1 DOWNLOAD_MODELS=1 EXECUTE=1 bash scripts/run_p01_smoke_pi
 
 This runs only P01: 256p, T2V, base model, 5 seconds. Continue to the full suite only after P01 writes a playable mp4 and metrics JSON.
 
+Before download or execution, the P01 pipeline checks that `docs/p01-smoke-manifest.json` matches the generated P01 plan. It writes:
+
+- `logs/p01_smoke_plan_audit_<timestamp>.json`
+- `outputs/reports/p01_smoke_plan_audit_<timestamp>.md`
+
+Manual check:
+
+```bash
+python -m backend.smoke_plan_audit --format markdown
+```
+
 Manual comparison commands:
 
 ```bash

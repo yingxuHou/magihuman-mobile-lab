@@ -69,6 +69,8 @@ def build_p01_artifacts(
         exact_row("P01 preflight report", report_dir / "p01_preflight_{}.md".format(stamp)),
         exact_row("P01 model audit JSON", log_dir / "p01_model_audit_{}.json".format(stamp)),
         exact_row("P01 model audit report", report_dir / "p01_model_audit_{}.md".format(stamp)),
+        exact_row("P01 smoke plan audit JSON", log_dir / "p01_smoke_plan_audit_{}.json".format(stamp)),
+        exact_row("P01 smoke plan audit report", report_dir / "p01_smoke_plan_audit_{}.md".format(stamp)),
         exact_row("P01 smoke plan", report_dir / "p01_smoke_plan_{}.sh".format(stamp)),
     ]
     if prepare_sources:

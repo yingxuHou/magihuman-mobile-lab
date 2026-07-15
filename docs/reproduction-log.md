@@ -148,4 +148,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Added `backend/upstream_drift_audit.py` and generated `docs/upstream-drift-audit.md/json`.
 - Live upstream metadata audit reports `locked_current`: daVinci-MagiHuman code, MagiCompiler code, Hugging Face model, and Hugging Face Space all match the project lock.
 - Local upstream drift audit validation passed; total local backend tests now 136.
+- Completed Stage 36 P01 smoke plan audit.
+- Added `backend/smoke_plan_audit.py` and generated `docs/p01-smoke-plan-audit.md/json`.
+- Integrated the smoke plan audit into the P01 pipeline before downloads or GPU execution.
+- Current P01 smoke plan audit reports `ready`; total local backend tests now 141.
 - No inference run has been completed yet.

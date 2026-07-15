@@ -1,0 +1,170 @@
+{
+  "status": "ready",
+  "manifest_path": "docs/p01-smoke-manifest.json",
+  "log_dir": "logs",
+  "result_dir": "outputs/smoke-test",
+  "plan": {
+    "case_id": "P01",
+    "name": "base_256p_t2v_smoke",
+    "env": {
+      "MAGIHUMAN_TASK_ID": "P01",
+      "MAGIHUMAN_PROMPT": "A professional presenter looks at the camera and says hello to the audience in a calm voice.",
+      "MAGIHUMAN_MODE": "t2v",
+      "MAGIHUMAN_RESOLUTION": "256p",
+      "MAGIHUMAN_DURATION_SECONDS": "5",
+      "MAGIHUMAN_SEED": "42",
+      "MAGIHUMAN_MODEL_VARIANT": "base",
+      "MAGIHUMAN_RESULT_PATH": "outputs/smoke-test/P01.mp4",
+      "MAGIHUMAN_MANIFEST_PATH": "docs/p01-smoke-manifest.json"
+    },
+    "command": "bash scripts/magihuman_task_runner.sh",
+    "result_path": "outputs/smoke-test/P01.mp4"
+  },
+  "checks": [
+    {
+      "label": "manifest_type",
+      "manifest_value": "p01_smoke_input_manifest",
+      "plan_value": "p01_smoke_input_manifest",
+      "ok": true
+    },
+    {
+      "label": "case_id",
+      "manifest_value": "P01",
+      "plan_value": "P01",
+      "ok": true
+    },
+    {
+      "label": "case_name",
+      "manifest_value": "base_256p_t2v_smoke",
+      "plan_value": "base_256p_t2v_smoke",
+      "ok": true
+    },
+    {
+      "label": "mode",
+      "manifest_value": "t2v",
+      "plan_value": "t2v",
+      "ok": true
+    },
+    {
+      "label": "resolution",
+      "manifest_value": "256p",
+      "plan_value": "256p",
+      "ok": true
+    },
+    {
+      "label": "variant",
+      "manifest_value": "base",
+      "plan_value": "base",
+      "ok": true
+    },
+    {
+      "label": "duration_seconds",
+      "manifest_value": 5,
+      "plan_value": 5,
+      "ok": true
+    },
+    {
+      "label": "seed",
+      "manifest_value": 42,
+      "plan_value": 42,
+      "ok": true
+    },
+    {
+      "label": "prompt_sha256",
+      "manifest_value": "8c18770e93a979ecf1c1d8b3f9d7d62e829bb0353118c3a48534891938218222",
+      "plan_value": "8c18770e93a979ecf1c1d8b3f9d7d62e829bb0353118c3a48534891938218222",
+      "ok": true
+    },
+    {
+      "label": "base_width",
+      "manifest_value": 448,
+      "plan_value": 448,
+      "ok": true
+    },
+    {
+      "label": "base_height",
+      "manifest_value": 256,
+      "plan_value": 256,
+      "ok": true
+    },
+    {
+      "label": "sr_width",
+      "manifest_value": null,
+      "plan_value": null,
+      "ok": true
+    },
+    {
+      "label": "sr_height",
+      "manifest_value": null,
+      "plan_value": null,
+      "ok": true
+    },
+    {
+      "label": "command",
+      "manifest_value": "bash scripts/magihuman_task_runner.sh",
+      "plan_value": "bash scripts/magihuman_task_runner.sh",
+      "ok": true
+    },
+    {
+      "label": "expected_result_path",
+      "manifest_value": "outputs/smoke-test/P01.mp4",
+      "plan_value": "outputs/smoke-test/P01.mp4",
+      "ok": true
+    },
+    {
+      "label": "env.MAGIHUMAN_TASK_ID",
+      "manifest_value": "P01",
+      "plan_value": "P01",
+      "ok": true
+    },
+    {
+      "label": "env.MAGIHUMAN_PROMPT",
+      "manifest_value": "A professional presenter looks at the camera and says hello to the audience in a calm voice.",
+      "plan_value": "A professional presenter looks at the camera and says hello to the audience in a calm voice.",
+      "ok": true
+    },
+    {
+      "label": "env.MAGIHUMAN_MODE",
+      "manifest_value": "t2v",
+      "plan_value": "t2v",
+      "ok": true
+    },
+    {
+      "label": "env.MAGIHUMAN_RESOLUTION",
+      "manifest_value": "256p",
+      "plan_value": "256p",
+      "ok": true
+    },
+    {
+      "label": "env.MAGIHUMAN_DURATION_SECONDS",
+      "manifest_value": "5",
+      "plan_value": "5",
+      "ok": true
+    },
+    {
+      "label": "env.MAGIHUMAN_SEED",
+      "manifest_value": "42",
+      "plan_value": "42",
+      "ok": true
+    },
+    {
+      "label": "env.MAGIHUMAN_MODEL_VARIANT",
+      "manifest_value": "base",
+      "plan_value": "base",
+      "ok": true
+    },
+    {
+      "label": "env.MAGIHUMAN_RESULT_PATH",
+      "manifest_value": "outputs/smoke-test/P01.mp4",
+      "plan_value": "outputs/smoke-test/P01.mp4",
+      "ok": true
+    },
+    {
+      "label": "env.MAGIHUMAN_MANIFEST_PATH",
+      "manifest_value": "docs/p01-smoke-manifest.json",
+      "plan_value": "docs/p01-smoke-manifest.json",
+      "ok": true
+    }
+  ],
+  "failures": []
+}

@@ -47,6 +47,7 @@ class EvidencePackageTest(unittest.TestCase):
         self.assertIn("docs/p01-smoke-manifest.md", text)
         self.assertIn("*hf_access*.json", text)
         self.assertIn("*artifact_audit*.json", text)
+        self.assertIn("*smoke_plan_audit*.json", text)
         self.assertIn("backend.evidence_provenance", text)
         self.assertIn("evidence-provenance.json", text)
 

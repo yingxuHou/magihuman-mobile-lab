@@ -24,6 +24,7 @@ The P01 audit checks:
 
 - preflight JSON and Markdown
 - model audit JSON and Markdown
+- smoke plan audit JSON and Markdown
 - smoke plan shell script
 - optional source preparation log
 - optional Hugging Face access JSON and Markdown

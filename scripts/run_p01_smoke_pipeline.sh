@@ -70,6 +70,14 @@ run_hf_access_audit() {
   "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/p01_hf_access_${suffix}.json" --strict
 }
 
+run_smoke_plan_audit() {
+  local suffix="$1"
+  local args=(-m backend.smoke_plan_audit --manifest docs/p01-smoke-manifest.json --log-dir "${LOG_DIR}" --result-dir "${RESULT_DIR}")
+
+  "${PYTHON_BIN}" "${args[@]}" --format json --output "${LOG_DIR}/p01_smoke_plan_audit_${suffix}.json"
+  "${PYTHON_BIN}" "${args[@]}" --format markdown --output "outputs/reports/p01_smoke_plan_audit_${suffix}.md" --strict
+}
+
 run_pipeline_artifact_audit() {
   local suffix="$1"
   local args=(-m backend.pipeline_artifact_audit --run p01 --stamp "${suffix}" --log-dir "${LOG_DIR}" --report-dir outputs/reports --result-dir "${RESULT_DIR}")
@@ -112,6 +120,7 @@ fi
 
 run_preflight "${STAMP}" "${INITIAL_REQUIRE_MODELS}" "${INITIAL_STRICT}"
 run_model_audit "${STAMP}" "${INITIAL_MODEL_AUDIT_STRICT}"
+run_smoke_plan_audit "${STAMP}"
 
 if [ "${DOWNLOAD_MODELS}" = "1" ] && [ "${HF_ACCESS_AUDIT}" = "1" ]; then
   run_hf_access_audit "${STAMP}"
@@ -151,6 +160,8 @@ echo "p01_preflight_json=${LOG_DIR}/p01_preflight_${STAMP}.json"
 echo "p01_preflight_report=outputs/reports/p01_preflight_${STAMP}.md"
 echo "p01_model_audit_json=${LOG_DIR}/p01_model_audit_${STAMP}.json"
 echo "p01_model_audit_report=outputs/reports/p01_model_audit_${STAMP}.md"
+echo "p01_smoke_plan_audit_json=${LOG_DIR}/p01_smoke_plan_audit_${STAMP}.json"
+echo "p01_smoke_plan_audit_report=outputs/reports/p01_smoke_plan_audit_${STAMP}.md"
 if [ "${DOWNLOAD_MODELS}" = "1" ]; then
   if [ "${HF_ACCESS_AUDIT}" = "1" ]; then
     echo "p01_hf_access_json=${LOG_DIR}/p01_hf_access_${STAMP}.json"

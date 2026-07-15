@@ -13,7 +13,8 @@ if [ -d logs ]; then
     -name '*preflight*.json' -o \
     -name '*model_audit*.json' -o \
     -name '*hf_access*.json' -o \
-    -name '*artifact_audit*.json' \
+    -name '*artifact_audit*.json' -o \
+    -name '*smoke_plan_audit*.json' \
   \) -exec cp {} "${PACKAGE_DIR}/logs/" \; 2>/dev/null || true
 fi
 
