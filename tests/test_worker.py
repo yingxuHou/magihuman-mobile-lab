@@ -46,6 +46,26 @@ class WorkerTest(unittest.TestCase):
             self.assertEqual(updated["state"], "failed")
             self.assertIn("worker exited with code 7", updated["error"])
 
+    def test_process_failed_task_with_retry(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            script = root / "mock_fail.py"
+            script.write_text("import sys\nsys.exit(7)\n", encoding="utf-8")
+
+            store = TaskStore(root / "api")
+            task = store.create_task({"prompt": "hello", "resolution": "256p", "mode": "t2v", "max_retries": 1})
+            command = '"{}" "{}"'.format(sys.executable, script)
+
+            first = process_next_task(store, command, root / "outputs", timeout_seconds=10)
+            self.assertEqual(first["id"], task["id"])
+            self.assertEqual(first["state"], "queued")
+            self.assertEqual(first["retry_count"], 1)
+            self.assertEqual(first["worker"]["status"], "retry_queued")
+
+            second = process_next_task(store, command, root / "outputs", timeout_seconds=10)
+            self.assertEqual(second["state"], "failed")
+            self.assertEqual(second["retry_count"], 2)
+
     def test_no_queued_task(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -56,4 +76,3 @@ class WorkerTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

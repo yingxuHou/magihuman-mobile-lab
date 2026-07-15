@@ -13,6 +13,12 @@ def utc_now():
     return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
 
 
+def parse_utc(value):
+    if not value:
+        return None
+    return datetime.strptime(value.replace("Z", ""), "%Y-%m-%dT%H:%M:%S")
+
+
 class TaskStore:
     def __init__(self, root):
         self.root = Path(root)
@@ -54,9 +60,13 @@ class TaskStore:
             "image_path": payload.get("image_path"),
             "audio_path": payload.get("audio_path"),
             "priority": int(payload.get("priority", 0)),
+            "retry_count": 0,
+            "max_retries": int(payload.get("max_retries", 0)),
             "progress": 0,
             "error": None,
             "result_path": None,
+            "result_created_at": None,
+            "result_expired_at": None,
             "worker": {
                 "required": "gpu",
                 "status": "not_started",

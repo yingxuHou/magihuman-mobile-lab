@@ -73,50 +73,36 @@ def process_next_task(store, command_template, output_dir, timeout_seconds=3600)
             timeout=timeout_seconds,
         )
     except subprocess.TimeoutExpired as exc:
-        return store.update_task(
-            task["id"],
-            state="failed",
-            progress=100,
+        return fail_or_retry_task(
+            store,
+            task,
             error="worker timeout after {} seconds".format(timeout_seconds),
-            worker={
-                "required": "gpu",
-                "status": "timeout",
-                "command": command,
-                "stderr": str(exc),
-                "finished_at": utc_now(),
-            },
+            worker_status="timeout",
+            command=command,
+            stdout="",
+            stderr=str(exc),
         )
 
     if completed.returncode != 0:
-        return store.update_task(
-            task["id"],
-            state="failed",
-            progress=100,
+        return fail_or_retry_task(
+            store,
+            task,
             error="worker exited with code {}".format(completed.returncode),
-            worker={
-                "required": "gpu",
-                "status": "failed",
-                "command": command,
-                "stdout": completed.stdout[-4000:],
-                "stderr": completed.stderr[-4000:],
-                "finished_at": utc_now(),
-            },
+            worker_status="failed",
+            command=command,
+            stdout=completed.stdout[-4000:],
+            stderr=completed.stderr[-4000:],
         )
 
     if not result_path.exists():
-        return store.update_task(
-            task["id"],
-            state="failed",
-            progress=100,
+        return fail_or_retry_task(
+            store,
+            task,
             error="worker completed but result file was not created",
-            worker={
-                "required": "gpu",
-                "status": "missing_result",
-                "command": command,
-                "stdout": completed.stdout[-4000:],
-                "stderr": completed.stderr[-4000:],
-                "finished_at": utc_now(),
-            },
+            worker_status="missing_result",
+            command=command,
+            stdout=completed.stdout[-4000:],
+            stderr=completed.stderr[-4000:],
         )
 
     return store.update_task(
@@ -125,6 +111,8 @@ def process_next_task(store, command_template, output_dir, timeout_seconds=3600)
         progress=100,
         error=None,
         result_path=str(result_path),
+        result_created_at=utc_now(),
+        result_expired_at=None,
         worker={
             "required": "gpu",
             "status": "succeeded",
@@ -132,6 +120,49 @@ def process_next_task(store, command_template, output_dir, timeout_seconds=3600)
             "stdout": completed.stdout[-4000:],
             "stderr": completed.stderr[-4000:],
             "finished_at": utc_now(),
+        },
+    )
+
+
+def fail_or_retry_task(store, task, error, worker_status, command, stdout="", stderr=""):
+    retry_count = int(task.get("retry_count", 0))
+    max_retries = int(task.get("max_retries", 0))
+    next_retry_count = retry_count + 1
+    if retry_count < max_retries:
+        return store.update_task(
+            task["id"],
+            state="queued",
+            progress=0,
+            retry_count=next_retry_count,
+            error=error,
+            worker={
+                "required": "gpu",
+                "status": "retry_queued",
+                "previous_status": worker_status,
+                "command": command,
+                "stdout": stdout,
+                "stderr": stderr,
+                "finished_at": utc_now(),
+                "retry_count": next_retry_count,
+                "max_retries": max_retries,
+            },
+        )
+
+    return store.update_task(
+        task["id"],
+        state="failed",
+        progress=100,
+        retry_count=next_retry_count,
+        error=error,
+        worker={
+            "required": "gpu",
+            "status": worker_status,
+            "command": command,
+            "stdout": stdout,
+            "stderr": stderr,
+            "finished_at": utc_now(),
+            "retry_count": next_retry_count,
+            "max_retries": max_retries,
         },
     )
 

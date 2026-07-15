@@ -54,4 +54,8 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Completed Stage 12 experiment runner.
 - Added `backend/experiment_runner.py` to run one matrix case with dependency checks.
 - Local validation now passes 32 tests.
+- Completed Stage 13 retry and retention policies.
+- Added worker auto-retry via `max_retries` and `retry_count`.
+- Added `backend/retention.py` to expire generated result files by TTL.
+- Local validation now passes 35 tests.
 - No inference run has been completed yet.

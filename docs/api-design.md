@@ -106,6 +106,31 @@ The prototype stores tasks in `api_data/tasks.json`, which is ignored by Git. A 
 
 For a single GPU worker, use one active task at a time unless measured VRAM proves safe concurrency. For H100 production, the first implementation should still serialize jobs because MagiHuman is a large video generation model and compilation/cache warmup can cause transient memory spikes.
 
+## Retry And Retention
+
+Tasks support:
+
+- `retry_count`
+- `max_retries`
+- `result_created_at`
+- `result_expired_at`
+
+When a worker command fails, times out, or finishes without producing a result file, the worker requeues the task if `retry_count < max_retries`. Otherwise it marks the task `failed`.
+
+Generated result cleanup:
+
+```powershell
+python -m backend.retention --data-dir api_data --ttl-seconds 86400
+```
+
+or:
+
+```powershell
+.\scripts\cleanup_results.ps1 -DataDir api_data -TtlSeconds 86400
+```
+
+Cleanup removes the result file, clears `result_path`, and records `result_expired_at`.
+
 ## Worker Prototype
 
 Added:
