@@ -35,6 +35,7 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-15 | Metrics parser passed local tests for `nvidia-smi`, `/usr/bin/time -v`, and `ffprobe` JSON; total backend tests now 18 | GPU run outputs can be converted into comparable data for the final mobile feasibility decision |
 | 2026-07-15 | Experiment matrix for 256p, distill, 540p, 1080p, and multilingual TI2V passed local generation tests; total backend tests now 23 | GPU host now has an ordered test plan for quality, performance, and app feasibility evidence |
 | 2026-07-15 | Experiment result aggregator passed local tests; total backend tests now 27 | Missing GPU evidence is now explicit and measurable in the final feasibility report |
+| 2026-07-15 | Experiment runner with dependency checks passed local tests; total backend tests now 32 | GPU host can execute cases in the intended order and avoid invalid 1080p/multilingual runs before P01 passes |
 
 ## Interim Position
 

@@ -51,4 +51,7 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Completed Stage 11 result aggregation.
 - Added `backend/experiment_results.py` to summarize metrics JSON files and mark missing required evidence.
 - Local validation now passes 27 tests.
+- Completed Stage 12 experiment runner.
+- Added `backend/experiment_runner.py` to run one matrix case with dependency checks.
+- Local validation now passes 32 tests.
 - No inference run has been completed yet.

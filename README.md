@@ -47,3 +47,4 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 09 added run-metrics parsing for `nvidia-smi`, `/usr/bin/time -v`, and `ffprobe`. The backend prototype now passes 18 local tests using Python standard library only.
 - Stage 10 added an experiment matrix for performance and multilingual runs. The backend prototype now passes 23 local tests using Python standard library only.
 - Stage 11 added experiment result aggregation for metrics JSON files. The backend prototype now passes 27 local tests using Python standard library only.
+- Stage 12 added a case-level experiment runner with dependency checks. The backend prototype now passes 32 local tests using Python standard library only.

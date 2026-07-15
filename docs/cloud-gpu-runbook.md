@@ -158,6 +158,18 @@ python -m backend.experiment_matrix --format markdown
 
 Run `P01` first. Continue with `P03`, `P04`, and multilingual TI2V cases only after `P01` produces a playable mp4 and valid metrics JSON.
 
+Dry-run a case:
+
+```bash
+bash scripts/run_experiment_case.sh P01
+```
+
+Execute a case:
+
+```bash
+bash scripts/run_experiment_case.sh P01 --execute
+```
+
 Summarize results:
 
 ```bash
