@@ -1,20 +1,19 @@
 {
-  "status": "incomplete_budget_config",
-  "summary": "GPU session budget config is incomplete.",
+  "status": "budget_ready",
+  "summary": "GPU session budget is ready.",
   "config_path": "docs\\gpu-session-budget.json",
   "currency": "USD",
-  "gpu_provider": "",
-  "gpu_name": "",
+  "gpu_provider": "Thunder Compute",
+  "gpu_name": "H100 PCIe 80GB",
+  "provider_region": "provider_default",
+  "billing_model": "on_demand_gpu_hour",
+  "price_source_url": "https://www.thundercompute.com/pricing",
+  "price_checked_at": "2026-07-16",
   "checkpoint_profile": "p01",
-  "missing_fields": [
-    "gpu_hourly_usd",
-    "max_session_hours",
-    "max_session_budget_usd",
-    "disk_budget_gib"
-  ],
+  "missing_fields": [],
   "invalid_fields": [],
   "stop_policy": "stop_before_download_if_over_budget",
-  "notes": "Fill this before renting GPU time. Do not use provider prices from memory; verify the current price first.",
+  "notes": "Candidate P01 smoke budget using Thunder Compute public pricing observed on 2026-07-16. Re-check price before actual spend; do not run required_suite until P01 acceptance passes and budget is recalculated.",
   "stop_rules": [
     "Do not start the GPU session unless this report status is `budget_ready`.",
     "Verify the selected provider's current hourly price before filling `gpu_hourly_usd`.",
@@ -22,11 +21,31 @@
     "Run P01 first; do not upgrade to the required-suite profile until P01 acceptance passes and the budget is recalculated.",
     "After real runtime metrics are imported, use `docs/cost-review.json`; this budget guard is not a replacement for the final cost review."
   ],
+  "gpu_hourly_usd": 2.19,
+  "billing_overhead_multiplier": 1.25,
+  "max_session_hours": 4.0,
+  "max_session_budget_usd": 15.0,
+  "disk_budget_gib": 300.0,
+  "output_buffer_gib": 100.0,
+  "expected_checkpoint_gib": 114.64,
+  "recommended_disk_gib": 214.64,
+  "estimated_session_cost_usd": 10.95,
+  "budget_headroom_usd": 4.05,
   "rows": [
     {
       "check": "budget config complete",
-      "status": "failed",
-      "detail": "missing: gpu_hourly_usd, max_session_hours, max_session_budget_usd, disk_budget_gib; invalid: -"
+      "status": "passed",
+      "detail": "missing: -; invalid: -"
+    },
+    {
+      "check": "estimated session cost within cap",
+      "status": "passed",
+      "detail": "10.9500 <= 15.0000 USD"
+    },
+    {
+      "check": "disk budget covers checkpoints and output buffer",
+      "status": "passed",
+      "detail": "300.00 GiB >= 214.64 GiB"
     }
   ]
 }

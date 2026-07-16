@@ -14,7 +14,7 @@ The goal is to make the first real GPU run less dependent on manually reading mu
 Packet status:
 
 - Original Stage 44 status: `ready_for_gpu_handoff`
-- Current status after Stage 49: `attention_required` until the GPU session budget guard is completed
+- Current status after Stage 50: `ready_for_gpu_handoff` with the P01 budget guard ready
 - Local runtime status: `not_executed_on_this_workstation`
 - Repository: `https://github.com/yingxuHou/magihuman-mobile-lab.git`
 - Docker image: `sandai/magi-human:latest`

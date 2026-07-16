@@ -26,11 +26,13 @@ The existing `backend.cost_review` gate evaluates real per-video cost after runt
 | `disk_budget_too_low` | Disk budget is below checkpoint footprint plus output buffer. |
 | `budget_ready` | The session budget guard is ready. |
 
-## Current State
+## Stage 48 State
 
-The tracked config is a template. Current report status is `incomplete_budget_config` because no GPU provider, current hourly price, max session hours, max session budget, or disk budget has been selected yet.
+At Stage 48, the tracked config was a template. The report status was `incomplete_budget_config` because no GPU provider, current hourly price, max session hours, max session budget, or disk budget had been selected yet.
 
 This is intentional. Do not invent GPU prices from memory. Verify the provider's current price before filling `docs/gpu-session-budget.json`.
+
+Stage 50 later fills a P01 smoke-run budget; the current tracked budget status is now `budget_ready`.
 
 ## Commands
 

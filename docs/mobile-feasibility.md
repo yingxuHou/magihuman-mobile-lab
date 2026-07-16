@@ -71,8 +71,9 @@ The current statement is a hypothesis, not a final conclusion:
 | 2026-07-16 | Reproduction gap report passed local tests; total backend tests now 184 | The project gained a generated list of missing evidence before final App feasibility can change; initial status was `awaiting_gpu_runtime` |
 | 2026-07-16 | GPU evidence import workflow now refreshes the reproduction gap report; total backend tests remain 184 | After returned GPU evidence is imported, the project will automatically update the current missing-evidence summary |
 | 2026-07-16 | GPU evidence import workflow now refreshes review-readiness and reproduction-gap JSON outputs; total backend tests remain 184 | After returned GPU evidence is imported, GitHub scripts or future dashboards can read the current blocked/ready state without parsing Markdown |
-| 2026-07-16 | GPU session budget guard added; total backend tests now 194 | Paid GPU reproduction now has a pre-run budget and disk guard, but the current budget report is `incomplete_budget_config` until provider price and spend caps are filled |
-| 2026-07-16 | GPU session budget guard now blocks handoff; total backend tests remain 194 | Current GPU execution packet is `attention_required` and gap report is `handoff_not_ready` until the budget config is completed |
+| 2026-07-16 | GPU session budget guard added; total backend tests now 194 | Paid GPU reproduction gained a pre-run budget and disk guard; initial report status was `incomplete_budget_config` until provider price and spend caps were filled |
+| 2026-07-16 | GPU session budget guard now blocks handoff; total backend tests remain 194 | Incomplete budget configs now make the GPU execution packet `attention_required` and gap report `handoff_not_ready` |
+| 2026-07-16 | P01 GPU budget filled from a current public Thunder Compute H100 PCIe quote; total backend tests now 195 | GPU handoff is now budget-ready for a bounded P01 smoke run, but real runtime evidence is still missing and the recommendation remains `B_pending_runtime` |
 
 ## Interim Position
 

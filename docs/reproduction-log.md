@@ -201,11 +201,16 @@ This file records environment checks, setup commands, inference runs, failures, 
 - Current tracked status remained `awaiting_gpu_runtime` at this stage; no inference run had been completed yet.
 - Completed Stage 48 GPU session budget guard.
 - Added `backend/gpu_session_budget.py` plus Bash/PowerShell wrappers to create and validate a pre-run GPU session budget before paid cloud GPU time starts.
-- Generated `docs/gpu-session-budget.json`, `docs/gpu-session-budget-report.md`, and `docs/gpu-session-budget-report.json`; current status is `incomplete_budget_config` until provider price and spend caps are filled.
+- Generated `docs/gpu-session-budget.json`, `docs/gpu-session-budget-report.md`, and `docs/gpu-session-budget-report.json`; initial status was `incomplete_budget_config` until provider price and spend caps were filled.
 - Updated `backend.gpu_execution_packet` so the handoff packet includes local budget guard commands.
 - No inference run has been completed yet.
 - Completed Stage 49 budget guard handoff gate.
 - Updated `backend.gpu_execution_packet` so incomplete budget config changes the packet status to `attention_required`.
-- Updated `backend.reproduction_gap_report` so the current status is `handoff_not_ready` and the open gaps include `GPU session budget guard`.
+- Updated `backend.reproduction_gap_report` so an incomplete budget config makes the status `handoff_not_ready` and adds a `GPU session budget guard` open gap.
 - Regenerated `docs/gpu-execution-packet.md/json` and `docs/reproduction-gap-report.md/json` with the new current state.
+- No inference run has been completed yet.
+- Completed Stage 50 P01 budget quote fill.
+- Updated `backend.gpu_session_budget` so a budget needs `gpu_provider`, `gpu_name`, `price_source_url`, and `price_checked_at`.
+- Filled `docs/gpu-session-budget.json` with a bounded Thunder Compute H100 PCIe P01 smoke-run budget checked on 2026-07-16.
+- Regenerated the budget, execution packet, and reproduction gap reports; current budget status is `budget_ready`, packet status is `ready_for_gpu_handoff`, and gap status is `awaiting_gpu_runtime`.
 - No inference run has been completed yet.

@@ -13,13 +13,13 @@ from backend.gpu_execution_packet import (
 
 
 class GpuExecutionPacketTest(unittest.TestCase):
-    def test_current_project_packet_requires_budget_guard(self):
+    def test_current_project_packet_is_ready_after_budget_guard(self):
         packet = build_execution_packet(project_root=".", repo_url=DEFAULT_REPO_URL)
 
-        self.assertEqual(packet["status"], "attention_required")
+        self.assertEqual(packet["status"], "ready_for_gpu_handoff")
         self.assertEqual(packet["local_runtime_status"], "not_executed_on_this_workstation")
-        self.assertEqual(packet["gpu_session_budget"]["status"], "incomplete_budget_config")
-        self.assertTrue(any(item["label"] == "GPU session budget guard" for item in packet["failures"]))
+        self.assertEqual(packet["gpu_session_budget"]["status"], "budget_ready")
+        self.assertTrue(any(item["label"] == "GPU session budget guard" for item in packet["checks"]))
         self.assertTrue(any(item == "outputs/gpu-evidence-*.tar.gz" for item in packet["expected_artifacts"]))
 
     def test_missing_project_artifacts_need_attention(self):
@@ -59,6 +59,7 @@ class GpuExecutionPacketTest(unittest.TestCase):
         self.assertIn("backend.gpu_session_budget", commands)
         self.assertIn("--strict", commands)
         self.assertIn("docs\\gpu-session-budget.json", commands)
+        self.assertNotIn("--create-template", commands)
 
     def test_markdown_packet_contains_operator_sections(self):
         text = markdown_execution_packet(build_execution_packet(project_root=".", repo_url=DEFAULT_REPO_URL))

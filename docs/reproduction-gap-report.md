@@ -1,12 +1,12 @@
 # Reproduction Gap Report
 
-- Status: `handoff_not_ready`
+- Status: `awaiting_gpu_runtime`
 - Recommendation: `B_pending_runtime`
 - Final report status: `incomplete_runtime_evidence`
 - Required-suite acceptance: `not_ready`
 - Review readiness: `runtime_not_ready`
-- GPU execution packet: `attention_required`
-- GPU session budget: `incomplete_budget_config`
+- GPU execution packet: `ready_for_gpu_handoff`
+- GPU session budget: `budget_ready`
 
 ## Evidence Gates
 
@@ -28,8 +28,6 @@
 | Generated sample quality review | `missing_quality_review` | No quality review file was provided. | Create/fill `docs/quality-review.json` only after review readiness reports `review_inputs_ready`. |
 | Cloud GPU cost and wait-time review | `missing_cost_review` | No cost review file was provided. | Fill `docs/cost-review.json` with GPU hourly price, overhead multiplier, max cost, and max wall time. |
 | Review input readiness | `runtime_not_ready` | Required-suite runtime evidence is not ready; do not create or fill review inputs yet. | Do not fill quality/cost reviews until required-suite acceptance is ready. |
-| GPU session budget guard | `incomplete_budget_config` | GPU session budget config is incomplete. | Fill `docs/gpu-session-budget.json` with current provider price and spend caps, then rerun the budget guard with `--strict`. |
-| GPU execution handoff | `attention_required` | GPU execution packet needs attention before handoff. | Fix failed handoff checks before using cloud GPU time. |
 
 ## Decision Rule
 

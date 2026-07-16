@@ -8,15 +8,14 @@ from tests.test_required_suite_acceptance import write_required_suite
 
 
 class ReproductionGapReportTest(unittest.TestCase):
-    def test_current_missing_budget_blocks_gpu_handoff(self):
+    def test_current_missing_runtime_status_is_awaiting_gpu_runtime(self):
         report = build_reproduction_gap_report(log_dir="does-not-exist")
 
-        self.assertEqual(report["status"], "handoff_not_ready")
+        self.assertEqual(report["status"], "awaiting_gpu_runtime")
         self.assertEqual(report["recommendation"], "B_pending_runtime")
-        self.assertEqual(report["gpu_execution_packet_status"], "attention_required")
-        self.assertEqual(report["gpu_session_budget_status"], "incomplete_budget_config")
+        self.assertEqual(report["gpu_execution_packet_status"], "ready_for_gpu_handoff")
+        self.assertEqual(report["gpu_session_budget_status"], "budget_ready")
         self.assertEqual(report["missing_required_runtime_cases"], ["P01", "P03", "P04", "T01", "T02"])
-        self.assertTrue(any(item["gate"] == "GPU session budget guard" for item in report["gaps"]))
         self.assertTrue(any(item["gate"] == "Required GPU runtime metrics" for item in report["gaps"]))
 
     def test_runtime_ready_without_templates_waits_for_review_inputs(self):

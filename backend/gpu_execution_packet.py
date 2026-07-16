@@ -51,7 +51,6 @@ def build_local_import_commands():
 
 def build_local_budget_commands():
     return [
-        "python -m backend.gpu_session_budget --create-template --output docs\\gpu-session-budget.json",
         "python -m backend.gpu_session_budget --config docs\\gpu-session-budget.json --format markdown --output docs\\gpu-session-budget-report.md --strict",
     ]
 

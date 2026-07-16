@@ -16,14 +16,14 @@ Stage 48 created the budget guard, but the GPU execution packet and reproduction
 - The gap report adds a `GPU session budget guard` gap while required-suite runtime evidence is still missing.
 - Once required-suite runtime evidence exists, the budget guard no longer blocks review/cost/final-decision stages; it is a pre-run control, not a post-run cost review replacement.
 
-## Current State
+## Stage 49 State
 
 - GPU execution packet: `attention_required`
 - GPU session budget: `incomplete_budget_config`
 - Reproduction gap report: `handoff_not_ready`
 - Final mobile App recommendation: `B_pending_runtime`
 
-The next real action before renting GPU time is to fill `docs/gpu-session-budget.json` with a current provider price and spending cap, then rerun:
+Stage 50 later filled a bounded P01 budget and returned the packet to `ready_for_gpu_handoff`. If the budget needs to be changed, fill `docs/gpu-session-budget.json` with a current provider price and spending cap, then rerun:
 
 ```powershell
 python -m backend.gpu_session_budget --config docs/gpu-session-budget.json --format markdown --output docs/gpu-session-budget-report.md --strict

@@ -84,7 +84,8 @@ Large files such as model weights, generated videos, and cloned third-party repo
 - Stage 46 integrated the reproduction gap report into the GPU evidence import workflow, so importing returned evidence refreshes the current gap status automatically. The backend prototype still passes 184 local tests using Python standard library only.
 - Stage 47 made the post-import review readiness and reproduction gap state machine-readable, so safe imports now refresh both Markdown and JSON status files. The backend prototype still passes 184 local tests using Python standard library only.
 - Stage 48 added a GPU session budget guard so paid cloud GPU time has an explicit hourly price, session cap, disk budget, and stop rule before the reproduction run. The backend prototype now passes 194 local tests using Python standard library only.
-- Stage 49 integrated the GPU session budget guard into the handoff packet and reproduction gap report. The current GPU execution packet is `attention_required` and the gap report is `handoff_not_ready` until the budget config is completed. The backend prototype still passes 194 local tests using Python standard library only.
+- Stage 49 integrated the GPU session budget guard into the handoff packet and reproduction gap report, so an incomplete budget config blocks GPU handoff. The backend prototype still passes 194 local tests using Python standard library only.
+- Stage 50 filled a P01 smoke-run budget using a current public Thunder Compute H100 PCIe quote and added price-source validation to the budget guard. The GPU execution packet is now `ready_for_gpu_handoff`, while final feasibility remains `B_pending_runtime`. The backend prototype now passes 195 local tests using Python standard library only.
 
 ## Current Mobile Feasibility Decision
 

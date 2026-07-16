@@ -1,15 +1,19 @@
 {
   "budget_version": "1",
   "currency": "USD",
-  "gpu_provider": "",
-  "gpu_name": "",
+  "gpu_provider": "Thunder Compute",
+  "gpu_name": "H100 PCIe 80GB",
+  "provider_region": "provider_default",
+  "billing_model": "on_demand_gpu_hour",
   "checkpoint_profile": "p01",
-  "gpu_hourly_usd": null,
+  "gpu_hourly_usd": 2.19,
+  "price_source_url": "https://www.thundercompute.com/pricing",
+  "price_checked_at": "2026-07-16",
   "billing_overhead_multiplier": 1.25,
-  "max_session_hours": null,
-  "max_session_budget_usd": null,
-  "disk_budget_gib": null,
+  "max_session_hours": 4.0,
+  "max_session_budget_usd": 15.0,
+  "disk_budget_gib": 300.0,
   "output_buffer_gib": 100.0,
   "stop_policy": "stop_before_download_if_over_budget",
-  "notes": "Fill this before renting GPU time. Do not use provider prices from memory; verify the current price first."
+  "notes": "Candidate P01 smoke budget using Thunder Compute public pricing observed on 2026-07-16. Re-check price before actual spend; do not run required_suite until P01 acceptance passes and budget is recalculated."
 }

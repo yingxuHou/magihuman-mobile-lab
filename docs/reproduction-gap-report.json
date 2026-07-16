@@ -1,11 +1,11 @@
 {
-  "status": "handoff_not_ready",
+  "status": "awaiting_gpu_runtime",
   "recommendation": "B_pending_runtime",
   "final_report_status": "incomplete_runtime_evidence",
   "required_suite_acceptance_status": "not_ready",
   "review_readiness_status": "runtime_not_ready",
-  "gpu_execution_packet_status": "attention_required",
-  "gpu_session_budget_status": "incomplete_budget_config",
+  "gpu_execution_packet_status": "ready_for_gpu_handoff",
+  "gpu_session_budget_status": "budget_ready",
   "gate_statuses": {
     "Static on-device feasibility": "not_viable",
     "Required GPU runtime metrics": "insufficient_runtime_evidence",
@@ -63,18 +63,6 @@
       "status": "runtime_not_ready",
       "detail": "Required-suite runtime evidence is not ready; do not create or fill review inputs yet.",
       "next_action": "Do not fill quality/cost reviews until required-suite acceptance is ready."
-    },
-    {
-      "gate": "GPU session budget guard",
-      "status": "incomplete_budget_config",
-      "detail": "GPU session budget config is incomplete.",
-      "next_action": "Fill `docs/gpu-session-budget.json` with current provider price and spend caps, then rerun the budget guard with `--strict`."
-    },
-    {
-      "gate": "GPU execution handoff",
-      "status": "attention_required",
-      "detail": "GPU execution packet needs attention before handoff.",
-      "next_action": "Fix failed handoff checks before using cloud GPU time."
     }
   ],
   "next_actions": [
@@ -83,9 +71,7 @@
     "Collect ffprobe/video metadata from generated MP4 outputs and rerun mobile video checks.",
     "Create/fill `docs/quality-review.json` only after review readiness reports `review_inputs_ready`.",
     "Fill `docs/cost-review.json` with GPU hourly price, overhead multiplier, max cost, and max wall time.",
-    "Do not fill quality/cost reviews until required-suite acceptance is ready.",
-    "Fill `docs/gpu-session-budget.json` with current provider price and spend caps, then rerun the budget guard with `--strict`.",
-    "Fix failed handoff checks before using cloud GPU time."
+    "Do not fill quality/cost reviews until required-suite acceptance is ready."
   ],
   "decision_rule": "The final mobile App recommendation remains provisional until all required runtime, quality, cost, and mobile playback gaps are closed."
 }

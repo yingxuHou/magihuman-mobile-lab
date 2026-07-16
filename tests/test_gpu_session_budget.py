@@ -17,7 +17,11 @@ def write_budget_config(root, **overrides):
         {
             "gpu_provider": "Example GPU Cloud",
             "gpu_name": "NVIDIA H100",
+            "provider_region": "example-region",
+            "billing_model": "on_demand",
             "gpu_hourly_usd": 8.0,
+            "price_source_url": "https://example.test/pricing",
+            "price_checked_at": "2026-07-16",
             "max_session_hours": 2.0,
             "max_session_budget_usd": 25.0,
             "disk_budget_gib": 300.0,
@@ -35,6 +39,8 @@ class GpuSessionBudgetTest(unittest.TestCase):
 
         self.assertEqual(template["checkpoint_profile"], "p01")
         self.assertIn("gpu_hourly_usd", template)
+        self.assertIn("price_source_url", template)
+        self.assertIn("price_checked_at", template)
         self.assertIn("max_session_budget_usd", template)
         self.assertIn("disk_budget_gib", template)
 
@@ -52,6 +58,7 @@ class GpuSessionBudgetTest(unittest.TestCase):
             report = build_session_budget_report(path)
 
         self.assertEqual(report["status"], "incomplete_budget_config")
+        self.assertIn("price_source_url", report["missing_fields"])
         self.assertIn("gpu_hourly_usd", report["missing_fields"])
         self.assertIn("max_session_hours", report["missing_fields"])
 
@@ -63,6 +70,15 @@ class GpuSessionBudgetTest(unittest.TestCase):
 
         self.assertEqual(report["status"], "invalid_budget_config")
         self.assertIn("gpu_hourly_usd", report["invalid_fields"])
+
+    def test_missing_price_source_blocks_budget(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = write_budget_config(tmp, price_source_url="")
+
+            report = build_session_budget_report(path)
+
+        self.assertEqual(report["status"], "incomplete_budget_config")
+        self.assertIn("price_source_url", report["missing_fields"])
 
     def test_budget_ready_when_cost_and_disk_are_within_caps(self):
         with tempfile.TemporaryDirectory() as tmp:

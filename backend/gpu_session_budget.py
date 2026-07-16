@@ -14,8 +14,12 @@ def build_budget_template(profile="p01"):
         "currency": "USD",
         "gpu_provider": "",
         "gpu_name": "",
+        "provider_region": "",
+        "billing_model": "",
         "checkpoint_profile": profile,
         "gpu_hourly_usd": None,
+        "price_source_url": "",
+        "price_checked_at": "",
         "billing_overhead_multiplier": 1.25,
         "max_session_hours": None,
         "max_session_budget_usd": None,
@@ -47,6 +51,10 @@ def expected_checkpoint_gib(profile):
 def validate_config(config):
     missing = []
     invalid = []
+
+    for key in ["gpu_provider", "gpu_name", "price_source_url", "price_checked_at"]:
+        if not str(config.get(key) or "").strip():
+            missing.append(key)
 
     profile = config.get("checkpoint_profile", "p01")
     if profile not in PROFILE_GROUPS:
@@ -153,6 +161,10 @@ def build_session_budget_report(config_path=None):
         "currency": currency,
         "gpu_provider": config.get("gpu_provider", ""),
         "gpu_name": config.get("gpu_name", ""),
+        "provider_region": config.get("provider_region", ""),
+        "billing_model": config.get("billing_model", ""),
+        "price_source_url": config.get("price_source_url", ""),
+        "price_checked_at": config.get("price_checked_at", ""),
         "checkpoint_profile": profile,
         "missing_fields": missing,
         "invalid_fields": invalid,
@@ -224,6 +236,10 @@ def markdown_budget_report(report):
             [
                 "- Provider: {}".format(report.get("gpu_provider") or "-"),
                 "- GPU: {}".format(report.get("gpu_name") or "-"),
+                "- Region: {}".format(report.get("provider_region") or "-"),
+                "- Billing model: {}".format(report.get("billing_model") or "-"),
+                "- Price source: {}".format(report.get("price_source_url") or "-"),
+                "- Price checked at: {}".format(report.get("price_checked_at") or "-"),
                 "- Checkpoint profile: `{}`".format(report["checkpoint_profile"]),
                 "- Stop policy: {}".format(report.get("stop_policy") or "-"),
             ]
